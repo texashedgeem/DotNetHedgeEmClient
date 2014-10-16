@@ -1,0 +1,55 @@
+
+
+#dhidden_controls
+{
+    position: relative;
+   --display:none;
+}
+
+#btn_hidden_control_to_place_bet
+{
+   position: absolute;
+   top: 0px;
+   left:0px;
+   display:block;
+   background-color: red;
+}
+
+#btn_hidden_control_temp_store_for_hand_index
+{
+   display:block;
+   position: absolute;
+   top: 20px;
+   left:0px;
+   background-color: yellow;
+}
+
+#btn_Get_Clicked_Player_Id
+{
+   display:block;
+   position: absolute;
+   top: 40px;
+   left:0px;
+   
+   background-color: pink;
+}
+
+#mytext_player_Id
+{
+   display:block;
+   position: absolute;
+   top: 60px;
+   left:0px;
+   
+   background-color: blue;
+}
+
+#mytext_player_Id_hedgeem
+{
+   display:block;
+   position: absolute;
+   top: 80px;
+   left:0px;
+   
+   background-color: orange;
+}

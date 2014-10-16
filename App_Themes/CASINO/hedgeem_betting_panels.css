@@ -1,0 +1,242 @@
+﻿#betting_panels_container
+{
+    float: left;
+    position: relative;
+    background-color: purple;
+    top: 30%;
+    left: 0px;
+    width: 52%;
+    height: 36%;
+    margin: 0% 23% 0% 25%;
+    z-index: 20;
+}
+
+.generic_betting_panel_container {
+    position: relative;
+    --background-image:url('/resources/chip_icon_5.png');
+    --background-repeat:no-repeat;
+    --background-position:0px 0px;
+    display:block;
+    width: 10%;
+    height: 10%;
+    background-color: pink;
+    float:left;
+    clear: right;
+    margin: 1% 1% 1% 1%;
+    z-index:99;
+
+}
+
+
+/* xxx THIS SHOULD NOT BE HERE - Its a hack when betting stage is not being set in code*/
+.generic_NON_BETTING_STAGE_betting_panel_container {
+    position: relative;
+    --background-image:url('/resources/chip_icon_5.png');
+    --background-repeat:no-repeat;
+    --background-position:0px 0px;
+    display:block;
+    width: 50px;
+    height: 50px;
+    background-color: navy;
+    float:left;
+    clear: right;
+    margin: 1% 1% 1% 1%;
+    z-index:99;
+
+}
+
+.generic_HOLE_BETS_betting_panel_container {
+    position: relative;
+    --background-image:url('/resources/chip_icon_4.png');
+    --background-repeat:no-repeat;
+    --background-position: 50px 0px;
+    top: 0%;
+    display:block;
+    width: 10%;
+    height: 30px;
+    background-color: red;
+    float:left;
+    clear: right;
+    margin: 0% 1% 0% 3%;
+    z-index:99;
+
+}
+
+
+.generic_FLOP_BETS_betting_panel_container {
+    position: relative;
+    --background-image:url('/resources/chip_icon_5.png');
+    --background-repeat:no-repeat;
+    --background-position:0px 0px;
+    display:block;
+    top: 10%;
+    width: 10%;
+    height: 30px;
+    background-color: yellow;
+    float:left;
+    clear: right;
+    margin: 0% 1% 0% 3%;
+    z-index:99;
+
+}
+
+.generic_TURN_BETS_betting_panel_container {
+    position: relative;
+    --background-image:url('/resources/chip_icon_5.png');
+    --background-repeat:no-repeat;
+    --background-position:0px 0px;
+    display:block;
+    top: 30%;
+    width: 10%;
+    height: 30px;
+    background-color: green;
+    float:left;
+    clear: right;
+    margin: 0% 1% 0% 3%;
+    z-index:99;
+
+}
+
+.chip_icon_0 {
+    position: absolute;
+    background-image:url('/resources/chip_icon_5.png');
+    background-repeat:no-repeat;
+    background-position:0px 0px;
+    width: 30px;
+    height: 30px;
+    --background-color: white;
+    float:left;
+    margin: 0% 2% 0% 2%;
+    z-index:99;
+
+}
+
+.chip_icon_1 {
+    position: absolute;
+    background-image:url('/resources/chip_icon_1.png');
+    background-repeat:no-repeat;
+    background-position:0px 0px;
+    width: 40px;
+    background-color: olive;
+    float:left;
+    margin: 0% 5% 0% 10%;
+    z-index:99;
+
+}
+
+/*
+#betpanel_hand0_stageHOLE_BETS
+{
+    
+    position: relative;
+    background-color: green;
+    float:left;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+}
+
+#betpanel_hand1_stageHOLE_BETS
+{
+    
+    position: relative;
+    float:left;
+    background-color: green;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+    }
+
+#betpanel_hand2_stageHOLE_BETS
+{
+    
+    position: relative;
+    float:left;
+    background-color: green;
+    width: 15%;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+    }
+
+#betpanel_hand3_stageHOLE_BETS
+{
+    
+    position: relative;
+    float:left;
+    background-color: green;
+    width: 15%;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+    }
+
+#betpanel_hand0_stageFLOP_BETS
+{
+    
+    position: relative;
+    float:left;
+    background-color: red;
+    width: 15%;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+}
+
+#betpanel_hand1_stageFLOP_BETS
+{
+    position: relative;
+    float:left;
+    background-color: red;
+    width: 15%;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+}
+
+#betpanel_hand2_stageFLOP_BETS
+{
+    position: relative;
+    float:left;
+    background-color: red;
+    width: 15%;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+}
+
+#betpanel_hand3_stageFLOP_BETS
+{
+    
+    position: relative;
+    float:left;
+    background-color: red;
+    width: 15%;
+    margin: 0% 2% 0% 2%;
+    padding: 0% 2% 0% 2%;
+    top: 5px;
+    height: 30px;
+    width: 15%;
+}
+    */
+
+/* Positions the text that shows the value of the bet.  May be used in the center of a chip icon 
+    to indicate the value of the chip*/
+.bet_value{
+    position: absolute;
+    margin: 0% 10% 0% 10%;
+}

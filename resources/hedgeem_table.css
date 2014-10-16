@@ -1,0 +1,888 @@
+/*body
+{
+    background: url("../resources/new img.jpg") no-repeat scroll center top transparent;
+    font-family: arial;
+}
+*/
+
+#wrapper
+{
+    width: 800px;
+    margin: 0px;
+}
+.Shuffle
+{
+    margin-bottom: -325px;
+    margin-left: 277px;
+    width: 150px;
+    height: 185px;
+}
+
+.chipbets_0
+{
+     margin: 200px -33px 0;
+    padding: 0;
+    position: absolute; 
+    z-index: 999999;
+    }
+.chipbetsvalue_0
+{
+       margin: -25px 0 0 4px;
+    padding: 2px;
+    position: absolute;
+    z-index: 999999;
+    
+    }
+
+
+.blue-middle
+{
+    margin-left: 127px;
+}
+
+
+.hedgeem_table_container
+{
+    /* position: relative;*/
+    /*float: left;*/
+    /*margin-left: 300px;*/
+    /*margin-top: 150px;*/
+   /* background-color: cyan;*/
+    background:url(/resources/backgrounds/ONLINE.png);
+    //background-size:100% 100%;
+    width: 800px;
+    height: 600px;
+    background-repeat:no-repeat;
+    top: 0px;
+    position: absolute;
+    padding: 0px;
+    z-index: 0; /*    right:0px;    border-collapse: collapse;    */
+}
+
+
+
+/*
+    All Hand panels that are display are displayed in a container so you can re-position all of them
+    left, right, up or down etc with one CSS change.
+    */
+
+
+.Menus
+{
+    text-decoration: none;
+    color: Black;
+}
+
+#update
+{
+    width: 421px;
+}
+
+#TabContainer1
+{
+    width: 421px;
+}
+.ajax__tab_xp .ajax__tab_body
+{
+    width: 900px !important;
+}
+.frm
+{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #000000;
+    float: left !important;
+    height: 600px;
+    margin: 33px 0 0 !important;
+    padding: 16px 1px 16px 2px !important;
+    width: 58%;
+}
+.panel3grid
+{
+    height: 300px;
+    width: 900px;
+    border-collapse: collapse;
+    margin: 4px 0 0 3px;
+    font-size: 11px;
+    font-weight: normal;
+}
+.panel3grid_dgv_table_list
+{
+    
+    height: 300px;
+    width: 1065px;
+    border-collapse: collapse;
+    margin: 4px 0 0 3px;
+    font-size: 11px;
+    font-weight: normal;
+    }
+.txtmode
+{
+    height: 300px;
+    width: 895px;
+}
+
+
+
+
+.NewWindow
+{
+    target: _blank;
+}
+
+#betting_panels_container
+{
+    float: left;
+    margin: 2px 118px 3px 7%;
+    position: relative;
+    top: 0;
+    z-index: 20;
+}
+
+.betvalue
+{
+    float: left;
+    margin: 168px 0 0 -53px;
+    padding: 0;
+    position: absolute;
+    z-index: 3;
+}
+
+
+
+#betting_panel_container
+{
+    float: left;
+    top: 0px;
+    margin-left: 16px;
+    padding: 10px 0 5px;
+    z-index: 20; /*  margin: 2px 118px 3px 7%;  right:0px;    border-collapse: collapse;    */
+    width: 17px;
+}
+
+.imgbetsvalue-top
+{
+    color: #FFFF00;
+    margin: -31px 0 0 105px;
+    padding: 0;
+    position: absolute;
+}
+
+.imgbets_0
+{
+    height: 42px;
+    margin: 100px 0px 0px -70px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_0
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 102px 0 0 -51px;
+    padding: 0;
+    position: fixed;
+}
+.imgbets_1
+{
+    height: 42px;
+    margin: 98px 0px 0px 56px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_1
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 102px 0 0 75px;
+    padding: 0;
+    position: fixed;
+}
+.imgbets_2
+{
+    height: 42px;
+    margin: 97px 0 37px 193px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_2
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 102px 0 0 215px;
+    padding: 0;
+    position: fixed;
+}
+.imgbets_3
+{
+    height: 42px;
+    margin: 97px 0 0 327px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_3
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 102px 0 0 350px;
+    padding: 0;
+    position: fixed;
+}
+.imgbets_4
+{
+    height: 42px;
+    margin: 97px 0 0 452px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_4
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 102px 0 0 470px;
+    padding: 0;
+    position: fixed;
+}
+.imgbets_5
+{
+    height: 42px;
+    margin: 97px 0 0 582px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+
+.imgbetsvalue_5
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 102px 0 0 601px;
+    padding: 0;
+    position: fixed;
+}
+
+
+.imgbets_flop_0
+{
+    height: 42px;
+    margin: 62px 0 0 -202px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+
+.imgbetsvalue_flop_0
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 67px 0 0 -181px;
+    padding: 0;
+    position: fixed;
+}
+
+
+
+.imgbets_flop_1
+{
+    height: 42px;
+    margin: 61px 0 0 -77px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+
+
+.imgbetsvalue_flop_1
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 68px 0 0 -57px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_flop_2
+{
+    height: 42px;
+    margin: 61px 0 0 60px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+
+
+.imgbetsvalue_flop_2
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 68px 0 0 80px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_flop_3
+{
+    height: 42px;
+    margin: 61px 0 0 195px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_flop_3
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 68px 0 0 220px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_flop_4
+{
+    height: 42px;
+    margin: 61px 0 0 286px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_flop_4
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 68px 0 0 304px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_flop_5
+{
+    height: 42px;
+    margin: 61px 0 0 449px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_flop_5
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 68px 0 0 468px;
+    padding: 0;
+    position: fixed;
+}
+
+
+
+
+
+
+
+
+
+
+
+#betting_panels
+{
+    float: left;
+    width: 100px;
+    background:#00FF00;
+    position:relative;
+    z-index:9999999;
+    margin-top:165px;
+}
+
+#offered_odds_hand_-1_stage_HOLE_BETS
+{
+    width: 20px;
+    color: #FFFF00;
+}
+
+#offered_odds_hand_-1_stage_FLOP_BETS
+{
+    width: 20px;
+    color: #FFFF00;
+}
+
+#offered_odds_hand_-1_stage_TURN_BETS
+{
+    width: 20px;
+    color: #FFFF00;
+}
+
+
+.imgbets_turn_0
+{
+    height: 42px;
+    margin: 23px 0 0 -334px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+
+.imgbetsvalue_turn_0
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 29px 0 0 -315px;
+    padding: 0;
+    position: fixed;
+}
+
+
+
+.imgbets_turn_1
+{
+    height: 42px;
+    margin: 23px 0 0 -176px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+
+
+.imgbetsvalue_turn_1
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 29px 0 0 -157px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_turn_2
+{
+    height: 42px;
+    margin: 23px 0 0 -8px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+
+
+.imgbetsvalue_turn_2
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 29px 0 0 11px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_turn_3
+{
+    height: 42px;
+    margin: 23px 0 0 162px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_turn_3
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 29px 0 0 182px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_turn_4
+{
+    height: 42px;
+    margin: 61px 0 0 286px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_turn_4
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 68px 0 0 304px;
+    padding: 0;
+    position: fixed;
+}
+
+.imgbets_turn_5
+{
+    height: 42px;
+    margin: 61px 0 0 449px;
+    position: fixed;
+    width: 158px;
+    z-index: 0;
+}
+.imgbetsvalue_turn_5
+{
+    color: #FFFF00;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 68px 0 0 468px;
+    padding: 0;
+    position: fixed;
+}
+
+
+.CASINO_TABLE_HOLE_BETS_0
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 90px;
+    position: relative;
+    top: 275px;
+}
+.CASINO_TABLE_HOLE_BETS_1
+{
+    margin: 0 0px 0 201px;
+    position: relative;
+    top: 170px;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_HOLE_BETS_2
+{
+    top: 65px;
+    margin: 0 0 0 318px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_HOLE_BETS_3
+{
+    bottom: 39px;
+    margin: 0 0 0 428px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_HOLE_BETS_4
+{
+    bottom: 143px;
+    margin: 0 0 0 543px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_HOLE_BETS_5
+{
+    bottom: 247px;
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 652px;
+    position: relative;
+}
+
+
+.CASINO_TABLE_FLOP_BETS_0
+{
+    margin: 0px 0px 0px 90px;
+    position: relative;
+    top: -257px;
+    font-size: 11px;
+    font-family: Arial;
+}
+
+.CASINO_TABLE_FLOP_BETS_1
+{
+    margin: 0 0px 0 201px;
+    position: relative;
+    top: -361px;
+    font-size: 11px;
+    font-family: Arial;
+}
+
+.CASINO_TABLE_FLOP_BETS_2
+{
+    top: -466px;
+    margin: 0 0 0 318px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+
+.CASINO_TABLE_FLOP_BETS_3
+{
+    top: -570px;
+    margin: 0 0 0 428px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_FLOP_BETS_4
+{
+    top: -674px;
+    margin: 0 0 0 543px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_FLOP_BETS_5
+{
+    top: -778px;
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 652px;
+    position: relative;
+}
+
+
+.CASINO_TABLE_TURN_BETS_0
+{
+    margin: 0px 0px 0px 90px;
+    position: relative;
+    top: -788px;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_TURN_BETS_1
+{
+    margin: 0 0px 0 201px;
+    position: relative;
+    top: -892px;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_TURN_BETS_2
+{
+    top: -996px;
+    margin: 0 0 0 318px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_TURN_BETS_3
+{
+    top: -1100px;
+    margin: 0 0 0 428px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_TURN_BETS_4
+{
+    top: -1204px;
+    margin: 0 0 0 543px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.CASINO_TABLE_TURN_BETS_5
+{
+    top: -1307px;
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 652px;
+    position: relative;
+}
+
+/* For ONLINE */
+
+.ONLINE_HOLE_BETS_0
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 90px;
+    position: relative;
+    top: 51px;
+}
+.ONLINE_HOLE_BETS_1
+{
+    margin: 0 0px 0 201px;
+    position: relative;
+    top: -34px;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_HOLE_BETS_2
+{
+    top: -119px;
+    margin: 0 0 0 318px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_HOLE_BETS_3
+{
+    bottom: 204px;
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 415px;
+    position: relative;
+}
+.ONLINE_HOLE_BETS_4
+{
+    bottom: 143px;
+    margin: 0 0 0 543px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_HOLE_BETS_5
+{
+    bottom: 247px;
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 652px;
+    position: relative;
+}
+
+
+.ONLINE_FLOP_BETS_0
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 90px;
+    position: relative;
+    top: -172px;
+}
+
+.ONLINE_FLOP_BETS_1
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 201px;
+    position: relative;
+    top: -255px;
+}
+
+.ONLINE_FLOP_BETS_2
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 318px;
+    position: relative;
+    top: -339px;
+}
+
+.ONLINE_FLOP_BETS_3
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 418px;
+    position: relative;
+    top: -422px;
+}
+.ONLINE_FLOP_BETS_4
+{
+    top: -674px;
+    margin: 0 0 0 543px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_FLOP_BETS_5
+{
+    top: -778px;
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 652px;
+    position: relative;
+}
+
+
+.ONLINE_TURN_BETS_0
+{
+    margin: 0px 0px 0px 90px;
+    position: relative;
+    top: -394px;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_TURN_BETS_1
+{
+    margin: 0 0px 0 201px;
+    position: relative;
+    top: -478px;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_TURN_BETS_2
+{
+    top: -563px;
+    margin: 0 0 0 318px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_TURN_BETS_3
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 421px;
+    position: relative;
+    top: -646px;
+}
+.ONLINE_TURN_BETS_4
+{
+    top: -1204px;
+    margin: 0 0 0 543px;
+    position: relative;
+    font-size: 11px;
+    font-family: Arial;
+}
+.ONLINE_TURN_BETS_5
+{
+    top: -1307px;
+    font-family: Arial;
+    font-size: 11px;
+    margin: 0 0 0 652px;
+    position: relative;
+}
+
+.New_user_popup
+{
+    margin: 64px 1px 1px 1px;
+}
+/* Style for div popup message for Bet not accepted message */
+  .black_overlay
+        {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 600px;
+            background-color: black;
+            z-index: 1001;
+            -moz-opacity: 0.8;
+            opacity: .80;
+            filter: alpha(opacity=80);
+        }
+        .white_content
+        {
+            background-color: white;
+            display: none;
+            left: 21%;
+            overflow: auto;
+            padding: 0;
+            position: absolute;
+            top: 35%;
+            width: 50%;
+            z-index: 1002;
+            text-align:center;
+            height:100px;
+        }
+        
+        #short_description
+        {
+            margin-top:20px;
+        }

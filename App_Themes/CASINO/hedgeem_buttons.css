@@ -1,0 +1,121 @@
+#command_buttons_container
+{
+    position: absolute;
+    top: 400px;
+    width: 450px;
+    height: 40px;
+    margin: 0% 10% 0% 30%;
+    float: left;
+    background-color: lime;
+    left: 0;
+    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
+}
+
+#btn_deal_buttons_container
+{
+    position: absolute;
+    top: 350px;
+    left: 700px;
+    margin: 0% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    height: 100px;
+    width: 100px;
+    
+    background-color: red;
+    --overflow: hidden;
+    z-index: 9;
+}
+
+#btnDealHole
+{
+    background-color: palegreen;
+    position: absolute;
+    margin: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+}
+
+#btnDealFlop
+{
+    background-color: Red;
+    position: absolute;
+    margin: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+}
+
+
+#btnDealTurn
+{
+    background-color: Navy;
+    position: absolute;
+    margin: 0px 0px 0px 15px;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+}
+
+
+#btnDealRiver
+{
+    background-color: purple;
+    position: absolute;
+    margin: 0px 0px 0px 15px;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+}
+#btnNextGame
+{
+    background-color: yellow;
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+
+}
+
+#btnLobby{
+    //background-color: yellow;
+    position: absolute;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+
+}
+
+#btn_Hide_Admin_Flag{
+    //background-color: yellow;
+    position: absolute;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 150px;
+    z-index: 9;
+
+}
+
+#btn_Show_Admin_Flag{
+    //background-color: yellow;
+    position: absolute;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 150px;
+    z-index: 9;
+
+}
+
