@@ -1,0 +1,177 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+// The follow has been added by Simon
+
+using System.Data; // For DataTable
+
+
+using System.Resources; // So I can use the resource manager to retrieve image resources programatically
+
+using System.Runtime.InteropServices;
+
+    [DefaultProperty("Text")]
+    [ToolboxData("<{0}:hedgeem_control_bet_slider runat=server></{0}:hedgeem_control_bet_slider>")]
+
+    /// <summary>
+    /// 
+    /// The custom control is responsible for generating a block of HTML that represents a Hedge'Em betting panel.
+    /// The html it produces is dynamic and is generated based on the value of the class properties.
+    /// Example outputs are provided below.
+    /// 
+    /// EG 1. A betting panel whose current offered odds is 20:1, 
+    ///       Player 1 has placed a £2 bet on hand 1 and the FLOP stage.
+    ///       PLayer 4 has placed a £5 bet on hand 1 at the HOLE stage, and a further £10 bet on hand 2; No other players have placed a bet.
+    ///       PLayer 4 has placed a £10 bet on hand 2 at the FLOP stage, and a further £10 bet on hand 2; No other players have placed a bet.
+    ///       
+    /// <DIV ID="betting_panel_container_hand1_stage_FLOP">
+    ///     <DIV ID="betting_panel_offered_odds_hand1_stage_FLOP">  20</DIV>
+    ///     <DIV ID="betting_panel_player_1_bets_hand1_stage_FLOP">  2</DIV>
+    ///     <DIV ID="betting_panel_player_4_bets_hand1_stage_HOLE">  5</DIV>
+    ///     <DIV ID="betting_panel_player_4_bets_hand2_stage_FLOP"> 10</DIV>
+    /// </DIV>    
+    /// 
+    /// 
+    /// </summary>
+    public class hedgeem_control_bet_slider : WebControl
+    {
+        /// <summary>
+        /// 
+        /// 
+        /// </summary>
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public hedgeem_control_bet_slider(int number_of_players)
+        {
+            //_players_bets = new Double[number_of_players];
+            //_number_of_players = number_of_players;
+        }
+
+        /// <summary>
+        /// The betting panel (area on a Hedge'Em (TM) table) where players place their bets for any given hand/stage combination
+        /// can show the current offered odds for hand/stage.  This varible defines whether or not this is shown.
+        /// </summary>
+        public bool p_show_offered_odds
+        {
+            set { _show_offered_odds = value; }
+            get { return _show_offered_odds; }
+        }
+        private bool _show_offered_odds = true;
+        
+        
+
+        public double p_player_initial_seat_balance
+        {
+            set { _player_initial_seat_balance = value; }
+            get { return _player_initial_seat_balance; }
+        }
+        private double _player_initial_seat_balance;
+
+
+        public string p_visible
+        {
+            set { _visible = value; }
+            get { return _visible; }
+
+        }
+        private string _visible;
+
+
+        //public enum_hand_in_play_status p_panel_display_status
+        //{
+        //    //set { _enum_panel_display_status = value; }
+        //    //get { return _enum_panel_display_status; }
+        //}
+        public enum_betting_stage p_enum_betting_stage
+        {
+            set { _enum_betting_stage = value; }
+            get { return _enum_betting_stage; }
+        }
+        private enum_betting_stage _enum_betting_stage = enum_betting_stage.NON_BETTING_STAGE;
+        public enum_theme p_enum_theme
+        {
+            set { _enum_theme = value; }
+            get { return _enum_theme; }
+        }
+        private enum_theme _enum_theme = enum_theme.CASINO_TABLE;
+        public int p_hand_index
+        {
+            set { _hand_index = value; }
+            get { return _hand_index; }
+        }
+        private int _hand_index;
+        //public string p_betting_panel_image_background
+        //{
+        //    //set { _betting_panel_image_background = value; }
+        //    //get { return _betting_panel_image_background; }
+        //}
+
+        
+        public string p_betting_stage_as_string
+        {
+            get
+            {
+                // Generate a human/player readable string that represent the current stage of the game (HOLE, FLOP, TURN or RIVER etc)
+                string str_betting_stage = "";
+                switch (_enum_betting_stage)
+                {
+                    case enum_betting_stage.HOLE_BETS:
+                        str_betting_stage = "HOLE:";
+                        break;
+                    case enum_betting_stage.FLOP_BETS:
+                        str_betting_stage = "FLOP:";
+                        break;
+                    case enum_betting_stage.TURN_BETS:
+                        str_betting_stage = "TURN:";
+                        break;
+
+                    default:
+                        break;
+                }
+                return str_betting_stage;
+            }
+        }
+
+        private string _Odds_css_value;
+
+        private void f_render_slider_html(HtmlTextWriter a_html_writer)
+        {
+            a_html_writer.WriteLine(String.Format("<!-- Place bet widget -->"));
+            a_html_writer.WriteLine(String.Format("<div id='hedgeem_bet_slider'>"));
+            a_html_writer.Indent += 1;
+            a_html_writer.WriteLine(String.Format("<p class='bet_payout_descriptionxqy'>"));
+            a_html_writer.WriteLine(String.Format("<label for='amount'>"));
+            a_html_writer.WriteLine(String.Format("Bet £</label>"));
+            a_html_writer.WriteLine(String.Format("<input type='text' id='amount1' runat='server' class='bet_slider_bet_amount_text' />"));
+            a_html_writer.WriteLine(String.Format("</p>"));
+            a_html_writer.WriteLine(String.Format("<div class='bet_slider'>"));
+            a_html_writer.WriteLine(String.Format("<div id='slider-range-min1xqy'>"));
+            a_html_writer.WriteLine(String.Format("</div>"));
+            a_html_writer.Indent -= 1;
+            a_html_writer.WriteLine(String.Format("</div>"));
+        }
+
+        
+
+        protected override void RenderContents(HtmlTextWriter writer)
+        {
+            writer.WriteLine(String.Format("<div id='bet_slider_container'>"));
+            writer.Indent += 1;
+            writer.WriteLine("Put HTML Bet slider code here. Poo Poo");
+            writer.Indent -= 1;
+            writer.WriteLine(String.Format("<!-- Place bet widget Ploppy -->"));
+            f_render_slider_html(writer);
+            writer.WriteLine("</div>");
+
+            
+            base.RenderContents(writer);
+        }
+    }
+
+
