@@ -906,6 +906,10 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             hedgeem_control_jackpot my_control_jackpot = new hedgeem_control_jackpot();
             my_control_jackpot.p_jackpot_balance = my_jackpot_fund;
 
+            hedgeem_control_last_game_dump my_control_last_game_dump = new hedgeem_control_last_game_dump();
+            my_control_last_game_dump.p_game_dump_as_string = "Banana\nApple";
+
+
             // Note expect card as short string to be something like ac (ace of clubs), 6d (six of diamonds etc)
             // If ZZ us returned this implies the card is to be shown face down.
             p_flop_card1_as_short_string = _global_game_state_object.p_flop_card1_string;
@@ -941,6 +945,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             Place_Holder_Turn_Cards.Controls.Add(my_turn_card);
             Place_Holder_River_Cards.Controls.Add(my_river_card);
             Place_Holder_Table_Jackpot.Controls.Add(my_control_jackpot);
+            Place_Holder_Last_Game_Dump.Controls.Add(my_control_last_game_dump);
 
 
             lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
