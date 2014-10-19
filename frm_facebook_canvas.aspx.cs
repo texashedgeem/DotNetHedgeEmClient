@@ -40,6 +40,60 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         string result = string.Join(",", array);
         return result;
     }
+
+    // preinit event changes the theme of the page at runtime before page loads
+    protected void Page_PreInit(object sender, EventArgs e)
+    {
+        HedgeEmLogEvent my_log = new HedgeEmLogEvent();
+        my_log.p_method_name = "Page_PreInit";
+        my_log.p_player_id = playerid;
+        my_log.p_table_id = 666;
+        my_log.p_message = "Method called.";
+        log.Debug(my_log.ToString());
+        try
+        {
+            //Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+            //Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            //Response.Cache.SetNoStore();
+
+            // If the session has expired we would have lost critical session state so re-direct the users to the home page.
+            if (Session.Count == 0)
+            {
+                my_log.p_message = "No session detected";
+                log.Warn(my_log.ToString());
+                //ScriptManager.RegisterStartupScript(Page, GetType(), "SessionTimeOutMsg", "show_session_timeout_message();", true);
+                // Page.RegisterStartupScript("Alert Message", "<script type='text/javascript'>show_session_timeout_message();</script>");
+            }
+            else
+            {
+                if (Session["theme"] != null)
+                {
+                    // this changes the theme of the hedgeem table according to the theme selected by the user.
+                    this.Page.Theme = Session["theme"].ToString();
+
+                    if (this.Page.Theme == "")
+                    {
+                        // xxxeh - need to throw error when string =""
+                        this.Page.Theme = "ONLINE";
+                    }
+
+
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            string my_error_popup = "alert('Error in Page PreInit - " + ex.Message.ToString() + "');";
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_log = new HedgeEmLogEvent();
+            my_log.p_message = ex.Message;
+            my_log.p_method_name = "Page Load";
+            my_log.p_player_id = playerid;
+            my_log.p_table_id = 666;
+            log.Error(my_log.ToString());
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
@@ -316,37 +370,12 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
               Details can be found from the column heading in the 'player' table in the db such as
               player_id, fullname, balance etc. */
             HedgeEmPlayer my_player = (HedgeEmPlayer)f_get_object_from_json_call_to_server("ws_login/sessionabc123,10," + my_username + "," + my_password + "/", typeof(HedgeEmPlayer));
-            // my_user_details = service.my_user_details(my_username, my_password);
-            // Check you got only one record back, if not throw appropriate exception
-            //if (my_user_details.Rows.Count < 1)
-            //{
-            //    ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "show_error_message();", true);
-            //    // lbl_login_status_msg.Text = "Username " + my_username + " not found. Username or password incorrect.";
-            //    //Page.RegisterStartupScript("OnLoad", "<script>show_error_message();</script>");
-
-            //    //throw new Exception(String.Format("Username '{0}' not found. Username or password incorrect.", my_username));
-            //}
-            //else if (my_user_details.Rows.Count > 1)
-            //{
-            //    ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "show_error_message();", true);
-
-            //    //  lbl_login_status_msg.Text = "Multiple users found for Username= "+ my_username +" .This indicates something is wrong so cancelling operation";
-
-            //    // Page.RegisterStartupScript("OnLoad", "<script>show_error_message();</script>");
-            //    // throw new Exception(String.Format("Multiple users found for username '{0}'.  This indicates something is wrong so cancelling operation..", my_username));
-            //}
             if (my_player == null)
             {
                 ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "show_error_message();", true);
             }
             else
             {
-                //  Read the player details: player_id and fullname
-                //DataRow row = my_user_details.Rows[0];
-                //int my_player_id = Convert.ToInt32(row["player_id"]);
-                //Session["playerid"] = my_player_id;
-                //Session["display_name"] = row["fullname"].ToString();
-
                 int my_player_id = my_player.p_player_id;
                 Session["playerid"] = my_player_id;
                 Session["display_name"] = my_player.p_display_name;
@@ -585,41 +614,28 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             bool my_is_jackpot_enabled = false;
             enum_theme my_default_theme = enum_theme.ONLINE;
 
-            // See if a table exist for this test
-            // _current_table_object_string = service.f_get_hedgeem_table_by_table_name(my_table_name);
-
-            // If a table does NOT exist, create one
-            // if (_current_table_object_string == "")
-            {
-                // Create a new table based on the simulation parameters defined above.
-                //_current_table_object = (HedgeEMTable)
-                int xxx_my_HC_session_id_not_used_yet = 666;
-                int my_HC_seat_id = 0;
-                int my_buy_in = Convert.ToInt32(25);
-                HedgeEmTableSummary my_hedgeem_table_summary = new HedgeEmTableSummary();
-                my_hedgeem_table_summary = (HedgeEmTableSummary)f_get_object_from_json_call_to_server("ws_create_hedgeem_table/" + my_target_rtp + "," +
-                                               my_number_of_hands_to_be_played_at_this_table + "," +
-                                               my_number_of_seats_at_this_table + "," +
-                                               my_initial_investment + "," +
-                                               my_table_name + "," +
-                                               my_is_jackpot_enabled + "," +
-                                               my_default_theme + "," + (int)xxxHC_a_opening_balance + "," + player_id + "," + xxx_my_HC_session_id_not_used_yet + "," + my_HC_seat_id + "," + my_buy_in, typeof(HedgeEmTableSummary));
-                //    service.f_create_table(my_target_rtp,
-                //                                   my_number_of_hands_to_be_played_at_this_table,
-                //                                   my_number_of_seats_at_this_table,
-                //                                   my_initial_investment,
-                //                                   my_table_name,
-                //                                   my_is_jackpot_enabled,
-                //                                   my_default_theme, (int)xxxHC_a_opening_balance, player_id, xxx_my_HC_session_id_not_used_yet, my_HC_seat_id, my_buy_in);
-                int a_table_id = my_hedgeem_table_summary.p_table_id;
-                HedgeEmGenericAcknowledgement my_generic_ack = new HedgeEmGenericAcknowledgement();
-                my_generic_ack = (HedgeEmGenericAcknowledgement)f_get_object_from_json_call_to_server("ws_sit_at_table/" + xxx_my_HC_session_id_not_used_yet + "," +
-                                                   10 + "," +
-                                                   a_table_id + "," +
-                                                   my_HC_seat_id + "," +
-                                                   player_id, typeof(HedgeEmGenericAcknowledgement));
-
-            }
+            
+            // Create a new table based on the simulation parameters defined above.
+            //_current_table_object = (HedgeEMTable)
+            int xxx_my_HC_session_id_not_used_yet = 666;
+            int my_HC_seat_id = 0;
+            int my_buy_in = Convert.ToInt32(25);
+            HedgeEmTableSummary my_hedgeem_table_summary = new HedgeEmTableSummary();
+            my_hedgeem_table_summary = (HedgeEmTableSummary)f_get_object_from_json_call_to_server("ws_create_hedgeem_table/" + my_target_rtp + "," +
+                                            my_number_of_hands_to_be_played_at_this_table + "," +
+                                            my_number_of_seats_at_this_table + "," +
+                                            my_initial_investment + "," +
+                                            my_table_name + "," +
+                                            my_is_jackpot_enabled + "," +
+                                            my_default_theme + "," + (int)xxxHC_a_opening_balance + "," + player_id + "," + xxx_my_HC_session_id_not_used_yet + "," + my_HC_seat_id + "," + my_buy_in, typeof(HedgeEmTableSummary));
+            
+            int a_table_id = my_hedgeem_table_summary.p_table_id;
+            HedgeEmGenericAcknowledgement my_generic_ack = new HedgeEmGenericAcknowledgement();
+            my_generic_ack = (HedgeEmGenericAcknowledgement)f_get_object_from_json_call_to_server("ws_sit_at_table/" + xxx_my_HC_session_id_not_used_yet + "," +
+                                                10 + "," +
+                                                a_table_id + "," +
+                                                my_HC_seat_id + "," +
+                                                player_id, typeof(HedgeEmGenericAcknowledgement));
         }
         catch (Exception ex)
         {
@@ -731,17 +747,6 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
                         if (my_table_details == null)
                         {
-
-                            //if (txt_get_fm_email_id.Text == "")
-                            //{
-                            //    playerid = service.get_player_id(Session["username"].ToString(), password);
-                            //    Session["playerid"] = playerid;
-                            //}
-                            //else
-                            //{
-                            //    playerid = service.get_player_id(txt_get_fm_email_id.Text, password);
-                            //    Session["playerid"] = playerid;
-                            //}
                             playerid = my_player.p_player_id;
 
                             if (txt_get_fm_email_id.Text == "")
@@ -767,38 +772,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                         }
                     }
                 }
-                else
-                {
-                    //try
-                    //{
-                    //    // this will create the user in our database as well as its table.
-                    //    my_username = txt_get_fm_email_id.Text;
-                    //    xxxHC_a_opening_balance = 100;
-                    //    xxxHC_a_password = "password";
-                    //    xxxHC_a_full_name = txt_fullname.Text;
-                    //    Session["chk_logout_hide"] = "chk_logout_hide";
-                    //    try
-                    //    {
-                    //        int player_id = service.f_create_player(txt_get_fm_email_id.Text, xxxHC_a_password, xxxHC_a_full_name, xxxHC_a_opening_balance);
 
-
-
-                    //        Session["username"] = my_username;
-                    //        Session["password"] = xxxHC_a_password;
-
-                    //        f_create_personal_hedgeem_table_for_player(player_id, my_username);
-
-                    //    }
-                    //    catch (Exception exx)
-                    //    {
-                    //        log.Error("Creation of new User failed", new Exception(exx.Message));
-                    //    }
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    log.Error("Fatal error in 'btn_play_now_Click'", new Exception(ex.Message));
-                    //}
-                }
                 if (txt_get_fm_email_id.Text == "")
                 {
                     string my_username = Session["username"].ToString();
@@ -1215,8 +1189,11 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         try
         {
             // This checks whether the entered email id exists in the database or not.
-            user_exist = service.f_get_player_details_by_username(txt_username.Text);
-            if (user_exist == 0)
+            // xxx nasty code.  esp as the function of ws_get_player_list may change in the future to NOT return all player
+            List<HedgeEmPlayer> my_player_list = (List<HedgeEmPlayer>)f_get_object_from_json_call_to_server("ws_get_player_list/sessionabc123,10,10000/", typeof(List<HedgeEmPlayer>));
+            bool my_does_user_exist = my_player_list.Exists(x => x.p_username == txt_fb_username.Text);
+
+            if (my_does_user_exist == false)
             {
                 xxxHC_a_opening_balance = 100;
                 string xxx_default_password = "hedgeem123";
