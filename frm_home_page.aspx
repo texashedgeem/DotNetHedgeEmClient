@@ -736,9 +736,7 @@
         // Init the SDK upon load
         window.fbAsyncInit = function () {
             FB.init({
-                //                appId: '524366241004582', // App ID used by Simon for testing
-                //                appId: '1436611759889065', //App ID used by kiRan for testing
-                appId: '119665184821685', //Live Game App ID
+                appId: '1436611759889065', //Development App
                 channelUrl: '//' + window.location.hostname + '/channel', // Path to your Channel File
                 status: true, // check login status
                 cookie: true, // enable cookies to allow the server to access the session
