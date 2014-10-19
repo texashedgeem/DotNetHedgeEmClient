@@ -184,6 +184,10 @@
                     <div id="table_jackpot_container" runat="server" visible="false">
                         <asp:PlaceHolder ID="Place_Holder_Table_Jackpot" runat="server"></asp:PlaceHolder>
                     </div>
+                    <!-- Last Game Dump -->
+                    <div id="last_game_dump" runat="server" visible="false">
+                        <asp:PlaceHolder ID="Place_Holder_Last_Game_Dump" runat="server"></asp:PlaceHolder>
+                    </div>
                     <asp:PlaceHolder ID="Place_Holder_Winner_Message" runat="server"></asp:PlaceHolder>
                     <!-- Play for real button -->
                     <%-- <div id="btn_play_for_real" onclick="show_play_for_real_text();">
