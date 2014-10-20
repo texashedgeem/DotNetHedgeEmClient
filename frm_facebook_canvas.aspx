@@ -6,8 +6,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link href="/resources/css/online/facebook_canvas.css" rel="stylesheet" type="text/css" />
-    <link href="/resources/css/online/hedgeem_buttons.css" rel="stylesheet" type="text/css" />
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'></script>
     <script src="../resources/javascript/facebook_canvas.js" type="text/javascript"></script>
     <script src="../resources/javascript/preload_images_with_progressbar.js" type="text/javascript"></script>
