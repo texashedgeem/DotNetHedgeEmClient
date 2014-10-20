@@ -805,7 +805,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
                     Session["table_name"] = my_table_details.p_table_name;
                     //  Session["table_name"] = txt_get_fm_email_id.Text;
-                    service.f_update_last_login_date(Session["username"].ToString());//this function is used to update last login date and time of user
+                    //service.f_update_last_login_date(Session["username"].ToString());//this function is used to update last login date and time of user
                     f_goto_table(a_table_id);
 
                 }
