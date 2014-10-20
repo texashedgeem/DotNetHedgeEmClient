@@ -55,12 +55,13 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             //Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
             //Response.Cache.SetCacheability(HttpCacheability.NoCache);
             //Response.Cache.SetNoStore();
-
+            this.Page.Theme = "ONLINE";
             // If the session has expired we would have lost critical session state so re-direct the users to the home page.
             if (Session.Count == 0)
             {
                 my_log.p_message = "No session detected";
                 log.Warn(my_log.ToString());
+                this.Page.Theme = "ONLINE";
                 //ScriptManager.RegisterStartupScript(Page, GetType(), "SessionTimeOutMsg", "show_session_timeout_message();", true);
                 // Page.RegisterStartupScript("Alert Message", "<script type='text/javascript'>show_session_timeout_message();</script>");
             }
@@ -392,7 +393,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 }
                 Session["username"] = my_username;
                 Session["password"] = my_password;
-                service.f_update_last_login_date(Session["username"].ToString());
+                //service.f_update_last_login_date(Session["username"].ToString());
                 if (Session["facebooklogin"] != null)
                 {
                     LoginDiv.Attributes.Add("style", "display:none !Important;");
