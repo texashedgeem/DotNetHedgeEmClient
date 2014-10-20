@@ -727,7 +727,7 @@
 
         function Facebook_Invite_Friends() {
             FB.ui({ method: 'apprequests',
-                message: 'Play a game of Texas Hedgeem with me.......!'
+                message: 'Play a game of Texas HedgeEm with me.......!'
             });
         }
     </script>
