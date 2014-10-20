@@ -436,6 +436,18 @@
                                     Donate via PayPal
                                 </div>
                             </div>
+                            <!-- Flattr -->
+                            <div id='action_item_flattr' class="get_chips_content_divs">
+                                <div id='ai_flattr_image' class="get_chips_image">
+                                    <input type="hidden" name="cmd" value="_s-xclick">
+                                    <input type="hidden" name="hosted_button_id" value="FMBK6L8C6FFZQ">
+                                    <asp:ImageButton ID="btnFlattr" runat="server" ImageUrl="../resources/buttons/flattr-badge-large.png"
+                                        PostBackUrl="https://flattr.com/submit/auto?user_id=texashedgeem&url=https%3A%2F%2Fhedgeem.com" />
+                                </div>
+                                <div id='ai_Flattr_description'>
+                                    'Flattr' us!
+                                </div>
+                            </div>
             </div>
             <!-- session timeout message pop up div -->
             <div id="session_timeout_message">
