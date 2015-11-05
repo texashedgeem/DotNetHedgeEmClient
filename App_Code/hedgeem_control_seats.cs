@@ -1,26 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Resources;
 
 using HedgeEmClient;
 
-    [DefaultProperty("Text")]
+[DefaultProperty("Text")]
     [ToolboxData("<{0}:hedgeem_control_seat runat=server></{0}:hedgeem_control_seat>")]
     public class hedgeem_control_seats : WebControl
     {
 
         private String _bg_image;
-        private String _photo_image;
+        private String _player_avitar_url;
         private String _player_name;
         private String _chip_icon;
         private String _balance;
@@ -69,10 +61,10 @@ using HedgeEmClient;
         }
         public String p_photo_image
         {
-            get { return _photo_image; }
+            get { return _player_avitar_url; }
             set
             {
-                _photo_image = value;
+                _player_avitar_url = value;
 
             }
         }
@@ -205,17 +197,24 @@ using HedgeEmClient;
 
             }
         }
-
+        //writer.WriteLine("<a href=\"JavaScript:newPopup('frm_cashier.aspx');\" id=\"newuser\">New User</a>");
+          //      >window.open('frm_cashier.aspx', 'popUpWindow', 'height=300,width=550,left=300,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+                
 
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            String player_image_filename = f_get_player_resource_name(_photo_image);
+            //String player_image_filename = _player_avitar_url;
 
             writer.WriteLine("");
             writer.Indent += 1;
             writer.WriteLine(String.Format("<!-- Seat [{0}], Player [{1}] -->", _seat_index, _player_name));
             writer.Indent += 1;
-            writer.WriteLine(String.Format("<div id='hedgeem_seat_container_{0}' onclick='javascript:f_get_player_id({0},{1})' class='hedgeem_seat_container'>", p_seat_index, p_player_id));
+            //writer.WriteLine(String.Format("<div id='hedgeem_seat_container_{0}' onclick='javascript:f_get_player_id({0},{1})' class='hedgeem_seat_container'>", p_seat_index, p_player_id));
+            // Works ... writer.WriteLine(String.Format("<DIV id='hedgeem_seat_container' onclick=\"location.href='portable-display-stands.html';\" class='hedgeem_seat_container';>"));
+            // See https://developer.mozilla.org/en-US/docs/Web/API/Window.open
+            // Works writer.WriteLine(String.Format("<DIV id='hedgeem_seat_container_{0}' onclick=\"javascript:window.open('frm_cashier.aspx', 'popUpWindow', 'height=300,width=550,left=300,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')\" class='hedgeem_seat_container';>", _seat_index));
+            writer.WriteLine(String.Format("<DIV id='hedgeem_seat_container_{0}' onclick=\"javascript:btn_cashier_Clicking();\" class='hedgeem_seat_container';>", _seat_index));
+            //writer.WriteLine(String.Format("<div id='hedgeem_seat_container_{0}' onclick='javascript:window.open('frm_cashier.aspx', 'popUpWindow', 'height=300,width=550,left=300,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');>", p_seat_index, p_player_id));
             writer.Indent += 1;
 
             // For Player_Name
@@ -232,7 +231,7 @@ using HedgeEmClient;
             // For Player_Image
             writer.WriteLine(String.Format("<DIV id ='player_avitar_{0}' class='player_image'>", "xxx_should_be_seat_id"));
             writer.Indent += 1;
-            writer.WriteLine(String.Format("<img src='{0}'>", player_image_filename));
+            writer.WriteLine(String.Format("<img src='{0}'>", _player_avitar_url));
             writer.Indent -= 1;
             writer.WriteLine("</DIV>");
 
@@ -334,14 +333,7 @@ using HedgeEmClient;
                 return HtmlTextWriterTag.Div;
             }
         }
-        private String f_get_player_resource_name(String a_player_name_string)
-        {
-
-            String player_resource_name = a_player_name_string;
-
-            // Return the image if you can find
-            return "../resources/" + player_resource_name + ".jpg";
-        }
+        
 
     }
 

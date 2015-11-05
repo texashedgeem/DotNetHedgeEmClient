@@ -17,9 +17,18 @@ using HedgeEmClient;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Web.Configuration;
+using System.Web.Caching;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Threading;
+using System.Threading.Tasks;
 
 
-
+class RequestState
+{
+    public HttpWebRequest request = null;
+    public HttpWebResponse response = null;
+}
 public partial class frm_hedgeem_table : System.Web.UI.Page
 {
 
@@ -35,9 +44,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     #endregion
 
     int number_of_hands;
-    int _table_id;
-    int playerid;
-    int number_of_seats = 1; // xxx_HC value
+    //int playerid;
+    //int number_of_seats = 1; // xxx_HC value
 
     int chk_admin_flag_value = 0;
     enum_game_state _game_state;
@@ -60,6 +68,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     double p_odds_margin;
     double xxxp_odds_margin_rounded;
     double p_presented_margin;
+  
 
     int _int_number_of_betting_stages;
     WebClient wc = new WebClient();
@@ -77,6 +86,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(logger_name_as_defined_in_app_config);
     DC_hedgeem_game_state _global_game_state_object = new DC_hedgeem_game_state();
 
+    string xxxHC_Session_id = "sessionabc123";
+    int xxxHC_ANON_PLAYER_ID = 100;
+    string xxxHC_ANON_USERNAME = "admin@mantura.com";
 
 
     //[DataContract]
@@ -92,65 +104,141 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
     // preinit event changes the theme of the page at runtime before page loads
     protected void Page_PreInit(object sender, EventArgs e)
-    {
-        HedgeEmLogEvent my_log = new HedgeEmLogEvent();
-        my_log.p_method_name = "Page_PreInit";
-        my_log.p_player_id = playerid;
-        my_log.p_table_id = _table_id;
-        my_log.p_message = "Method called.";
-        log.Debug(my_log.ToString());
+              {
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = "Page_PreInit";
+
+        my_log_event.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+        my_log_event.p_table_id = p_session_personal_table_id;
+        my_log_event.p_message = "Method called.";
+        log.Debug(my_log_event.ToString());
         try
         {
-            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(24));
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetNoStore();
 
             // If the session has expired we would have lost critical session state so re-direct the users to the home page.
             if (Session.Count == 0)
             {
-                my_log.p_message = "No session detected";
-                log.Warn(my_log.ToString());
+                my_log_event.p_message = "No session detected";
+                log.Warn(my_log_event.ToString());
                 ScriptManager.RegisterStartupScript(Page, GetType(), "SessionTimeOutMsg", "show_session_timeout_message();", true);
                 // Page.RegisterStartupScript("Alert Message", "<script type='text/javascript'>show_session_timeout_message();</script>");
             }
             else
             {
-                if (Session["theme"] != null)
-                {
-                    // this changes the theme of the hedgeem table according to the theme selected by the user.
-                    this.Page.Theme = Session["theme"].ToString();
-
-                    if (this.Page.Theme == "")
-                    {
-                        // xxxeh - need to throw error when string =""
-                        this.Page.Theme = "ONLINE";
-                    }
-
-
-                }
+                my_log_event.p_message = "Attempting to set theme.";
+                log.Debug(my_log_event.ToString());
+                f_set_theme();
             }
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in Page PreInit - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
-            my_log = new HedgeEmLogEvent();
-            my_log.p_message = ex.Message;
-            my_log.p_method_name = "Page Load";
-            my_log.p_player_id = playerid;
-            my_log.p_table_id = _table_id;
-            log.Error(my_log.ToString());
+            string my_error_popup = "Error in Page PreInit - " + ex.Message.ToString();
+            
+            my_log_event = new HedgeEmLogEvent();
+            my_log_event.p_message = ex.Message;
+            my_log_event.p_method_name = "Page Load";
+            my_log_event.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+            my_log_event.p_table_id = p_session_personal_table_id;
+            log.Error(my_log_event.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup.ToString();
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
     }
 
-    // method to get values from SVC web service when required
+    private int p_session_personal_table_id
+    {
+        get
+        {
+            int my_table_id = -1;
+            try
+            {
+                my_table_id = Convert.ToInt32(Session["p_session_personal_table_id"]);
+            }
+            catch (Exception e)
+            {
+                my_table_id = -1;
+            }
+
+            return my_table_id;
+        }
+
+        set { Session["p_session_personal_table_id"] = value; }
+    }
+
+    private void f_set_theme()
+    {
+
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_message = "Method Entered.";
+        my_log_event.p_player_id = p_session_player_id;
+        my_log_event.p_table_id = p_session_personal_table_id;
+        log.Debug(my_log_event.ToString());
+
+        if (Session["theme"] != null)
+        {
+            // this changes the theme of the hedgeem table according to the theme selected by the user.
+            this.Page.Theme = Session["theme"].ToString();
+            my_log_event.p_table_id = p_session_personal_table_id;
+            log.Debug(my_log_event.ToString());
+
+            if (this.Page.Theme == "")
+            {
+                // xxxeh - need to throw error when string =""
+                this.Page.Theme = "ONLINE";
+                my_log_event.p_message = "Warning. Session varible for 'theme' is blank so HARDCODED to ONLINE";
+                log.Warn(my_log_event.ToString());
+            }
+        }
+        else
+        {
+            my_log_event.p_message = "Unable to determine Session as no session variable for 'theme' ";
+            log.Warn(my_log_event.ToString());
+        }
+    }
+
+    private enum_theme f_get_current_theme_as_enum()
+    {
+        enum_theme my_theme = enum_theme.ONLINE;
+        String my_theme_string = "NOT_SET";
+        if (Session["theme"] != null)
+        {
+            if (this.Page.Theme != "")
+            {
+
+                my_theme_string = Session["theme"].ToString();
+                my_theme = f_convert_theme_string_to_enum(my_theme_string);
+            }
+        }
+
+        return my_theme;
+    }
+
+    private void f_update_game_id()
+    {
+        int my_game_id = _global_game_state_object.p_game_id;
+        int my_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+        lbl_game_id.Text = String.Format("Table/Game: {0}/{1}. PlayerID [{2}] Session ID [{3}] ", _global_game_state_object.p_table_id, my_game_id, my_player_id, Session.SessionID);
+    }
+   
+ 
+    
     private object f_get_object_from_json_call_to_server(string endpoint, Type typeIn)
     {
         HedgeEmLogEvent my_log = new HedgeEmLogEvent();
         my_log.p_message = String.Format("Method called with endpoint [{0}]", endpoint); ;
         my_log.p_method_name = "f_get_object_from_json_call_to_server";
-        my_log.p_player_id = playerid;
-        my_log.p_table_id = _table_id;
+        my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+        my_log.p_table_id = p_session_personal_table_id;
         log.Debug(my_log.ToString());
         object obj = null;
         HttpWebRequest request;
@@ -159,6 +247,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
         my_log.p_message = String.Format("WARNING! If a exception happens in this function is does not appear to user.");
         log.Warn(my_log.ToString());
+        //throw new Exception("Test is this still used.2");
+
 
         my_service_url = WebConfigurationManager.AppSettings["hedgeem_server_default_webservice_url"];
         my_log.p_message = String.Format("Hedgeem Webservice URI = [{0}{1}]", my_service_url, endpoint);
@@ -177,6 +267,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
                     if (stream != null)
                     {
+
 
                         var reader = new StreamReader(stream);
                         try
@@ -212,128 +303,205 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
         return obj;
     }
+    static string ConvertStringArrayToStringJoin(string[] array)
+    {
+        //
+        // Use string Join to concatenate the string elements.
+        //
+        string result = string.Join(",", array);
+        return result;
+    }
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        HedgeEmLogEvent my_log = new HedgeEmLogEvent();
-        my_log.p_message = "frm_hedgeem_table.aspx.cs method called.";
-        my_log.p_method_name = "Page_Load";
-        my_log.p_player_id = playerid;
-        my_log.p_game_id = game_id;
-        my_log.p_table_id = _table_id;
-        log.Debug(my_log.ToString());
-        try
-        {
-            // checks if session is timed out
-            if (Session.Count == 0)
-            {
-                Page.RegisterStartupScript("Alert Message", "<script type='text/javascript'>show_session_timeout_message();</script>");
-            }
-            else
-            {
-                playerid = Convert.ToInt32(Session["playerid"]);
-                _table_id = Convert.ToInt32(Session["tableid"]);
+        var type = Request.RequestType;
 
-                if (Page.IsPostBack == false)
+        if (Session["p_session_player_id"] != null)
+        {
+            HedgeEmLogEvent my_log = new HedgeEmLogEvent();
+            my_log.p_message = "frm_hedgeem_table.aspx.cs method called.";
+            my_log.p_method_name = "Page_Load";
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+            my_log.p_game_id = game_id;
+            my_log.p_table_id = p_session_personal_table_id;
+            log.Debug(my_log.ToString());
+            try
+            {
+                // checks if session is timed out
+                if (Session.Count == 0)
                 {
-                    try
-                    {
-                        _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
-                        my_log.p_message = String.Format("Successfully retrieved gamestate from server. Table ID [{0}], State [{1}]", _global_game_state_object.p_table_id, _global_game_state_object.p_current_state_enum.ToString());
-                        log.Debug(my_log.ToString());
-                    }
-                    catch (Exception ex)
-                    {
-                        my_log.p_message = String.Format("Error trying to get game state from server. Reason [{0}]", ex.Message);
-                        log.Error(my_log.ToString());
-
-                    }
-                    string role = Session["user_role"].ToString();
-                    // if user is admin, show cashier button
-                    if (role == enum_user_role.ADMIN.ToString())
-                    {
-                        btn_cashier.Visible = true;
-                    }
-                    //if (is_table_jackpot_enabled == true)
-                    //{
-                    //    table_jackpot_container.Visible = true;
-                    //}
-                    else
-                    {
-                        table_jackpot_container.Visible = false;
-                    }
-                    ScriptManager sManager = ScriptManager.GetCurrent(this.Page);
-                    //Get Image from Facebook if the user is logged in via facebook
-                    string facebook_imageurl = "";
-                    if (Session["Facebook_User_Id"] != "")
-                    {
-                        //Get Image from Facebook
-                        facebook_imageurl = "https://graph.facebook.com/" + Session["Facebook_User_Id"].ToString() + "/picture";
-                    }
-                    if (facebook_imageurl != "")
-                    {
-                        // Get path to save the image
-                        string pathToSave = Server.MapPath("~/resources/") + "player_avatar_" + Session["username"].ToString() + ".jpg";
-                        //Check if the Image exists already
-                        if (!File.Exists(pathToSave))
-                        {
-                            //Save the image
-                            WebClient client = new WebClient();
-                            client.DownloadFile(facebook_imageurl, pathToSave);
-                        }
-                    }
-                    chk_admin_flag_value = 1;
-                    Session["Check_AltA"] = 1;
-
-
-                    if (Session["Check_AltA"] == null)
-                    {
-                        btn_Show_Admin_Flag.Visible = true;
-                        btn_Hide_Admin_Flag.Visible = false;
-                    }
-                    else if (Convert.ToInt32(Session["Check_AltA"]) == 0)
-                    {
-                        btn_Show_Admin_Flag.Visible = false;
-                        btn_Hide_Admin_Flag.Visible = true;
-                    }
-
-                    game_id = _global_game_state_object.p_game_id;
-                    number_of_hands = _global_game_state_object.p_number_of_hands_int;
-                    enum_betting_stage my_betting_stage = f_get_current_betting_stage();
-                    _game_state = _global_game_state_object.p_current_state_enum;
-                    _hedgeem_hand_panels = new hedgeem_hand_panel[number_of_hands];
-                    Session["sess_betting_stage_enum"] = _global_game_state_object.p_current_betting_stage_enum;
-                    _int_number_of_betting_stages = _global_game_state_object.p_number_of_betting_stages_int;
-                    _hedgeem_betting_panels = new BETTING_PANEL[_int_number_of_betting_stages, number_of_hands];
-                    lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
-                    // gets seat balance of the current player
-                    player_funds_at_seat = _global_game_state_object._seats[0].p_player_seat_balance;
-
-                    f_call_functions_to_render_screen();
+                    Page.RegisterStartupScript("Alert Message", "<script type='text/javascript'>show_session_timeout_message();</script>");
                 }
-                // Dynamically contructed the Web page title so show relevant info about Server, Table and Game the player is playing. 
-                //   String my_page_title = String.Format("Texas Hedge'Em Poker | Server [{0}], Table {1}], Game [{2}]","server id", p_table_name, p_table_id);
-                //   this.Page.Title = my_page_title;
+                else
+                {
+                    int my_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+                    p_session_personal_table_id = Convert.ToInt32(Session["p_session_personal_table_id"]);
+                    #region load_all_images_at_once
+                    //Get Path of Images
+                    if (hdimage.Value=="")
+                    {
+                        var path = Server.MapPath("~/resources/cards/");
+                        string[] images = Directory.GetFiles(path, "*.png");
+                        List<string> get_list_of_images = new List<string>();
+                        foreach (string image in images)
+                        {
+                            string name = Path.GetFileName(image);
+                            // Add image names in list
+                            get_list_of_images.Add("'resources/cards/" + name + "'");
+                        }
+                        // convert list to array
+                        string[] array_of_images = get_list_of_images.ToArray();
+                        // convert array to string along with joining with ','
+                        string images_ = ConvertStringArrayToStringJoin(array_of_images);
+                        hdimage.Value = images_;
 
-                /*Click on Hand_Panel to get the value of current hand via _click_hand_index  and then that value pass to hidden textbox i.e mytext, when Hand_Index_Value is shown in textbox then btn_Get_Clicked_Hand_Value method to get the value of bet that we placed i.e HOLE: £1 bet pays £4*/
-                Page.RegisterStartupScript("Bet_Placed_Details", "<script>f_placebet(_click_hand_index);</script>");
+                        // script to call the Progress Bar while images are loading
+                        Page.RegisterStartupScript("Loading", "<script type='text/javascript'> var myImages = [" + images_ + "]; progressBar(myImages.length); </script>");
+                       
+                    }
+
+                    // script to load all images
+                   // Page.RegisterStartupScript("Prefetch Images", "<script type='text/javascript'> var myImages = [" + images_ + "]; for (var i = 0; i <= myImages.length; i++) { var img = new Image();  img.src = myImages[i];}</script>");
+                    #endregion load_all_images_at_once
+
+                    bool ispostback = Page.IsAsync;
+
+                    if (Page.IsPostBack == false)
+                    {
+                        try
+                        {
+
+                            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
+                            if (_global_game_state_object.p_error_message != null)
+                            {
+                                if (_global_game_state_object.p_error_message != "")
+                                {
+                                    throw new Exception(_global_game_state_object.p_error_message);
+                                }
+                            }
+
+                            my_log.p_message = String.Format("Successfully retrieved gamestate from server. Table ID [{0}], State [{1}]", _global_game_state_object.p_table_id, _global_game_state_object.p_current_state_enum.ToString());
+                            log.Debug(my_log.ToString());
+                        }
+                        catch (Exception ex)
+                        {
+                            my_log.p_message = String.Format("Error trying to get game state from server. Reason [{0}]", ex.Message);
+                            log.Error(my_log.ToString());
+                            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+                            my_popup_message.p_detailed_message_str = "";
+                            my_popup_message.p_is_visible = false;
+
+                            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                            my_popup_message.p_detailed_message_str = String.Format("Error trying to get game state from server. Reason [{0}]", ex.Message);
+                            my_popup_message.p_is_visible = true;
+                            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+
+                        }
+                        string role = Session["user_role"].ToString();
+                        // if user is admin, show cashier button
+                        if (role == enum_user_role.ADMIN.ToString())
+                        {
+                            btn_cashier.Visible = true;
+                        }
+                        //if (is_table_jackpot_enabled == true)
+                        //{
+                        //    table_jackpot_container.Visible = true;
+                        //}
+                        else
+                        {
+                            table_jackpot_container.Visible = false;
+                        }
+                        ScriptManager sManager = ScriptManager.GetCurrent(this.Page);
+                        //Get Image from Facebook if the user is logged in via facebook
+                        string facebook_imageurl = "";
+                        if (Session["Facebook_User_Id"] != null)
+                        {
+                            if (Session["Facebook_User_Id"] != "")
+                            {
+                                //Get Image from Facebook
+                                facebook_imageurl = "https://graph.facebook.com/" + Session["Facebook_User_Id"].ToString() + "/picture";
+                            }
+                            if (facebook_imageurl != "")
+                            {
+                                // Get path to save the image
+                                string pathToSave = Server.MapPath("~/resources/") + "player_avatar_" + Session["p_session_username"].ToString() + ".jpg";
+                                //Check if the Image exists already
+                                if (!File.Exists(pathToSave))
+                                {
+                                    //Save the image
+                                    WebClient client = new WebClient();
+                                    //client.DownloadFile(facebook_imageurl, pathToSave);
+                                }
+                            }
+                        }
+                        chk_admin_flag_value = 1;
+                        Session["Check_AltA"] = 1;
+
+
+                        if (Session["Check_AltA"] == null)
+                        {
+                            btn_Show_Admin_Flag.Visible = true;
+                            btn_Hide_Admin_Flag.Visible = false;
+                        }
+                        else if (Convert.ToInt32(Session["Check_AltA"]) == 0)
+                        {
+                            btn_Show_Admin_Flag.Visible = false;
+                            btn_Hide_Admin_Flag.Visible = true;
+                        }
+
+                        game_id = _global_game_state_object.p_game_id;
+                        number_of_hands = _global_game_state_object.p_number_of_hands_int;
+                        enum_betting_stage my_betting_stage = f_get_current_betting_stage();
+                        _game_state = _global_game_state_object.p_current_state_enum;
+                        _hedgeem_hand_panels = new hedgeem_hand_panel[number_of_hands];
+                        Session["sess_betting_stage_enum"] = _global_game_state_object.p_current_betting_stage_enum;
+                        _int_number_of_betting_stages = _global_game_state_object.p_number_of_betting_stages_int;
+                        _hedgeem_betting_panels = new BETTING_PANEL[_int_number_of_betting_stages, number_of_hands];
+                        lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
+                        // gets seat balance of the current player
+                        player_funds_at_seat = _global_game_state_object._seats[0].p_player_seat_balance;
+
+                        f_call_functions_to_render_screen();
+                    }
+                    // Dynamically contructed the Web page title so show relevant info about Server, Table and Game the player is playing. 
+                    //   String my_page_title = String.Format("Texas Hedge'Em Poker | Server [{0}], Table {1}], Game [{2}]","server id", p_table_name, p_table_id);
+                    //   this.Page.Title = my_page_title;
+
+                    /*Click on Hand_Panel to get the value of current hand via _click_hand_index  and then that value pass to hidden textbox i.e mytext, when Hand_Index_Value is shown in textbox then btn_Get_Clicked_Hand_Value method to get the value of bet that we placed i.e HOLE: £1 bet pays £4*/
+                   // Page.RegisterStartupScript("Bet_Placed_Details", "<script>f_placebet(_click_hand_index);</script>");
+                }
+            }
+            //catch (FaultException<Exception_Fault_Contract> ex)
+            //{
+
+            //}
+
+            catch (Exception ex)
+            {
+                //string my_error_popup = "alert('Error in Page Load - " + ex.Message.ToString() + "');";
+                string my_error_popup = "Fatal Error in Reason [{0}]" + ex.Message;
+                my_log.p_message = String.Format("Fatal error. Reason [{0}]", ex.Message);
+                // xxxeh This exception does not show to users
+                //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+                my_popup_message.p_detailed_message_str = "";
+                my_popup_message.p_is_visible = false;
+
+                //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                my_popup_message.p_detailed_message_str = my_error_popup;
+                my_popup_message.p_is_visible = true;
+                Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+                log.Error(my_log.ToString());
+                //throw new Exception(my_error_popup); 
+         
             }
         }
-        //catch (FaultException<Exception_Fault_Contract> ex)
-        //{
-
-        //}
-
-        catch (Exception ex)
-        {
-            //string my_error_popup = "alert('Error in Page Load - " + ex.Message.ToString() + "');";
-            string my_error_popup = "Major Error in Page_load";
-            my_log.p_message = String.Format("Fatal error. Reason [{0}]", ex.Message);
-            // xxxeh This exception does not show to users
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
-            log.Error(my_log.ToString());
-            //throw new Exception(my_error_popup); 
-        }
+        
+            
+              else
+            {
+                Response.Redirect("http://dev.hedgeem.com");
+            }  
     }
 
     #region Sound_Play_On_Click_Of_Deal_Button
@@ -344,7 +512,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         try
         {
             SoundPlayer sd = new SoundPlayer();
-            sd.SoundLocation = Server.MapPath("~/resources/waves/Deal-4.wav");
+            sd.SoundLocation = Server.MapPath("~/resources/waves/Deal-6.mp3 ");
             sd.Play();
             sd.Play();
             sd.Play();
@@ -353,15 +521,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in PlaySound method - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in PlaySound method - " + ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = ex.Message;
             my_log.p_method_name = "PlaySound";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
     }
     #endregion Sound_Play_On_Click_Of_Deal_Button
@@ -428,11 +604,32 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     }
     #endregion Visible_Deal_Next_Buttons
 
-    protected void btnLogout_Click(object sender, EventArgs e)
+    /// <summary>
+    /// This should be renamed btn_leave_table_Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_leave_table_Click(object sender, EventArgs e)
     {
-        Response.Redirect("frm_facebook_canvas.aspx");
+
         HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
-        log.Warn("This should call server leave table function");
+        HedgeEmGenericAcknowledgement my_generic_ack = new HedgeEmGenericAcknowledgement();
+
+        my_generic_ack = (HedgeEmGenericAcknowledgement)f_get_object_from_json_call_to_server("ws_leave_table/" + p_session_current_table_id + "," +
+                                           10 + "," +
+                                           p_session_current_table_id + "," +
+                                           p_session_current_seat_id + "," +
+                                           p_session_player_id, typeof(HedgeEmGenericAcknowledgement));
+        if (my_generic_ack.p_error_message != null)
+        {
+            if (my_generic_ack.p_error_message != "")
+            {
+                throw new Exception(my_generic_ack.p_error_message);
+            }
+        }
+        Response.Redirect("frm_facebook_canvas.aspx?signout=true");
+
+        //log.Warn("This should call server leave table function");
     }
 
     /// Context / Background reading
@@ -469,15 +666,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_get_previous_bets_for_stage_and_hand" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_get_previous_bets_for_stage_and_hand" + ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
             my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
         return my_previous_bets_list;
     }
@@ -503,7 +708,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     public HedgeEmBet f_get_previous_bets_for_stage_and_hand_player(enum_betting_stage a_enum_betting_stage, int a_hand_index, int a_player_id)
     {
         /// xxx hack until Bet contains player id
-        a_player_id = 0;
+        //a_player_id = 0;
 
         List<HedgeEmBet> my_previous_bets_list = new List<HedgeEmBet>();
 
@@ -531,17 +736,65 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_get_previous_bets_for_stage_and_hand" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_get_previous_bets_for_stage_and_hand" + ex.Message.ToString();
+          //  ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
             my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
         return myHedgeEmBet;
+    }
+
+    private enum_theme f_convert_theme_string_to_enum(string a_theme_as_string)
+    {
+        enum_theme my_enum_theme = enum_theme.ONLINE;
+        switch (a_theme_as_string)
+        {
+            case "CASINO":
+                my_enum_theme = enum_theme.CASINO;
+                break;
+            case "TEST":
+                my_enum_theme = enum_theme.TEST;
+                break;
+            case "ONLINE":
+                my_enum_theme = enum_theme.ONLINE;
+                break;
+            case "RESPONSIVE":
+                my_enum_theme = enum_theme.RESPONSIVE;
+                break;
+            case "MOBILE":
+                my_enum_theme = enum_theme.MOBILE;
+                break;
+            case "GAMEPLAY_STATUS":
+                my_enum_theme = enum_theme.GAMEPLAY_STATUS;
+                break;
+            case "RETRO":
+                my_enum_theme = enum_theme.RETRO;
+                break;
+            case "WSOP":
+                my_enum_theme = enum_theme.WSOP;
+                break;
+            case "HORSERACE":
+                my_enum_theme = enum_theme.HORSERACE;
+                break;
+
+            default:
+                break;
+        }
+
+        return my_enum_theme;
     }
 
     private enum_game_state f_convert_hedgeem_stage_to_state(enum_betting_stage a_betting_stage)
@@ -592,7 +845,6 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
         List<HedgeEmBet> my_previous_bets_list = new List<HedgeEmBet>();
 
-        HedgeEmBet myHedgeEmBet = null;
         double my_bet_total = -666;
 
         try
@@ -609,30 +861,28 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 && handsstage_objects.p_seat_index == a_player_id
                             select handsstage_objects.p_bet_amount).Sum();
 
-            /*if (my_previous_bets_list.Count > 1)
-            {
-                String my_err_msg = String.Format("Expected only one 'Bet' for state [{0}], hand [{1}] object got [{1}] ",
-                    a_enum_betting_stage.ToString(),
-                    a_hand_index,
-                    my_previous_bets_list.Count);
 
-                throw new Exception(my_err_msg);
-            }*/
-
-            //myHedgeEmBet = my_previous_bets_list[0];
 
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_get_previous_bets_for_stage_and_hand" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_get_previous_bets_for_stage_and_hand" + ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
             my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
         return my_bet_total;
     }
@@ -686,16 +936,24 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_get_hand_stage_info_object_for_stage_and_hand" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_get_hand_stage_info_object_for_stage_and_hand" + ex.Message.ToString();
+          //  ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
             my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
-            throw new Exception(my_error_popup);
+            //throw new Exception(my_error_popup);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
         return myHedgeEmHandStageInfo;
     }
@@ -732,15 +990,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_get_hand_stage_info_object_for_stage_and_hand" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_get_hand_stage_info_object_for_stage_and_hand" + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
             my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
         return myHedgeEmHandStageInfo;
     }
@@ -751,11 +1017,11 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     public void f_place_bet()
     {
         HedgeEmLogEvent my_log = new HedgeEmLogEvent();
-        my_log.p_message = String.Format("Method called. Player [{0}], Table [{1}], Game [{2}]", playerid, _table_id, game_id);
+        my_log.p_message = String.Format("Method called. Player [{0}], Table [{1}], Game [{2}]", Convert.ToInt32(Session["p_session_player_id"]), p_session_personal_table_id, game_id);
         my_log.p_method_name = "frm_hedgeem_table.f_place_bet()";
-        my_log.p_player_id = playerid;
+        my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
         my_log.p_game_id = game_id;
-        my_log.p_table_id = _table_id;
+        my_log.p_table_id = p_session_personal_table_id;
 
         enum_betting_stage my_betting_stage = (enum_betting_stage)Session["sess_betting_stage_enum"];
 
@@ -776,21 +1042,29 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             {
                 string short_desc = "Bet not accepted because.  Reason: ";
                 //To show error description that why bet is not accepted inside div
-                short_description.InnerHtml = short_desc + my_bet_ack.p_nak_reason + " Player Id: " + playerid + " Stage: " + my_betting_stage;
+                short_description.InnerHtml = short_desc + my_bet_ack.p_nak_reason + " Player Id: " + Convert.ToInt32(Session["p_session_player_id"]) + " Stage: " + my_betting_stage;
                 ScriptManager.RegisterStartupScript(Page, GetType(), "JsStatus", "document.getElementById('error_message').style.display = 'block';document.getElementById('fade').style.display = 'block';", true);
             }
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in frm.hedgeem_table.cs.f_place_bet" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in frm.hedgeem_table.cs.f_place_bet" + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_place_bet function " + ex.Message;
             my_log.p_method_name = "f_place_bet";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
     }
     #endregion f_place_bet
@@ -865,15 +1139,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_update_hedgeem_control_buttons_with_info_from_server" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_update_hedgeem_control_buttons_with_info_from_server" + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_hedgeem_control_buttons_with_info_from_server function " + ex.Message;
             my_log.p_method_name = "f_update_hedgeem_control_buttons_with_info_from_server";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
 
     }
@@ -905,10 +1187,6 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             hedgeem_control_card my_river_card = new hedgeem_control_card();
             hedgeem_control_jackpot my_control_jackpot = new hedgeem_control_jackpot();
             my_control_jackpot.p_jackpot_balance = my_jackpot_fund;
-
-            hedgeem_control_last_game_dump my_control_last_game_dump = new hedgeem_control_last_game_dump();
-            my_control_last_game_dump.p_game_dump_as_string = "Banana\nApple";
-
 
             // Note expect card as short string to be something like ac (ace of clubs), 6d (six of diamonds etc)
             // If ZZ us returned this implies the card is to be shown face down.
@@ -945,7 +1223,6 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             Place_Holder_Turn_Cards.Controls.Add(my_turn_card);
             Place_Holder_River_Cards.Controls.Add(my_river_card);
             Place_Holder_Table_Jackpot.Controls.Add(my_control_jackpot);
-            Place_Holder_Last_Game_Dump.Controls.Add(my_control_last_game_dump);
 
 
             lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
@@ -969,15 +1246,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup =  ex.Message.ToString();
+          //  ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_hedgeem_control_board_cards_with_info_from_server function " + ex.Message;
             my_log.p_method_name = "f_update_hedgeem_control_board_cards_with_info_from_server";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
         }
     }
     #endregion f_update_hedgeem_control_flop_cards_with_info_from_server
@@ -992,8 +1277,16 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_update_hedgeem_control_bet_slider_with_info_from_server" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_update_hedgeem_control_bet_slider_with_info_from_server" + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             log.Error("Error in f_update_hedgeem_control_bet_slider_with_info_from_server", new Exception(ex.Message));
         }
     }
@@ -1008,66 +1301,116 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         {
             log.Debug("f_update_hedgeem_control_betting_panels_with_info_from_server called");
             // xxxHC value of theme
-            my_default_theme = enum_theme.ONLINE;
-            if (my_default_theme == enum_theme.ONLINE)
+            enum_theme my_theme = f_get_current_theme_as_enum();
+            enum_betting_stage my_current_betting_stage = _global_game_state_object.p_current_betting_stage_enum;
+            enum_game_state my_current_game_stage_state_hack = f_convert_hedgeem_stage_to_state(my_current_betting_stage);
+            enum_game_state my_current_game_state2 = _global_game_state_object.p_current_state_enum;
+            int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+
+
+            // Only show the betting panels for CASINO, MOBILE or WSOP Styles
+            if (!(my_theme == enum_theme.CASINO || my_theme == enum_theme.MOBILE || my_theme == enum_theme.WSOP))
             {
-                // Do not show the betting panels 
+                // Do not show the betting panels
                 // return;
             }
             else
             {
-                // Update the display
-                string best_odds_token = "";
-                //For each betting stage and each hand
+                //For each betting stage and each hand ...
                 for (enum_betting_stage stage_index = enum_betting_stage.HOLE_BETS; stage_index <= enum_betting_stage.TURN_BETS; stage_index++)
                 {
+                    enum_game_state my_game_state = f_convert_hedgeem_stage_to_state(stage_index);
 
                     for (int hand_index = 0; hand_index < number_of_hands; hand_index++)
                     {
-                        // xxx should really use Doubles here 
-                        _hedgeem_betting_panels[(int)stage_index, hand_index] = new BETTING_PANEL(number_of_seats);
+                        // ... retrieve the HandStageInfo object, then ... 
+                        HedgeEmHandStageInfo my_hand_stage_info;
+                        my_hand_stage_info = f_get_hand_stage_info_object_for_stage_and_hand(my_game_state, hand_index);
+
+                        // Create a 'HedgeEmControl' to display the BettingPanel for this Betting stage and hand.
+                        _hedgeem_betting_panels[(int)stage_index, hand_index] = new BETTING_PANEL(my_number_of_seats);
+                        Place_Holder_Betting_Panel.Controls.Add(_hedgeem_betting_panels[(int)stage_index, hand_index]);
+
                         if (_global_game_state_object._hands.Count() != 0)
                         {
+                            // ... update the corresponding Betting Panel with info from server
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_hand_index = hand_index;
                             _hedgeem_betting_panels[(int)stage_index, hand_index].p_enum_betting_stage = stage_index;
-                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_draw = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_percent_draw_string;
-                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_win_or_draw = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_percent_win_or_draw_string;
-                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_actual = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_actual_string;
-                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_margin = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_margin_double.ToString();
-                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_win = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_percent_win_string;
-                            if (_global_game_state_object.p_hand_stage_info_list[hand_index].p_is_recommended_hand_to_bet_on_for_best_value_odds == true)
-                            {
-                                best_odds_token = " *";
-                            }
-                            else
-                            {
-                                best_odds_token = "";
-                            }
-                            double offered_odds = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_margin_rounded_double;
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_draw = my_hand_stage_info.p_odds_percent_draw_string;
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_win_or_draw = my_hand_stage_info.p_odds_percent_win_or_draw_string;
+                            // xxx WARN .p_odds_actual_string is not being set as of Nov 2014 hence calling double.ToString();
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_actual = my_hand_stage_info.p_odds_actual_double.ToString();
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_margin = my_hand_stage_info.p_odds_margin_double.ToString();
 
-                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odd_margin_rounded = offered_odds;
+                            if (my_current_game_state2 == enum_game_state.STATUS_RIVER && my_hand_stage_info.p_is_hand_a_winner_at_this_stage)
+                            {
+                                _hedgeem_betting_panels[(int)stage_index, hand_index].p_enum_panel_display_status = enum_hand_in_play_status.IN_PLAY_WINNER;
+                            }
+                            if (my_current_game_state2 == enum_game_state.STATUS_RIVER && !my_hand_stage_info.p_is_hand_a_winner_at_this_stage)
+                            {
+                                _hedgeem_betting_panels[(int)stage_index, hand_index].p_enum_panel_display_status = enum_hand_in_play_status.IN_NON_BETTING_STAGE;
+                            }
+
+                            if (my_hand_stage_info.p_enum_game_state < my_current_game_stage_state_hack && my_current_game_state2 != enum_game_state.STATUS_RIVER)
+                            {
+                                _hedgeem_betting_panels[(int)stage_index, hand_index].p_enum_panel_display_status = enum_hand_in_play_status.IN_PLAY_PREVIOUS_BETTING_STAGE_NOT_ACTIVE;
+                            }
+
+                            if (my_hand_stage_info.p_enum_game_state == my_current_game_stage_state_hack && my_current_game_state2 != enum_game_state.STATUS_RIVER)
+                            {
+                                _hedgeem_betting_panels[(int)stage_index, hand_index].p_enum_panel_display_status = my_hand_stage_info.p_hand_inplay_status;
+                            }
+
+                            double my_offered_odds_double = my_hand_stage_info.p_odds_margin_rounded_double;
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odd_margin_rounded = my_offered_odds_double;
+
                             String prefix;
-                            if (offered_odds < 0)
+                            string my_offered_odds_string = "";
+                            if (my_offered_odds_double < 0)
                             {
                                 prefix = "1/";
-                                offered_odds = offered_odds * -1;
+                                my_offered_odds_double = my_offered_odds_double * -1;
+                                my_offered_odds_string = prefix + my_offered_odds_double.ToString();
                             }
                             else
                             {
                                 prefix = "";
+                                my_offered_odds_string = prefix + my_offered_odds_double.ToString();
                             }
-                            if (offered_odds == 0)
+                            if (my_offered_odds_double == 0)
                             {
 
+                                my_offered_odds_string = "X";
+                            }
+
+
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_payout_string = my_offered_odds_string;
+
+
+                            // xxx HC to true to show admin
+                            string role = Session["user_role"].ToString();
+                            // if user is admin, show cashier button
+                            if (role == enum_user_role.ADMIN.ToString())
+                            {
+                                _hedgeem_betting_panels[(int)stage_index, hand_index]._show_admin_info = true;
                             }
                             else
                             {
-
+                                _hedgeem_betting_panels[(int)stage_index, hand_index]._show_admin_info = false;
                             }
+
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_win = my_hand_stage_info.p_odds_percent_win_string;
+
+                            double offered_odds = my_hand_stage_info.p_odds_margin_rounded_double;
+
+                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_odd_margin_rounded = offered_odds;
+
                         }
 
+                        #region display_chips_for_each_player
                         //// #####################################
                         //// Display the chips for each player seated at the table (where bets have been placed)
-                        for (int seat_index = 0; seat_index < number_of_seats; seat_index++)
+                        for (int seat_index = 0; seat_index < my_number_of_seats; seat_index++)
                         {
                             if (_global_game_state_object._seats.Count() == 0)
                             {
@@ -1084,39 +1427,59 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                                     if (_global_game_state_object._recorded_bets.Count() != 0)
                                     {
                                         // Update bet value on 'chip' and show it.  eg. set to 5 for $5 bet
-                                        double bet_value_double = _global_game_state_object._recorded_bets[seat_index].p_bet_amount;
-                                        _hedgeem_betting_panels[(int)stage_index, hand_index].p_players_bets[seat_index] = bet_value_double;
-                                        Place_Holder_Betting_Panel.Controls.Add(_hedgeem_betting_panels[(int)stage_index, hand_index]);
+                                        double my_bet_value_double = f_get_total_previous_bets_for_stage_and_hand_player(stage_index, hand_index, Convert.ToInt32(Session["p_session_player_id"]));
+                                        _hedgeem_betting_panels[(int)stage_index, hand_index].p_players_bets[seat_index] = my_bet_value_double;
                                     }
                                 }
                             }
                             catch (Exception e)
                             {
-                                string my_error_popup = "alert('Error in f_update_hedgeem_control_betting_panels_with_info_from_server " + e.Message.ToString() + "');";
-                                ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                                string my_error_popup = "Error in f_update_hedgeem_control_betting_panels_with_info_from_server " + e.Message.ToString();
+                               // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
                                 HedgeEmLogEvent my_log = new HedgeEmLogEvent();
                                 my_log.p_message = "Exception caught in f_update_hedgeem_control_betting_panels_with_info_from_server function " + e.Message;
                                 my_log.p_method_name = "f_update_hedgeem_control_betting_panels_with_info_from_server";
-                                my_log.p_player_id = playerid;
+                                my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
                                 my_log.p_game_id = game_id;
-                                my_log.p_table_id = _table_id;
+                                my_log.p_table_id = p_session_personal_table_id;
                                 log.Error(my_log.ToString());
+                                HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+                                my_popup_message.p_detailed_message_str = "";
+                                my_popup_message.p_is_visible = false;
+
+                                //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                                my_popup_message.p_detailed_message_str = my_error_popup;
+                                my_popup_message.p_is_visible = true;
+                                Place_Holder_Popup_Message.Controls.Add(my_popup_message);
                             }
+
+
                         }
+                        #endregion display_chips_for_each_player
                     }
+
                 }
             }
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_update_hedgeem_control_betting_panels_with_info_from_server" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_update_hedgeem_control_betting_panels_with_info_from_server" + ex.Message.ToString();
+            //my_error_popup = "Bollocks";
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_hedgeem_control_betting_panels_with_info_from_server function " + ex.Message;
             my_log.p_method_name = "f_update_hedgeem_control_betting_panels_with_info_from_server";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -1133,6 +1496,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     private void f_update_hedgeem_control_hand_panels_with_info_from_server()
     {
         log.Debug("f_update_hedgeem_control_hand_panels_with_info_from_server called");
+        int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
         try
         {
             for (int hand_index = 0; hand_index < number_of_hands; hand_index++)
@@ -1154,9 +1518,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 }
                 // Create a new HedgeEm Control that will be used to display the status of one Hand in the Web page.
                 int my_num_stages = _int_number_of_betting_stages;
-                int my_num_seats = number_of_seats;
 
-                _hedgeem_hand_panels[hand_index] = new hedgeem_hand_panel(my_num_stages, my_num_seats);
+                _hedgeem_hand_panels[hand_index] = new hedgeem_hand_panel(my_num_stages, my_number_of_seats);
                 // Hand_Index
                 _hedgeem_hand_panels[hand_index].p_hand_index = hand_index;
 
@@ -1267,14 +1630,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_update_hedgeem_control_hand_panels_with_info_from_server" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_update_hedgeem_control_hand_panels_with_info_from_server" + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_hedgeem_control_hand_panels_with_info_from_server function " + ex.Message;
             my_log.p_method_name = "f_update_hedgeem_control_hand_panels_with_info_from_server";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
             // xxxeh - this error does not pop up
             throw new Exception(my_error_popup);
@@ -1300,14 +1671,25 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         try
         {
             log.Debug("f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets called");
+            int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
 
+            enum_theme my_theme = f_get_current_theme_as_enum();
+            if (my_theme == enum_theme.CASINO)
+            {
+                // Do not show the player's previous bets in the HandPanels
+                for (int hand_index = 0; hand_index < number_of_hands; hand_index++)
+                {
+                    _hedgeem_hand_panels[hand_index].p_show_players_bets = false;
+                }
 
+                return;
+            }
             //For each betting stage and each hand and each seat ...
             for (enum_betting_stage stage_index = enum_betting_stage.HOLE_BETS; stage_index <= enum_betting_stage.TURN_BETS; stage_index++)
             {
                 for (int hand_index = 0; hand_index < number_of_hands; hand_index++)
                 {
-                    for (int seat_index = 0; seat_index < number_of_seats; seat_index++)
+                    for (int seat_index = 0; seat_index < my_number_of_seats; seat_index++)
                     {
                         // ... update each GUI component with information about previous bets.
                         // by 
@@ -1350,15 +1732,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                         catch (Exception e)
                         {
                             string my_error_message = String.Format("Error in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets. Reason {0}", e.Message);
-                            string my_error_popup = "alert('Error in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets " + e.Message.ToString() + "');";
+                            string my_error_popup = "Error in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets " + e.Message.ToString();
                             // xxeh exception message not shown to user
-                            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+                            my_popup_message.p_detailed_message_str = "";
+                            my_popup_message.p_is_visible = false;
+
+                            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                            my_popup_message.p_detailed_message_str = my_error_popup;
+                            my_popup_message.p_is_visible = true;
+                            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
                             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
                             my_log.p_message = "Exception caught in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets function " + e.Message;
                             my_log.p_method_name = "f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets";
-                            my_log.p_player_id = playerid;
+                            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
                             my_log.p_game_id = game_id;
-                            my_log.p_table_id = _table_id;
+                            my_log.p_table_id = p_session_personal_table_id;
                             log.Error(my_log.ToString());
 
                             throw new Exception(my_error_message);
@@ -1369,14 +1759,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets" + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets function " + ex.Message;
             my_log.p_method_name = "f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
             throw new Exception(my_error_popup);
         }
@@ -1390,6 +1788,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         {
             log.Debug("f_clear_players_bets_lablels called");
             int no_of_betting_stages = _int_number_of_betting_stages;
+            int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+
             for (int handindex = 0; handindex < number_of_hands; handindex++)
             {
                 for (int stageindex = 0; stageindex < no_of_betting_stages; stageindex++)
@@ -1400,7 +1800,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                             enum_hand_in_play_status.IN_NON_BETTING_STAGE;
                     }
 
-                    for (int player_index = 0; player_index < number_of_seats; player_index++)
+                    for (int player_index = 0; player_index < my_number_of_seats; player_index++)
                     {
                         if (_hedgeem_betting_panels[stageindex, handindex] != null)
                         {
@@ -1417,14 +1817,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_clear_players_bets_lablels - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_clear_players_bets_lablels - " + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_clear_players_bets_lablels function " + ex.Message;
             my_log.p_method_name = "f_clear_players_bets_lablels";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -1436,21 +1844,31 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     {
         string best_odds_token = "";
         log.Debug("f_update_labels called");
+        int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+
         try
         {
             log.Info("Call f_update_seat_panels_with_info_from_servers in f_update_labels");
-            f_update_seat_panels_with_info_from_servers();
+            f_update_seat_panels_with_info_from_server_NOT_USED();
         }
         catch (Exception e)
         {
             string err_message = string.Format("Unable to update seat panels method f_update_labels \nReason {}", e.Message);
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", err_message, true);
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", err_message, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = err_message;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_labels function - Unable to update seat panels method in f_update_labels " + e.Message;
             my_log.p_method_name = "f_update_labels";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
 
@@ -1461,8 +1879,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             for (int hand_index = 0; hand_index < number_of_hands; hand_index++)
             {
                 // xxx should really use Doubles here 
-                _hedgeem_betting_panels[(int)stage_index, hand_index] = new BETTING_PANEL(number_of_seats);
-                _hedgeem_betting_panels[(int)stage_index, hand_index] = new BETTING_PANEL(number_of_seats);
+                _hedgeem_betting_panels[(int)stage_index, hand_index] = new BETTING_PANEL(my_number_of_seats);
+                _hedgeem_betting_panels[(int)stage_index, hand_index] = new BETTING_PANEL(my_number_of_seats);
                 _hedgeem_betting_panels[(int)stage_index, hand_index].p_enum_betting_stage = stage_index;
                 _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_draw = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_percent_draw_string;
                 _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_win_or_draw = _global_game_state_object.p_hand_stage_info_list[hand_index].p_odds_percent_win_or_draw_string;
@@ -1499,7 +1917,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 }
                 //// #####################################
                 //// Display the chips for each player seated at the table (where bets have been placed)
-                for (int seat_index = 0; seat_index < number_of_seats; seat_index++)
+                for (int seat_index = 0; seat_index < my_number_of_seats; seat_index++)
                 {
                     string chip_icon_resource_name = "chip_icon_seat_" + seat_index.ToString();
                     try
@@ -1524,14 +1942,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                     }
                     catch (Exception e)
                     {
-                        string my_error_popup = "alert('Error in f_update_labels" + e.Message.ToString() + "');";
-                        ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                        string my_error_popup = "Error in f_update_labels" + e.Message.ToString();
+                       // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                        HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+                        my_popup_message.p_detailed_message_str = "";
+                        my_popup_message.p_is_visible = false;
+
+                        //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                        my_popup_message.p_detailed_message_str = my_error_popup;
+                        my_popup_message.p_is_visible = true;
+                        Place_Holder_Popup_Message.Controls.Add(my_popup_message);
                         HedgeEmLogEvent my_log = new HedgeEmLogEvent();
                         my_log.p_message = "Exception caught in f_update_labels function " + e.Message;
                         my_log.p_method_name = "f_update_labels";
-                        my_log.p_player_id = playerid;
+                        my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
                         my_log.p_game_id = game_id;
-                        my_log.p_table_id = _table_id;
+                        my_log.p_table_id = p_session_personal_table_id;
                         log.Error(my_log.ToString());
                     }
                 }
@@ -1547,9 +1973,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         HedgeEmLogEvent my_log = new HedgeEmLogEvent();
         my_log.p_message = "";
         my_log.p_method_name = "f_place_bet";
-        my_log.p_player_id = playerid;
+        my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
         my_log.p_game_id = game_id;
-        my_log.p_table_id = _table_id;
+        my_log.p_table_id = p_session_personal_table_id;
 
         // Create a new 'Bet Acknowledgement' object that will be used to Ackknowledge the success (ACK) or failure (NACK) of the placed bet.
         DC_bet_acknowledgement my_ack = null;
@@ -1562,11 +1988,11 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
             // Call the Hedge'Em Webservices (via helper function) to place the bet.
             string place_bet_endpoint = String.Format("ws_place_bet/{0},{1},{2},{3},{4}",
-                                                        _table_id.ToString(),
+                                                        p_session_personal_table_id.ToString(),
                                                         a_hand_index.ToString(),
                                                         a_amount.ToString(),
                                                         a_betting_stage.ToString(),
-                                                        playerid.ToString());
+                                                        Convert.ToInt32(Session["p_session_player_id"]).ToString());
             my_ack = (DC_bet_acknowledgement)f_get_object_from_json_call_to_server(place_bet_endpoint, typeof(DC_bet_acknowledgement));
 
             // Return the Acknowledgement message to the caller to indicate success or failure.
@@ -1574,8 +2000,16 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception e)
         {
-            string strScript = "alert('Unable to place bet. Reason..." + e.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", strScript, true);
+            string strScript = "Unable to place bet. Reason..." + e.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", strScript, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = strScript;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             my_log.p_message = "Exception caught in f_place_bet function " + e.Message;
 
             log.Error(my_log.ToString());
@@ -1595,7 +2029,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             f_place_bet();
             log.Debug("f_call_function_to_render_screen is called in btn_Get_Clicked_Hand_Value_Click");
 
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
             game_id = _global_game_state_object.p_game_id;
             number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -1610,15 +2044,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         {
             string my_error_message = String.Format("Error in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets. Reason {0}", ex.Message);
 
-            string my_error_popup = "alert('Error in btn_Get_Clicked_Hand_Value_Click" + ex.Message.ToString() + "');";
+            string my_error_popup = "Error in btn_Get_Clicked_Hand_Value_Click" + ex.Message.ToString();
             // xxxeh popup does not show
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in btn_Get_Clicked_Hand_Value_Click function " + ex.Message;
             my_log.p_method_name = "btn_Get_Clicked_Hand_Value_Click";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
             //throw new Exception(my_error_popup);
         }
@@ -1648,89 +2090,69 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     /// See also: f_displayControl_Bettinf_update_seat_panels_with_info_from_serverrid
     public void f_createControl_Bettinf_update_seat_panels_with_info_from_serverrid()
     {
+        int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+
         for (int stageindex = 0; stageindex < _int_number_of_betting_stages; stageindex++)
         {
             for (int handindex = 0; handindex < number_of_hands; handindex++)
             {
-                _hedgeem_betting_panels[stageindex, handindex] = new BETTING_PANEL(number_of_seats);
+                _hedgeem_betting_panels[stageindex, handindex] = new BETTING_PANEL(my_number_of_seats);
             }
         }
     }
     #endregion f_createControl_Bettinf_update_seat_panels_with_info_from_serverrid
 
     #region f_update_seat_panels_with_info_from_server
-    private void f_update_seat_panels_with_info_from_servers()
+    private void f_update_seat_panels_with_info_from_server_NOT_USED()
     {
-        int my_seat_id = -1;
-        int my_seat_player_id = -1;
-        double my_player_funds_at_seat = 0;
         try
         {
+            int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+
             // For each seat at this table sit a player from the knoww list of current players
-            for (int seat_index = 0; seat_index < number_of_seats; seat_index++)
+            for (int seat_index = 0; seat_index < my_number_of_seats; seat_index++)
             {
+                // Create a HedgeEm Seat object to use to display player/seat information for all players seated at this table
                 ss_seat = new hedgeem_control_seats();
-                my_seat_id = _global_game_state_object._seats[seat_index].p_seat_id;
-                my_seat_player_id = _global_game_state_object._seats[seat_index].p_player_id;
-                my_player_funds_at_seat = _global_game_state_object._seats[seat_index].p_player_seat_balance;
+                Place_Holder_Player_Info.Controls.Add(ss_seat);
 
-                // xxx Should not reference server here.
+                // Determine what values need to be stored for this player/seat  (read most from the object returned from the HedgeEmServer)
+                int my_seat_id = _global_game_state_object._seats[seat_index].p_seat_id;
+                int my_seat_player_id = _global_game_state_object._seats[seat_index].p_player_id;
+                string my_seat_player_name = _global_game_state_object._seats[seat_index].p_player_name;
+                double my_player_funds_at_seat = _global_game_state_object._seats[seat_index].p_player_seat_balance;
+                string player_seat_balance_text = String.Format("£{0:#0.00}", my_player_funds_at_seat);
+                string avatar_image_name = _global_game_state_object._seats[seat_index].p_user_avitar_image_url;
+                string chip_icon_resource_name = String.Format("../resources/chips/chip_icon_{0}.png", seat_index);
 
-                if (my_seat_player_id == -1)
-                {
-                    ss_seat.p_player_name = "";
-                    ss_seat.p_photo_image = "";
-                    ss_seat.p_balance = "0";
-                    ss_seat.p_player_id = my_seat_player_id;
-                    ss_seat.p_seat_index = my_seat_id;
-                    Session["seat_id"] = my_seat_id;
-                    string chip_icon_resource_name = String.Format("player_avatar_sit_here.JPG");
-                    ss_seat.p_chip_icon = "../resources/" + chip_icon_resource_name;
-                    Place_Holder_Player_Info.Controls.Add(ss_seat);
-                }
-                else
-                {
-                    string player_seat_balance_text = String.Format("£{0:#0.00}", my_player_funds_at_seat);
-                    //player_seat_balance_text = (9000 + _global_game_state_object.test()).ToString();
-                    string avatar_image_name = "";
-                    try
-                    {
-                        avatar_image_name = "player_avatar_" + Session["username"].ToString();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        string my_error_popup = "alert('" + ex.Message.ToString() + "');";
-                        ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
-                        HedgeEmLogEvent my_log = new HedgeEmLogEvent();
-                        my_log.p_message = "Exception caught in f_update_seat_panels_with_info_from_servers function " + ex.Message;
-                        my_log.p_method_name = "f_update_seat_panels_with_info_from_servers";
-                        my_log.p_player_id = playerid;
-                        my_log.p_game_id = game_id;
-                        my_log.p_table_id = _table_id;
-                        log.Error(my_log.ToString());
-                    }
-                    ss_seat.p_player_name = Session["username"].ToString();
-                    ss_seat.p_photo_image = avatar_image_name;
-                    ss_seat.p_balance = player_seat_balance_text;
-                    ss_seat.p_seat_index = my_seat_id;
-                    ss_seat.p_player_id = my_seat_player_id;
-                    string chip_icon_resource_name = String.Format("chip_icon_{0}.png", seat_index);
-                    ss_seat.p_chip_icon = "../resources/" + chip_icon_resource_name;
-                    Place_Holder_Player_Info.Controls.Add(ss_seat);
-                }
+                //Update the HedgeEm seat values with the information derived above
+                ss_seat.p_player_name = my_seat_player_name;
+                ss_seat.p_photo_image = avatar_image_name;
+                ss_seat.p_balance = player_seat_balance_text;
+                ss_seat.p_seat_index = my_seat_id;
+                ss_seat.p_player_id = my_seat_player_id;
+                ss_seat.p_chip_icon = chip_icon_resource_name;
             }
+
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_seat_panels_with_info_from_servers function " + ex.Message;
             my_log.p_method_name = "f_update_seat_panels_with_info_from_servers";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -1780,6 +2202,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         f_update_hedgeem_control_bet_slider_with_info_from_server();
         f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets();
         f_update_hedgeem_control_buttons_with_info_from_server();
+        f_update_game_id();
     }
     #endregion f_call_functions_to_render_screen
 
@@ -1791,7 +2214,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         {
             if (a_player != null)
             {
-                f_update_seat_panels_with_info_from_servers();
+                f_update_seat_panels_with_info_from_server_NOT_USED();
             }
         }
         else
@@ -1799,7 +2222,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             try
             {
                 Session["current_player_seat_id"] = mytext_player_Id.Value;
-                //   int seat_index_if_seated = my_hedgeem_table.f_find_seat_number_for_player_id(playerid);
+                int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+                //   int seat_index_if_seated = my_hedgeem_table.f_find_seat_number_for_player_id(Convert.ToInt32(Session["p_session_player_id"]));
                 int seat_index_if_seated = 0;
                 if (seat_index_if_seated >= 0)
                 {
@@ -1807,7 +2231,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                     string Message;
                     Message = "alert('" + msz + "')";
                     ScriptManager.RegisterStartupScript(updPanl_to_avoid_Postback, updPanl_to_avoid_Postback.GetType(), "Not_Seated", Message, true);
-                    for (int seat_index = 0; seat_index < number_of_seats; seat_index++)
+                    for (int seat_index = 0; seat_index < my_number_of_seats; seat_index++)
                     {
                         ss_seat = new hedgeem_control_seats();
                         ss_seat.p_player_name = Session["ss_seat.p_player_name_" + seat_index].ToString();
@@ -1830,16 +2254,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                string my_error_popup = "alert('" + ex.Message.ToString() + "');";
+                string my_error_popup =ex.Message.ToString();
+                HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+                my_popup_message.p_detailed_message_str = "";
+                my_popup_message.p_is_visible = false;
 
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                my_popup_message.p_detailed_message_str = my_error_popup;
+                my_popup_message.p_is_visible = true;
+                Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+                //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
                 log.Error("Error in btn_Get_Clicked_Player_Id_Click", new Exception(ex.Message));
                 HedgeEmLogEvent my_log = new HedgeEmLogEvent();
                 my_log.p_message = "Exception caught in btn_Get_Clicked_Player_Id_Click function " + ex.Message;
                 my_log.p_method_name = "btn_Get_Clicked_Player_Id_Click";
-                my_log.p_player_id = playerid;
+                my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
                 my_log.p_game_id = game_id;
-                my_log.p_table_id = _table_id;
+                my_log.p_table_id = p_session_personal_table_id;
                 log.Error(my_log.ToString());
             }
         }
@@ -1854,9 +2285,11 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             int my_seat_id = -1;
             int my_seat_player_id = -1;
             double my_player_funds_at_seat = 0;
-            _table_id = Convert.ToInt32(Session["tableid"]);
+            p_session_personal_table_id = Convert.ToInt32(Session["p_session_personal_table_id"]);
+
+            int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
             // For each seat at this table sit a player from the knoww list of current players
-            for (int seat_index = 0; seat_index < number_of_seats; seat_index++)
+            for (int seat_index = 0; seat_index < my_number_of_seats; seat_index++)
             {
                 ss_seat = new hedgeem_control_seats();
                 if (_global_game_state_object._seats.Count() != 0)
@@ -1868,12 +2301,12 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 if (my_seat_player_id == -1)
                 {
                     ss_seat.p_player_name = "";
-                    ss_seat.p_photo_image = "player_avitar_sit_here";
+                    ss_seat.p_photo_image = "no_avitar_image.jpg";
                     ss_seat.p_balance = "0";
                     ss_seat.p_player_id = my_seat_player_id;
                     ss_seat.p_seat_index = my_seat_id;
                     string chip_icon_resource_name = String.Format("chip_icon_{0}.png", seat_index);
-                    ss_seat.p_chip_icon = "../resources/" + chip_icon_resource_name;
+                    ss_seat.p_chip_icon = "../resources/chips/" + chip_icon_resource_name;
                     // Highlight the seat the current player is sitting at.
                     if (mytext_player_Id.Value != "")
                     {
@@ -1898,35 +2331,49 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                     string avatar_image_name = "";
                     try
                     {
-                        if (File.Exists(Server.MapPath("resources/player_avatar_" + Session["username"].ToString() + ".jpg")))
-                        {
-                            avatar_image_name = "player_avatar_" + Session["username"].ToString();
-                        }
-                        else
-                        {
-                            avatar_image_name = "user_square";
-                        }
-                      
+                        //if (File.Exists(Server.MapPath("resources/player_avatar_" + Session["p_session_username"].ToString() + ".jpg")))
+                        //{
+                        avatar_image_name = "player_avatar_" + Session["p_session_username"].ToString();
+                        avatar_image_name = "player_avatar_" + _global_game_state_object._seats[seat_index].p_player_name;
+                        avatar_image_name = "player_avatar_" + _global_game_state_object._seats[seat_index].p_user_avitar_image_filename;
+                        avatar_image_name = _global_game_state_object._seats[seat_index].p_user_avitar_image_url;
+                        ss_seat.p_photo_image = avatar_image_name;
+
+                        //}
+                        //else
+                        //{
+                        //    avatar_image_name = "user_square";
+                        //}
+
                     }
                     catch (Exception ex)
                     {
-                        string my_error_popup = "alert('Error in f_update_hedgeem_control_seat_with_info_from_server" + ex.Message.ToString() + "');";
-                        ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                        string my_error_popup = "Error in f_update_hedgeem_control_seat_with_info_from_server" + ex.Message.ToString();
+                       // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+
+                        HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+                        my_popup_message.p_detailed_message_str = "";
+                        my_popup_message.p_is_visible = false;
+
+                        //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+                        my_popup_message.p_detailed_message_str = my_error_popup;
+                        my_popup_message.p_is_visible = true;
+                        Place_Holder_Popup_Message.Controls.Add(my_popup_message);
                         HedgeEmLogEvent my_log = new HedgeEmLogEvent();
                         my_log.p_message = "Exception caught in f_update_hedgeem_control_seat_with_info_from_server function " + ex.Message;
                         my_log.p_method_name = "f_update_hedgeem_control_seat_with_info_from_server";
-                        my_log.p_player_id = playerid;
+                        my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
                         my_log.p_game_id = game_id;
-                        my_log.p_table_id = _table_id;
+                        my_log.p_table_id = p_session_personal_table_id;
                         log.Error(my_log.ToString());
                     }
-                    ss_seat.p_player_name = Session["username"].ToString();
+                    ss_seat.p_player_name = Session["p_session_username"].ToString();
                     ss_seat.p_photo_image = avatar_image_name;
                     ss_seat.p_balance = player_seat_balance_text;
                     ss_seat.p_seat_index = my_seat_id;
                     ss_seat.p_player_id = my_seat_player_id;
                     string chip_icon_resource_name = String.Format("chip_icon_{0}.png", seat_index);
-                    ss_seat.p_chip_icon = "../resources/" + chip_icon_resource_name;
+                    ss_seat.p_chip_icon = "../resources/chips/" + chip_icon_resource_name;
                     // Highlight the seat the current player is sitting at.
                     if (mytext_player_Id.Value != "")
                     {
@@ -1939,7 +2386,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                             ss_seat.p_back_color = "Black";
                         }
                     }
-                    else if (playerid == my_seat_player_id)
+                    else if (Convert.ToInt32(Session["p_session_player_id"]) == my_seat_player_id)
                     {
                         ss_seat.p_back_color = "Orange";
                     }
@@ -1962,14 +2409,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_update_hedgeem_control_seat_with_info_from_server - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_update_hedgeem_control_seat_with_info_from_server - " + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_update_hedgeem_control_seat_with_info_from_server function " + ex.Message;
             my_log.p_method_name = "f_update_hedgeem_control_seat_with_info_from_server";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -1986,6 +2441,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         String my_complete_win_string = "";
         try
         {
+            int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+
             StringBuilder my_winnings_for_each_stage_SB = new StringBuilder();
             Double my_total_winning = 0;
             double my_winnings_from_this_bet = 0;
@@ -1998,7 +2455,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 {
 
                     //Calulate the winnings (if any) for any bet placed on each of the stages ...
-                    for (int seat_index = 0; seat_index < number_of_seats; seat_index++)
+                    for (int seat_index = 0; seat_index < my_number_of_seats; seat_index++)
                     {
                         //For each betting stage (POCKETS, FLOP, and TURN) ...
                         for (int stage_index = 0; stage_index < _int_number_of_betting_stages; stage_index++)
@@ -2031,7 +2488,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                             }
                             else
                             {
-                                double my_bet_total = f_get_total_previous_bets_for_stage_and_hand_player((enum_betting_stage)stage_index, current_hand, playerid);
+                                double my_bet_total = f_get_total_previous_bets_for_stage_and_hand_player((enum_betting_stage)stage_index, current_hand, Convert.ToInt32(Session["p_session_player_id"]));
 
                                 if (Math.Sign(my_hedgeem_hand_stage_info.p_odds_margin_rounded_double) == 1)
                                 {
@@ -2077,14 +2534,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_calculate_winnings - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_calculate_winnings - " + ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_calculate_winnings function " + ex.Message;
             my_log.p_method_name = "f_calculate_winnings";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
             return my_complete_win_string;
         }
@@ -2097,7 +2562,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     private void f_play_deal_cards_sound_effect()
     {
         SoundPlayer sd = new SoundPlayer();
-        sd.SoundLocation = Server.MapPath("~/resources/waves/Deal-4.wav");
+        sd.SoundLocation = Server.MapPath("~/resources/waves/Deal-6.mp3");
         sd.Play();
         sd.Play();
         sd.Play();
@@ -2110,13 +2575,13 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     {
         HedgeEmLogEvent _xxx_log_event = new HedgeEmLogEvent();
         _xxx_log_event.p_method_name = "btn_play_for_real_deposit_pledge_Click";
-        log.Info("[" + Session["username"].ToString() + "] clicked on Play for Real Deposit Pledge");
+        log.Info("[" + Session["p_session_username"].ToString() + "] clicked on Play for Real Deposit Pledge");
         try
         {
             // This will save the value of pledge amount in the database.
             play_for_real_deposit_pledge _play_for_real_deposit_pledge = new play_for_real_deposit_pledge
             {
-                p_playerid = playerid,
+                p_playerid = Convert.ToInt32(Session["p_session_player_id"]),
                 p_play_for_real_amount = Convert.ToDouble(txt_play_for_real_deposit_pledge.Text)
             };
 
@@ -2128,13 +2593,13 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             WebClient webClient = new WebClient();
             webClient.Headers["Content-type"] = "application/json";
             webClient.Encoding = Encoding.UTF8;
-            
+
             string my_service_url = WebConfigurationManager.AppSettings["hedgeem_server_default_webservice_url"];
             webClient.UploadString(my_service_url + "f_set_play_for_real_deposit_pledge", data);
-            
+
             // Empties the value of textbox
             txt_play_for_real_deposit_pledge.Text = "";
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
             game_id = _global_game_state_object.p_game_id;
             number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2148,14 +2613,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in btn_play_for_real_deposit_pledge_Click - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in btn_play_for_real_deposit_pledge_Click - " + ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in btn_play_for_real_deposit_pledge_Click function " + ex.Message;
             my_log.p_method_name = "btn_play_for_real_deposit_pledge_Click";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -2243,17 +2716,17 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     protected void btn_play_for_real_Click(object sender, EventArgs e)
     {
         HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
-        my_log_event.p_method_name = "btn_play_for_real_Click";
-        log.Info("[" + Session["username"].ToString() + "] cliked on Play for Real button.");
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        log.Info("[" + Session["p_session_username"].ToString() + "] cliked on Play for Real button.");
         try
         {
             // This will get the current value of count that how many times user have clicked on the button, from the database.       
-            int play_for_real_count = Convert.ToInt32(f_get_object_from_json_call_to_server("f_get_play_for_real_count/" + playerid.ToString(), null));
+            int play_for_real_count = Convert.ToInt32(f_get_object_from_json_call_to_server("f_get_play_for_real_count/" + Convert.ToInt32(Session["p_session_player_id"]), null));
 
             // This will increment the value of count.
             play_for_real _play_for_real = new play_for_real
             {
-                p_playerid = playerid,
+                p_playerid = Convert.ToInt32(Session["p_session_player_id"]),
                 p_play_for_real_count = play_for_real_count
             };
 
@@ -2268,9 +2741,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
             string my_service_url = WebConfigurationManager.AppSettings["hedgeem_server_default_webservice_url"];
             webClient.UploadString(my_service_url + "f_set_play_for_real_count", data);
-           
 
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+
+            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
             game_id = _global_game_state_object.p_game_id;
             number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2284,14 +2757,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in btn_play_for_real_Click - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in btn_play_for_real_Click - " + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in btn_play_for_real_Click function " + ex.Message;
             my_log.p_method_name = "btn_play_for_real_Click";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -2300,7 +2781,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     protected void btn_Bet_Click(object sender, EventArgs e)
     {
         HedgeEmBetAcknowledgement my_bet_ack = new HedgeEmBetAcknowledgement();
-        log.Info("[" + Session["username"].ToString() + "] placed a bet");
+        log.Info("[" + Session["p_session_username"].ToString() + "] placed a bet");
         /* Get value of Selected_Hand_Panel for bet from textbox and save it in a variable */
         // xxx need to document this
         try
@@ -2342,7 +2823,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 ScriptManager.RegisterStartupScript(Page, GetType(), "JsStatus", "document.getElementById('error_message').style.display = 'block';document.getElementById('fade').style.display = 'block';", true);
             }
             f_place_bet();
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
             game_id = _global_game_state_object.p_game_id;
             number_of_hands = _global_game_state_object.p_number_of_hands_int;
             _game_state = _global_game_state_object.p_current_state_enum;
@@ -2354,14 +2835,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in btn_Bet_Click" + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in btn_Bet_Click" + ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in btn_Bet_Click function " + ex.Message;
             my_log.p_method_name = "btn_Bet_Click";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -2369,16 +2858,16 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     // This cancels the bet placed by the user.
     public void btn_cancel_bets_for_this_hand_and_stage_Click(object sender, EventArgs e)
     {
-        log.Info("[" + Session["username"].ToString() + "] cancelled the bet");
+        log.Info("[" + Session["p_session_username"].ToString() + "] cancelled the bet");
         try
         {
             // Get the hand_index from the hidden control
             int handindexbet = Convert.ToInt32(btn_hidden_control_temp_store_for_hand_index.Value);
             int xxx_HC_seat_index = 0;
             // Call webservice svc function to cancel the bet placed
-            f_get_object_from_json_call_to_server("f_cancel_bets_for_this_hand_and_stage/" + _table_id.ToString() + "," + playerid.ToString() + "," + xxx_HC_seat_index.ToString() + "," + handindexbet.ToString(), null);
+            f_get_object_from_json_call_to_server("f_cancel_bets_for_this_hand_and_stage/" + p_session_personal_table_id.ToString() + "," + Convert.ToInt32(Session["p_session_player_id"]) + "," + xxx_HC_seat_index.ToString() + "," + handindexbet.ToString(), null);
 
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
             game_id = _global_game_state_object.p_game_id;
             number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2392,15 +2881,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in f_cancel_bets_for_this_hand_and_stage" + ex.Message.ToString() + "');";
-            ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('" + ex.Message.ToString() + "');", true);
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in f_cancel_bets_for_this_hand_and_stage" + ex.Message.ToString();
+           // ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('" + ex.Message.ToString() + "');", true);
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_cancel_bets_for_this_hand_and_stage function " + ex.Message;
             my_log.p_method_name = "f_cancel_bets_for_this_hand_and_stage";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -2432,7 +2929,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         {
             try
             {
-                _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+                _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
                 my_log.p_message = String.Format("Successfully retrieved gamestate from server. Table ID [{0}], State [{1}]", _global_game_state_object.p_table_id, _global_game_state_object.p_current_state_enum.ToString());
                 log.Debug(my_log.ToString());
                 my_enum_betting_stage = _global_game_state_object.p_current_betting_stage_enum;
@@ -2449,6 +2946,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         return my_enum_betting_stage;
 
     }
+
 
     #region btn_deal_next_stage_Click
     /// <summary>
@@ -2477,24 +2975,30 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void btn_deal_next_stage_Click(object sender, ImageClickEventArgs e)
+    protected void btn_deal_next_stage_Click(object sender, EventArgs e)
     {
         HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
-        my_log_event.p_method_name = "btn_deal_next_stage_Click";
-        string my_username = Session["username"].ToString();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        string my_username = Session["p_session_username"].ToString();
 
         log.Info("[" + my_username + "] clicked Deal Next Stage button");
         try
         {
+           
             if (Session.Count == 0)
             {
-                log.Info("Session timed out for user with player id = " + playerid);
+                log.Info("Session timed out for user with player id = " + Convert.ToInt32(Session["p_session_player_id"]));
                 ScriptManager.RegisterStartupScript(Page, GetType(), "SessionTimeOutMsg", "show_session_timeout_message();", true);
             }
             else
             {
+               
+
+
                 // call to webservice to get next state object
-                _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_next_game_state_object/" + _table_id + "," + playerid, typeof(DC_hedgeem_game_state));
+                _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_next_game_state_object/" + p_session_personal_table_id + "," + Convert.ToInt32(Session["p_session_player_id"]), typeof(DC_hedgeem_game_state));
+                string stage = _global_game_state_object.p_current_state_enum.ToString();
+                
                 game_id = _global_game_state_object.p_game_id;
                 number_of_hands = _global_game_state_object.p_number_of_hands_int;
                 enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2506,18 +3010,50 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 player_funds_at_seat = _global_game_state_object._seats[0].p_player_seat_balance;
                 // call to the method to render the screen
                 f_call_functions_to_render_screen();
+             
+
+                //Script For Animation of cards
+                if (stage == "STATUS_HOLE")
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "animate_Hand", "animate_Hand();", true);
+                }
+                if (stage == "STATUS_FLOP")
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "animate_card_flop", "animate_card_flop();", true);
+                }
+                if (stage == "STATUS_TURN")
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "animate_card_middle_turn", "animate_card_middle_turn();", true);
+                }
+                if (stage == "STATUS_RIVER")
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "animate_card_middle_river", "animate_card_middle_river();", true);
+                }
+                if (stage == "STATUS_START")
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "animate_card_next_game", "animate_card_next_game();", true);
+                }            
+
             }
         }
         catch (Exception ex)
         {
-            string my_error_popup = "alert('Error in btn_deal_next_stage_Click - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", "alert ('plokerror')", true);
+            string my_error_popup = "Error in btn_deal_next_stage_Click - " + ex.Message.ToString();
+           // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", "alert ('plokerror')", true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = String.Format("Exception caught in btn_deal_next_stage_Click function. Reason [{0}] ", ex.Message);
             my_log.p_method_name = "btn_deal_next_stage_Click";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
             //throw new Exception("xxx This exception is not being caught");
         }
@@ -2587,19 +3123,19 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         {
             my_log.p_message = "Method called ";
             my_log.p_method_name = "btn_get_chips_add_Click";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Debug(my_log.ToString());
-            log.Info("[" + Session["username"].ToString() + "] clicked btn_get_chips");
+            log.Info("[" + Session["p_session_username"].ToString() + "] clicked btn_get_chips");
             int xxx_HC_seat_id = 0;
             double my_get_chips_top_up_amount = Convert.ToDouble(WebConfigurationManager.AppSettings["get_chips_default_amount"]);
 
 
             seat_balance_update my_seat_balance_update = new seat_balance_update
             {
-                p_playerid = playerid,
-                p_tableid = _table_id,
+                p_playerid = Convert.ToInt32(Session["p_session_player_id"]),
+                p_tableid = p_session_personal_table_id,
                 p_seatid = xxx_HC_seat_id,
                 p_balance = my_get_chips_top_up_amount
             };
@@ -2609,10 +3145,10 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             // Call the Hedge'Em Webservices (via helper function) to place the bet.
             string get_chips_endpoint = String.Format("ws_top_up_chips_at_table/{0},{1},{2},{3},{4}",
                                                         my_server_id,
-                                                        _table_id,
+                                                        p_session_personal_table_id,
                                                         xxx_HC_seat_id,
                                                         my_get_chips_top_up_amount,
-                                                        playerid);
+                                                        Convert.ToInt32(Session["p_session_player_id"]));
             my_seat_balance_update = (seat_balance_update)f_get_object_from_json_call_to_server(get_chips_endpoint, typeof(seat_balance_update));
 
 
@@ -2620,8 +3156,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             //    string clicked_name = Session["name"].ToString();
 
             //logs the entry of clicked link
-            //   log.Info("[" + Session["username"].ToString() + "] Selected [" + clicked_name + "] option to get chips.");
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            //   log.Info("[" + Session["p_session_username"].ToString() + "] Selected [" + clicked_name + "] option to get chips.");
+            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(DC_hedgeem_game_state));
             game_id = _global_game_state_object.p_game_id;
             number_of_hands = _global_game_state_object.p_number_of_hands_int;
 
@@ -2639,13 +3175,21 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         catch (Exception ex)
         {
             // xxxeh this exeception does not show to users
-            string my_error_popup = "alert('Error in btn_get_chips_add_Click - " + ex.Message.ToString() + "');";
-            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            string my_error_popup = "Error in btn_get_chips_add_Click - " + ex.Message.ToString();
+           //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
             my_log.p_message = String.Format("Exception caught in btn_get_chips_add_Click function. Reason [{0}] ", ex.Message);
             my_log.p_method_name = "btn_get_chips_add_Click";
-            my_log.p_player_id = playerid;
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
-            my_log.p_table_id = _table_id;
+            my_log.p_table_id = p_session_personal_table_id;
             log.Error(my_log.ToString());
         }
     }
@@ -2668,5 +3212,248 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             log.Error(my_log.ToString());
         }
         return name;
+    }
+
+
+    private string p_session_username
+    {
+        get
+        {
+            if (Session["p_session_username"] == null)
+            {
+                return "Anonymous";
+            }
+
+            if (Session["p_session_username"] == "")
+            {
+                return "Anonymous";
+            }
+
+            return Session["p_session_username"].ToString();
+        }
+
+        //set { Session["p_session_username"] = value; }
+    }
+
+
+    private int p_session_current_seat_id
+    {
+        get
+        {
+            int my_seat_id = -1;
+            try
+            {
+                my_seat_id = Convert.ToInt32(Session["p_session_current_seat_id"]);
+            }
+            catch (Exception e)
+            {
+                my_seat_id = -1;
+            }
+
+            return my_seat_id;
+        }
+
+        set { Session["p_session_current_seat_id"] = value; }
+    }
+
+    private int p_session_current_table_id
+    {
+        get
+        {
+            int my_table_id = -1;
+            try
+            {
+                my_table_id = Convert.ToInt32(Session["p_session_current_table_id"]);
+            }
+            catch (Exception e)
+            {
+                my_table_id = -1;
+            }
+
+            return my_table_id;
+        }
+
+        //set { Session["p_session_personal_table_id"] = value; }
+    }
+
+    private static string p_session_id
+    {
+        get { return HttpContext.Current.Session.SessionID; }
+    }
+
+
+
+
+    [WebMethod]
+    public static string[] f_update_hedgeem_control_hand_panels()
+    {
+
+
+
+        log.Debug("f_update_hedgeem_control_hand_panels_with_info_from_server called");
+        List<string> details = new List<string>();
+        DC_hedgeem_game_state _global_game_state_object = new DC_hedgeem_game_state();
+        int p_session_personal_table_id = 2058;
+
+
+
+        object obj = null;
+        HttpWebRequest request;
+        String my_service_url = "not set";
+        my_service_url = WebConfigurationManager.AppSettings["hedgeem_server_default_webservice_url"];
+
+        request = WebRequest.Create(my_service_url + "get_game_state_object/2058") as HttpWebRequest;
+
+
+        // Get response
+        if (request != null)
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response != null)
+                {
+                    Stream stream = response.GetResponseStream();
+
+                    if (stream != null)
+                    {
+
+
+                        var reader = new StreamReader(stream);
+                        try
+                        {
+                            string json = reader.ReadToEnd();
+                            // Check if stream is empty, if it is throw and exception
+                            if (json.Length == 0)
+                            {
+                                String my_error_msg = String.Format("JSON string has been returned empty for URI endpoint [{0}]", request.Address);
+                                throw new Exception(my_error_msg);
+                            }
+                            var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
+                            if (typeof(DC_hedgeem_game_state) != null)
+                            {
+                                var ser = new DataContractJsonSerializer(typeof(DC_hedgeem_game_state));
+                                obj = ser.ReadObject(ms);
+                            }
+                            else
+                            {
+                                obj = json;
+                            }
+                        }
+
+                        finally
+                        {
+                            reader.Close();
+                        }
+                    }
+                }
+            }
+
+
+        _global_game_state_object = (DC_hedgeem_game_state)obj;
+
+
+
+        int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+        try
+        {
+            string p_hand_card1 = "ZZ";
+            string p_hand_card2 = "ZZ";
+            //ArrayList list = new ArrayList();
+            //int number_of_hands = _global_game_state_object.p_number_of_hands_int;
+            int number_of_hands = 4;
+            for (int hand_index = 0; hand_index < number_of_hands; hand_index++)
+            {
+                // call to get HedgeEmHandStageInfo for given hand index at given stage
+                //  HedgeEmHandStageInfo my_hedgeem_hand_stage_info = f_get_hand_stage_info_object_for_stage_and_hand(_global_game_state_object.p_current_state_enum, hand_index);
+
+                if (_global_game_state_object._hands.Count() == 0)
+                {
+                    p_hand_card1 = "ZZ";
+                    p_hand_card2 = "ZZ";
+                }
+
+                else
+                {
+                    p_hand_card1 = _global_game_state_object._hands[hand_index].Substring(0, 2);
+
+                    p_hand_card2 = _global_game_state_object._hands[hand_index].Substring(2, 2);
+                }
+                // Create a new HedgeEm Control that will be used to display the status of one Hand in the Web page.
+                int _int_number_of_betting_stages = _global_game_state_object.p_number_of_betting_stages_int;
+                int my_num_stages = _int_number_of_betting_stages;
+                hedgeem_hand_panel[] _hedgeem_hand_panels;
+
+                _hedgeem_hand_panels = new hedgeem_hand_panel[number_of_hands];
+
+                _hedgeem_hand_panels[hand_index] = new hedgeem_hand_panel(my_num_stages, my_number_of_seats);
+                //// Hand_Index
+                _hedgeem_hand_panels[hand_index].p_hand_index = hand_index;
+
+                // Card 1
+                _hedgeem_hand_panels[hand_index].p_card1 = p_hand_card1;
+
+                // Card 2 
+                _hedgeem_hand_panels[hand_index].p_card2 = p_hand_card2;
+
+                string st = _hedgeem_hand_panels[hand_index].p_card_image_filename_card1;
+                string st1 = _hedgeem_hand_panels[hand_index].p_card_image_filename_card2;
+
+                //string st = p_hand_card1;
+                //string st1 = p_hand_card2;
+
+                details.Add(st);
+                details.Add(st1);
+
+                //list.Add(st);
+                //list.Add(st1);
+
+                // Add the created control to the Webpage (HedgeEmTable.aspx) for display to the user.
+                //_hedgeem_hand_panels[hand_index].ID = "auto_div_hand_id" + hand_index;
+                //_hedgeem_hand_panels[hand_index].CssClass = "auto_div_hand_id_class";
+                // Place_Holder_Hand_Panel.Controls.Add(_hedgeem_hand_panels[hand_index]);
+
+            }
+
+        }
+
+
+        catch (Exception ex)
+        {
+            string my_error_popup = "alert('Error in f_update_hedgeem_control_hand_panels_with_info_from_server" + ex.Message.ToString() + "');";
+            //   ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeEmLogEvent my_log = new HedgeEmLogEvent();
+            my_log.p_message = "Exception caught in f_update_hedgeem_control_hand_panels_with_info_from_server function " + ex.Message;
+            my_log.p_method_name = "f_update_hedgeem_control_hand_panels_with_info_from_server";
+            // my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+            // my_log.p_game_id = game_id;
+            //       my_log.p_table_id = p_session_personal_table_id;
+            log.Error(my_log.ToString());
+            // xxxeh - this error does not pop up
+            throw new Exception(my_error_popup);
+
+        }
+        // JavaScriptSerializer TheSerializer = new JavaScriptSerializer();
+        // var TheJson = TheSerializer.Serialize(details);
+        return details.ToArray();
+    }
+
+
+    private int p_session_player_id
+    {
+        get
+        {
+            int my_player_id = -1;
+            try
+            {
+                my_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+            }
+            catch (Exception e)
+            {
+                my_player_id = -1;
+            }
+
+            return my_player_id;
+        }
+
+        //set { Session["p_session_player_id"] = value; }
     }
 }

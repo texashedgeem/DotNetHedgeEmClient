@@ -15,11 +15,32 @@
           }
           window.onbeforeunload = RefreshParent;
     </script>
-    <div>
-        <table cellspacing="6" cellpadding="6" width="40%" id="tbl_transfer_funds" border="2">
+    
+    <style>
+    #tbl_transfer_funds td {
+    padding: 6px; padding-top:0;
+} #tbl_deposit_funds td {
+    padding: 6px; padding-top:0;
+}
+
+
+    </style>
+    <script type="text/javascript">
+        function hide_rm() {
+            document.getElementById('hide_rm').style.display = 'none';
+            document.getElementById('rm').style.display = 'none';
+        }
+    </script>
+    <div id="rm" class="white_cashierdiv" >
+    <div class="modal-header">
+                            <div id="hide_rm" onclick="hide_rm();" class="close">
+                                <span aria-hidden="true">×</span>
+                            </div>
+    </div>
+        <table cellspacing="6" cellpadding="6" width="" id="tbl_transfer_funds" border="0">
             <tr>
                 <td colspan="2">
-                    <h3>
+                    <h3 style="margin-top:0;">
                         Transfer Balance</h3>
                     <asp:Label runat="server" ID="lbl_msg" ForeColor="Red" Visible="false"></asp:Label>
                 </td>
@@ -40,17 +61,16 @@
                     <asp:TextBox ID="txt_tranfer_balance" runat="server"></asp:TextBox>
                 </td>
             </tr>
-            <tr align="center">
-                <td colspan="2">
-                    <asp:Button ID="btn_transfer" runat="server" Text="Transfer Balance" 
+            <tr >
+                <td colspan="">
+                    <asp:Button ID="btn_transfer" CssClass="btn btn-success" runat="server" Text="Transfer Balance" 
                         OnClick="btn_transfer_Click" />
                     &nbsp;
                 </td>
             </tr>
         </table>
-        <br />
-        <br />
-        <table cellspacing="6" cellpadding="6" width="40%" id="tbl_deposit_funds" border="2">
+
+        <table cellspacing="6" cellpadding="6" width="" id="tbl_deposit_funds" border="0">
             <tr>
                 <td colspan="2">
                     <h3>
@@ -64,15 +84,19 @@
                     <asp:TextBox ID="txt_deposit" runat="server"></asp:TextBox>
                 </td>
             </tr>
-            <tr align="center">
-                <td colspan="2">
-                    <asp:Button ID="btn_deposit" runat="server" Text="Deposit" OnClick="btn_deposit_Click"
+            <tr>
+                <td colspan="">
+                    <asp:Button ID="btn_deposit" CssClass="btn btn-primary" runat="server" Text="Deposit" OnClick="btn_deposit_Click"
                        />
                     &nbsp;
+                    <asp:Button ID="btn_sit_here" CssClass="btn btn-success" runat="server" Text="Sit here" OnClick="btn_sit_here_Click"
+                       />
                 </td>
             </tr>
         </table>
     </div>
-    </form>
+    </form>     <div id="popup_message">
+                    <asp:PlaceHolder ID="Place_Holder_Popup_Message" runat="server"></asp:PlaceHolder>
+                </div>
 </body>
 </html>

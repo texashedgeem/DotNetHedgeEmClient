@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
 using System.Data; // For DataTable
 using System.Resources; // So I can use the resource manager to retrieve image resources programatically
 using System.Runtime.InteropServices;
@@ -64,7 +65,6 @@ using HedgeEmClient;
         private String _description;
         private String _long_description;
         private Boolean _show_description = true;
-        private Boolean _show_players_bets = true;
         private int _top_shortest_description;
         private int _left_shortest_description;
 
@@ -83,7 +83,7 @@ using HedgeEmClient;
             set { _current_betting_stage = value; }
         }
 
-        public String ToString()
+        public string ToString()
         {
             return String.Format("Desc[{0}], (Card1[{1}],Card2[{2}]). IsDead[{3}]",
                                     _description,
@@ -122,16 +122,13 @@ using HedgeEmClient;
                     case enum_betting_stage.HOLE_BETS:
                        
                         return "Hole";
-                        break;
-
+                        
                     case enum_betting_stage.FLOP_BETS:
                         return "Flop";
-                        break;
-
+                        
                     case enum_betting_stage.TURN_BETS:
                         return "Turn";
-                        break;
-
+                        
                     case enum_betting_stage.NON_BETTING_STAGE:
                         //f_activate_deal_next_button_and_hide_others();
                         break;
@@ -283,6 +280,18 @@ using HedgeEmClient;
             get { return _show_description; }
             set { _show_description = value; }
         }
+
+
+        /// <summary>
+        /// A HandPanel can generate and diplay DIV tags that show all players previous bets.  If your GUI design need this information you need to set
+        /// p_show_players_bets tp true;
+        /// </summary>
+        public Boolean p_show_players_bets
+        {
+            get { return _show_players_bets; }
+            set { _show_players_bets = value; }
+        }
+        private Boolean _show_players_bets = true;
 
         public Boolean p_show_hover_highlight
         {
@@ -460,13 +469,16 @@ using HedgeEmClient;
                 //    my_card_image_filename_card1 = "../resources/Cards/card_" + _card1 + "_left_alive.png";
                 //
                 //}
-                my_card_image_filename_card1 = "../resources/Cards/card_" + _card1 + "_middle_alive.png";
+                my_card_image_filename_card1 = "resources/Cards/card_" + _card1 + "_middle_alive.png";
 
                 if (_card1 == HC_str_to_indicate_card_should_be_shown_face_down)
                 {
                     //my_card_image_filename_card1 = "../resources/Cards/card__back_blue1_left.png";
-                    my_card_image_filename_card1 = "../resources/Cards/card__back_blue1_middle.png";
+                    my_card_image_filename_card1 = "resources/Cards/card__back_blue1_middle.png";
+
+                    
                 }
+                
 
                 return my_card_image_filename_card1;
 
@@ -491,13 +503,13 @@ using HedgeEmClient;
                 //    my_card_image_filename_card2 = "../resources/Cards/card_" + _card2 + "_right_alive.png";
 
                 //}
-                my_card_image_filename_card2 = "../resources/Cards/card_" + _card2 + "_middle_alive.png";
+                my_card_image_filename_card2 = "resources/Cards/card_" + _card2 + "_middle_alive.png";
 
 
                 if (_card2 == HC_str_to_indicate_card_should_be_shown_face_down)
                 {
                     //my_card_image_filename_card2 = "../resources/Cards/card__back_blue1_right.png";
-                    my_card_image_filename_card2 = "../resources/Cards/card__back_blue1_middle.png";
+                    my_card_image_filename_card2 = "resources/Cards/card__back_blue1_middle.png";
                 }
 
                 return my_card_image_filename_card2;
@@ -519,8 +531,9 @@ using HedgeEmClient;
             #region Generate the HTML to display Card 1
             writer.WriteLine("");
             writer.WriteLine("<!-- Hand " + _hand_index + ", Card 1 -->");
-            writer.WriteLine("<div id='h" + _hand_index + "c1' onclick='javascript:f_placebet(" + _hand_index + ");' class='card_left' runat='server'>");
+            writer.WriteLine("<div id='h" + _hand_index + "c1' onclick='javascript:f_placebet(" + _hand_index + ");' class='card_left ' runat='server'>");
             writer.Indent += 1;
+            //writer.AddAttribute(HtmlTextWriterAttribute.Class, "animated flip");
             writer.AddAttribute(HtmlTextWriterAttribute.Src, p_card_image_filename_card1);
             writer.RenderBeginTag(HtmlTextWriterTag.Img);
             writer.RenderEndTag();
@@ -533,8 +546,9 @@ using HedgeEmClient;
             #region Generate the HTML to display Card 2
             writer.WriteLine("");
             writer.WriteLine("<!-- Hand " + _hand_index + ", Card 2 -->");
-            writer.WriteLine("<div id='h" + _hand_index + "c2' onclick='javascript:f_placebet(" + _hand_index + ");' class='card_right' runat='server'>");
+            writer.WriteLine("<div id='h" + _hand_index + "c2' onclick='javascript:f_placebet(" + _hand_index + ");' class='card_right ' runat='server'>");
             writer.Indent += 1;
+            //writer.AddAttribute(HtmlTextWriterAttribute.Class, "animated flip");
             writer.AddAttribute(HtmlTextWriterAttribute.Src, p_card_image_filename_card2);
             writer.RenderBeginTag(HtmlTextWriterTag.Img);
             writer.RenderEndTag();
@@ -626,7 +640,7 @@ using HedgeEmClient;
                 writer.WriteLine("<!-- Can't loose icon -->");
                 writer.WriteLine("<div id='h" + _hand_index + "icl' class='hand_status_icon icon_cant_lose'>");
                 writer.Indent += 1;
-                writer.AddAttribute(HtmlTextWriterAttribute.Src, "../resources/icons/icon_cant_lose1.png");
+                writer.AddAttribute(HtmlTextWriterAttribute.Src, "resources/icons/icon_cant_lose1.png");
                 writer.RenderBeginTag(HtmlTextWriterTag.Img);
                 writer.RenderEndTag();
                 writer.WriteLine("");
@@ -645,7 +659,7 @@ using HedgeEmClient;
                 //writer.WriteLine("<div id='h" + _hand_index + "ifav' class='icon_favourite'>");
                 writer.WriteLine("<div id='h" + _hand_index + "ifav' class='hand_status_icon icon_favourite'>");
                 writer.Indent += 1;
-                writer.AddAttribute(HtmlTextWriterAttribute.Src, "../resources/icons/icon_favourite5.png");
+                writer.AddAttribute(HtmlTextWriterAttribute.Src, "resources/icons/icon_favourite5.png");
                 writer.RenderBeginTag(HtmlTextWriterTag.Img);
                 writer.RenderEndTag();
                 writer.WriteLine("");
@@ -662,7 +676,7 @@ using HedgeEmClient;
                 writer.WriteLine("<!-- Best Value Indicator icon -->");
                 writer.WriteLine("<div id='h" + _hand_index + "ibv' class='hand_status_icon icon_best_value'>");
                 writer.Indent += 1;
-                writer.AddAttribute(HtmlTextWriterAttribute.Src, "../resources/icons/icon_best_value1.png");
+                writer.AddAttribute(HtmlTextWriterAttribute.Src, "resources/icons/icon_best_value1.png");
                 writer.RenderBeginTag(HtmlTextWriterTag.Img);
                 writer.RenderEndTag();
                 writer.WriteLine("");
@@ -735,11 +749,7 @@ using HedgeEmClient;
 
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            String my_dead_card_class = "";
-            if (_is_dead)
-            {
-                my_dead_card_class = " dead_opacity ";
-            }
+           
 
             #region Generate HTML for Hand Panel container opening DIV
             writer.Indent += 1;

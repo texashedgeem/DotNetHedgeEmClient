@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 //using HedgeEmWinGUI;
-using System.Resources;
 
-    [DefaultProperty("Text")]
+[DefaultProperty("Text")]
     /* xxx Need to delete this cut and past after testing. [ToolboxData("<{0}:hedgeem_control_seat runat=server></{0}:hedgeem_control_seat>")]*/
     public class hedgeem_control_winner_message : WebControl
     {

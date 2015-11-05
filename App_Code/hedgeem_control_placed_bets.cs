@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-//using HedgeEmWinGUI;
-using System.Resources;
 
-    [DefaultProperty("Text")]
+[DefaultProperty("Text")]
     [ToolboxData("<{0}:hedgeem_control_placed_bets runat=server></{0}:hedgeem_control_placed_bets>")]
     public class hedgeem_control_placed_bets : WebControl
     {

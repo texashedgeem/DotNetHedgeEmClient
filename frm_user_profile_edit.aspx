@@ -6,6 +6,10 @@
 <head runat="server">
     <title></title>
     <link href="../resources/css/online/profile_edit.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/css/online/facebook_canvas.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/css/online/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/css/online/animate.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/css/online/hedgeem_popup_message.css" rel="stylesheet" type="text/css" />
     <script src="//code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         function showpreview(input) {
@@ -23,33 +27,97 @@
 
     </script>
     <script type="text/javascript">
-        function SetSession(src) {
+        function SetSession1(src) {
 
+            document.getElementById('profile_image').src = src;
+            document.getElementById('profile_image').style.display = 'block';
+            document.getElementById('fileupload').style.display = 'block';
+            //Code to Set selected image URL in session and display selected image in Image tag. 
             $.ajax({
-                type: "POST",
-                url: "frm_user_profile_edit.aspx/SetSession",
-                data: '{value: "' + src + '" }',
 
+                type: "Post",
+                contentType: "application/json; charset=utf-8",
+                url: "frm_user_profile_edit.aspx/SetSession?src=" + src,
                 dataType: "json",
-                cache: false,
+                data: "{}",
                 async: true,
-             
-                success: OnSuccess,
-                failure: function (response) {
-                    alert(response.d);
+                cache: true,
+
+                success: function (data) {
+
+                    debugger
+                    var a = data.d;
+                    //                    document.getElementById('profile_image').src = "";
+                    document.getElementById('profile_image').src = a;
+
+                    //                    var x = document.createElement("IMG");
+                    //                    x.setAttribute("src", "resources/avitars/player_avatar_Patrick.jpg");
+                    //                    x.setAttribute("width", "50");
+                    //                    x.setAttribute("Id", "GGN");
+                    //                    x.setAttribute("Height", "50");
+                    //                    x.setAttribute("alt", "No Image");
+                    //                    debugger;
+                    //                    $("#edit_profile").find("form").append(x);
+                    //                    var html = $("#edit_profile").find("form");
+                    //                    var article = $("#edit_profile").find("article");
+                    //                    $("#form44").remove();
+                    //                   // $("#edit_profile").append(article);
+                    //                    $("#edit_profile").append(html);
+
+                    // document.getElementById('profile_image').src = src;
+
+                    //       debugger
+                    // var a = data.d;
+                    //       var a = data.d + "?" + Math.random();
+                    //                    console.log(a);
+                    //                    $("#profile_image").attr("src", "");
+                    //                    $("#profile_image").attr("src", a.toString());
+                    //  $("#profile_image").attr("src", "");
+
+                    //  document.getElementById('profile_image').src = "";
+
+                    //                    var x = document.getElementById("profile_image");
+
+                    //                    alert("555" + x);
+                    //                    x.setAttribute("src", a);
+
+
+                    //                    document.getElementById('profile_image').src = a;
+
+                    //                    document.getElementById('profile_image').style.display = 'block';
+                    //                    document.getElementById('fileupload').style.display = 'block';
+
+                },
+                error: function (er) {
+                    // alert(er.toString());
+
                 }
             });
         }
         function OnSuccess(response) {
+
             alert(response.d);
+        }
+        function onclose() {
+
+            document.getElementById('popup_message').style.display = 'none'; document.getElementById('hide_login').style.display = 'none';
         }
     </script>
 </head>
 <body>
-    <article>
-<h1>Edit Your Profile</h1></article>
+    <div class="editprofile">
+        <article>
+ <div class="modal-header">
+                        <div id="hide_login" class="close" onclick=" document.getElementById('edit_profile').style.display = 'none';document.getElementById('hide_login').style.display = 'none';">
+                            <%--<span aria-hidden="true">×</span>--%>
+                             <a href="frm_facebook_canvas.aspx?signout=true">×</a>
+
+                        </div>
+                        <h4 id="myModalLabel" class="modal-title">
+                            Edit Profile</h4>
+                    </div>
     <form id="form1" runat="server">
-    <ul>
+    <ul style="padding-left:0;">
         <li>
             <label for="email">
                 Username:</label>
@@ -62,18 +130,18 @@
             <label for="file">
                 Profile Picture:</label>
             <div class="uploader" id="fileupload">
-                <input type="file" style="opacity: 0;">
-                <span class="filename" style="-moz-user-select: none;">No file selected</span> <span
-                    class="action" style="-moz-user-select: none;">Choose File</span>
+                <input type="file" style="opacity: 0;display:none;">
+                <!--<span class="filename" style="-moz-user-select: none;">No file selected</span> <span
+                    class="action" style="-moz-user-select: none;">Choose File</span>-->
                 <asp:FileUpload ID="file_profile_picture" runat="server" onchange="document.getElementById('avitar_dl').style.display = 'none'; document.getElementById('profile_image').style.display = 'block'; showpreview(this);" /></div>
             <asp:Image ID="profile_image" runat="server" Height="50px" Width="50px" /></li>
         <li id="avitar_dl">
-            <label for="avitar">
+            <label style="display:block" for="avitar">
                 Or Select any avitar:</label>
             <asp:Repeater ID="rp_available_avitars" runat="server">
                 <ItemTemplate>
                     <img src="<%# Eval("Name","resources/avitars/{0}") %>" alt="img" width="50px" height="50px"
-                        onclick="document.getElementById('profile_image').src=this.src;document.getElementById('profile_image').style.display = 'block';document.getElementById('fileupload').style.display = 'none';SetSession(this.src);" />
+                        onclick="SetSession1(this.src);" />
                 </ItemTemplate>
             </asp:Repeater>
         </li>
@@ -84,9 +152,20 @@
             </asp:DropDownList>
         </li>
         <li id="update_button">
-            <asp:Button ID="btn_update" runat="server" Text="Update" OnClick="btn_update_Click" />
+            <asp:Button ID="btn_update" CssClass="btn btn-success" runat="server" Text="Update" OnClick="btn_update_Click" />
         </li>
     </ul>
     </form>
+    </div>
+    <div id="popup_message">
+        <asp:PlaceHolder ID="Place_Holder_Popup_Message" runat="server"></asp:PlaceHolder>
+    </div>
 </body>
+<script type="text/javascript">
+    function hide_userprofile_edit() {
+        document.getElementById('edit_profile').style.display = 'none';
+        document.getElementById('hide_login').style.display = 'none';
+        return;
+    }
+</script>
 </html>

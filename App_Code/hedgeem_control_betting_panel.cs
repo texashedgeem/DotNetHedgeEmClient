@@ -55,6 +55,14 @@ using System.Runtime.InteropServices;
             _number_of_players = number_of_players;
         }
 
+
+        public String p_odds_payout_string
+        {
+            set { _odds_payout_string = value; }
+            get { return _odds_payout_string;}
+        }
+        private String _odds_payout_string;
+        
         /// <summary>
         /// The betting panel (area on a Hedge'Em (TM) table) where players place their bets for any given hand/stage combination
         /// can show the current offered odds for hand/stage.  This varible defines whether or not this is shown.
@@ -211,7 +219,7 @@ using System.Runtime.InteropServices;
             set { _enum_theme = value; }
             get { return _enum_theme; }
         }
-        private enum_theme _enum_theme = enum_theme.CASINO_TABLE;
+        private enum_theme _enum_theme = enum_theme.CASINO;
         public int p_hand_index
         {
             set { _hand_index = value; }
@@ -293,7 +301,63 @@ using System.Runtime.InteropServices;
             a_html_writer.WriteLine("<div id='player_odds_bet'>");
 
             // Presented Odds (PO)
+            String my_PO_div_id = String.Format("PO_{0}_{1}", p_hand_index, p_betting_stage_as_string);
             String PO = String.Format("PO:{0}", p_odd_margin_rounded);
+            a_html_writer.WriteLine(String.Format("<div id='{0}' class='betting_panel_payout_detail_PO' >", my_PO_div_id));
+            a_html_writer.Indent++;
+            a_html_writer.Write(PO);
+            a_html_writer.Indent--;
+            a_html_writer.WriteLine("</div>");
+
+            // Margin Odds (MO)
+            String my_MO_div_id = String.Format("MO_{0}_{1}", p_hand_index, p_betting_stage_as_string);
+            String MO = String.Format("MO:{0}", p_odds_margin);
+            a_html_writer.WriteLine(String.Format("<div id='{0}' class='betting_panel_payout_detail_MO' >", my_MO_div_id));
+            a_html_writer.Indent++;
+            a_html_writer.Write(MO);
+            a_html_writer.Indent--;
+            a_html_writer.WriteLine("</div>");
+
+            // Actual Odds (AO)
+            String my_AO_div_id = String.Format("AO_{0}_{1}", p_hand_index, p_betting_stage_as_string);
+            String AO = String.Format("AO:{0}", p_odds_actual);
+            a_html_writer.WriteLine(String.Format("<div id='{0}' class='betting_panel_payout_detail_AO' >", my_AO_div_id));
+            a_html_writer.Indent++;
+            a_html_writer.Write(AO);
+            a_html_writer.Indent--;
+            a_html_writer.WriteLine("</div>");
+
+
+            // Percentage Total (PC)
+            String my_PC_div_id = String.Format("PC_{0}_{1}", p_hand_index, p_odds_percent_win_or_draw);
+            String PC = String.Format("Pc:{0}", p_odds_percent_win_or_draw);
+            a_html_writer.WriteLine(String.Format("<div id='{0}' class='betting_panel_payout_detail_PC' >", my_PC_div_id));
+            a_html_writer.Indent++;
+            a_html_writer.Write(PC);
+            a_html_writer.Indent--;
+            a_html_writer.WriteLine("</div>");
+
+            // Percentage Win (W)
+            String my_W_div_id = String.Format("W_{0}_{1}", p_hand_index, p_odds_percent_win);
+            String W = String.Format("W:{0}", p_odds_percent_win);
+            a_html_writer.WriteLine(String.Format("<div id='{0}' class='betting_panel_payout_detail_W' >", my_W_div_id));
+            a_html_writer.Indent++;
+            a_html_writer.Write(W);
+            a_html_writer.Indent--;
+            a_html_writer.WriteLine("</div>");
+
+            // Percentage Draw (D)
+            String my_D_div_id = String.Format("D_{0}_{1}", p_hand_index, p_odds_percent_draw);
+            String D = String.Format("D:{0}", p_odds_percent_draw);
+            a_html_writer.WriteLine(String.Format("<div id='{0}' class='betting_panel_payout_detail_D' >", my_D_div_id));
+            a_html_writer.Indent++;
+            a_html_writer.Write(D);
+            a_html_writer.Indent--;
+            a_html_writer.WriteLine("</div>");
+            
+            
+            // Presented Odds (PO)
+            /*String PO = String.Format("PO:{0}", p_odd_margin_rounded);
             a_html_writer.AddAttribute(HtmlTextWriterAttribute.Class, p_Odds_css_value, false);
             a_html_writer.AddStyleAttribute("COLOR", "Yellow");
             a_html_writer.RenderBeginTag("label");
@@ -349,19 +413,33 @@ using System.Runtime.InteropServices;
             a_html_writer.RenderBeginTag("label");
             a_html_writer.Write(D);
             a_html_writer.RenderEndTag();
-
+            */
 
             a_html_writer.WriteLine("</div>");
         }
 
-        protected override void RenderContents(HtmlTextWriter writer)
+        protected override void RenderContents(HtmlTextWriter a_html_writer)
         {
-            writer.WriteLine(String.Format("<div id='betpanel_hand{0}_stage{1}' class='generic_betting_panel_container generic_{1}_betting_panel_container' >", _hand_index, _enum_betting_stage.ToString()));
-            writer.Indent += 1;
+            a_html_writer.WriteLine(String.Format("<div id='betpanel_hand{0}_stage{1}' class='generic_betting_panel_container generic_{1}_betting_panel_container betting_panel_{2}' >", _hand_index, _enum_betting_stage.ToString(), p_enum_panel_display_status.ToString()));
+            a_html_writer.Indent += 1;
+
+            // Payout String
+            String my_payout_div_id = String.Format("Payout_{0}_{1}", p_hand_index, p_betting_stage_as_string);
+            String my_payout_string = String.Format("{0}", p_odds_payout_string);
+            String my_presented_odds_css_string = "presented_odds_" + p_enum_panel_display_status.ToString();
+
+
+
+            a_html_writer.WriteLine(String.Format("<div id='{0}' class='{1}' >", my_payout_div_id, my_presented_odds_css_string));
+            a_html_writer.Indent++;
+            a_html_writer.Write(my_payout_string);
+            a_html_writer.Indent--;
+            a_html_writer.WriteLine("</div>");
+            
             #region show_admin
             if (_show_admin_info)
             {
-                f_render_detailed_stats(writer);
+                f_render_detailed_stats(a_html_writer);
             }
             #endregion show_admin
 
@@ -369,7 +447,7 @@ using System.Runtime.InteropServices;
 
 
             //Live Test
-            if (p_enum_theme == enum_theme.CASINO_TABLE)
+            if (p_enum_theme == enum_theme.CASINO)
             {
 
                 int number_of_players = _number_of_players;
@@ -386,21 +464,21 @@ using System.Runtime.InteropServices;
                         String my_bet = String.Format("{0}", p_players_bets[player_index]);
 
                         // Show the Bet_Chip
-                        writer.WriteLine(String.Format("<div id='chip_hand{0}_stage{1}' class='{2}' >", 
+                        a_html_writer.WriteLine(String.Format("<div id='chip_hand{0}_stage{1}' class='{2}' >", 
                             _hand_index, 
                             _enum_betting_stage.ToString(), 
                             chip_icon_resource_name)
                             );
 
-                        writer.Indent += 1;
-                            writer.WriteLine(String.Format("<div id='bet_value{0}' class='{1} bet_value'>", _hand_index, p_betting_panel_chip_value));
-                            writer.Indent += 1;
-                                writer.WriteLine(my_bet);
-                            writer.Indent -= 1;
-                            writer.WriteLine("</div>");
-                        writer.Indent -= 1;
+                        a_html_writer.Indent += 1;
+                            a_html_writer.WriteLine(String.Format("<div id='bet_value{0}' class='{1} bet_value'>", _hand_index, p_betting_panel_chip_value));
+                            a_html_writer.Indent += 1;
+                                a_html_writer.WriteLine(my_bet);
+                            a_html_writer.Indent -= 1;
+                            a_html_writer.WriteLine("</div>");
+                        a_html_writer.Indent -= 1;
                             
-                        writer.WriteLine("</div>");
+                        a_html_writer.WriteLine("</div>");
 
                     }
 
@@ -468,43 +546,43 @@ using System.Runtime.InteropServices;
                         string my_betting_panel_image_background = "../resources/backgrounds/hand_indicator_backgroud.png";
 
                         // Betting panel container
-                        writer.WriteLine("");
-                        writer.WriteLine("<div id='betting_panel_container_egg'  style='display:" + _visible + "'>");
-                        writer.WriteLine("");
-                        writer.Indent += 1;
+                        a_html_writer.WriteLine("");
+                        a_html_writer.WriteLine("<div id='betting_panel_container_egg'  style='display:" + _visible + "'>");
+                        a_html_writer.WriteLine("");
+                        a_html_writer.Indent += 1;
 
 
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, _betting_panel_image_background, false);
-                        writer.AddAttribute(HtmlTextWriterAttribute.Src, my_betting_panel_image_background);
-                        writer.RenderBeginTag(HtmlTextWriterTag.Img);
-                        writer.RenderEndTag();
+                        a_html_writer.AddAttribute(HtmlTextWriterAttribute.Class, _betting_panel_image_background, false);
+                        a_html_writer.AddAttribute(HtmlTextWriterAttribute.Src, my_betting_panel_image_background);
+                        a_html_writer.RenderBeginTag(HtmlTextWriterTag.Img);
+                        a_html_writer.RenderEndTag();
 
 
 
-                        writer.WriteLine("<!-- Players bets -->");
-                        writer.WriteLine("<div id='player_z_bet'>");
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, _betting_panel_value, false);
-                        writer.RenderBeginTag("label");
-                        writer.Write(my_bet);
-                        writer.RenderEndTag();
-                        writer.WriteLine("</div>");
+                        a_html_writer.WriteLine("<!-- Players bets -->");
+                        a_html_writer.WriteLine("<div id='player_z_bet'>");
+                        a_html_writer.AddAttribute(HtmlTextWriterAttribute.Class, _betting_panel_value, false);
+                        a_html_writer.RenderBeginTag("label");
+                        a_html_writer.Write(my_bet);
+                        a_html_writer.RenderEndTag();
+                        a_html_writer.WriteLine("</div>");
 
 
-                        writer.Indent -= 1;
-                        writer.WriteLine("</div>");
+                        a_html_writer.Indent -= 1;
+                        a_html_writer.WriteLine("</div>");
                     }
                     else
                     {
                         break;
                     }
-                    writer.WriteLine("</div>");
+                    a_html_writer.WriteLine("</div>");
                 }
                 #endregion for_each_player2
             }
             #endregion 
-            writer.Indent -= 1;
+            a_html_writer.Indent -= 1;
             
-            writer.WriteLine("</div>");
+            a_html_writer.WriteLine("</div>");
             // base.RenderContents(writer);
         }
     }
