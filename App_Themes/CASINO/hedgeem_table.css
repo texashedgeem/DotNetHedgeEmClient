@@ -94,7 +94,7 @@ overflow-x:hidden;
     padding: 0%;
     position: absolute;
     background-color: green;
-    background: url(/resources/backgrounds/sea_blue_velvet_casino_table.png);
+    background: url(/resources/backgrounds/hedgeem_table_3d.png);
     background-repeat: no-repeat;
     background-size: 100% 90%;
     width: 100%;
@@ -885,6 +885,19 @@ padding :50px;
     font-family:Arial;
     font-weight:normal;
     font-size:17px;
+}
+
+#placed_bets_container_DOES_NOT_WORK
+{
+    top:10%;
+    right: -5%;
+}
+
+#placed_bets
+{
+    top:15%;
+    left: 102%;
+    color: Black;
 }
 /*
 #get_chips
