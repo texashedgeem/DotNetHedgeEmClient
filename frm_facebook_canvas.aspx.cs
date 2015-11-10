@@ -66,6 +66,28 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
         try
         {
+
+            string strUserAgent = Request.UserAgent.ToString().ToLower();
+            bool MobileDevice = Request.Browser.IsMobileDevice;
+            if (Request.Cookies["MobileDevice"] != null)
+            {
+                if (Request.Cookies["MobileDevice"].Value == "IgnoreMobile") { MobileDevice = false; }
+            }
+            else
+            {
+                if (strUserAgent != null)
+                {
+                    if (MobileDevice == true || strUserAgent.Contains("iphone") || strUserAgent.Contains("blackberry") || strUserAgent.Contains("mobile") ||
+                    strUserAgent.Contains("android") || strUserAgent.Contains("windows ce") || strUserAgent.Contains("opera mini") || strUserAgent.Contains("palm"))
+                    {
+                        Response.Redirect("https://itunes.apple.com/gb/app/texas-hedgeem/id1018941577?mt=8");
+                    }
+                }
+            }
+
+
+            //Read more: http://www.thecodingguys.net/blog/asp-net-mobile-detection#ixzz3qoYVKpHs
+
             if (Request.QueryString["un"] != null && Request.QueryString["p"] != null)
             {
                 string retrieved_username = Decryptdata(Request.QueryString["un"].ToString());
