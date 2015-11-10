@@ -1,0 +1,68 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+.card_left{
+ 
+  z-index: 0;
+  transform:rotate(360deg);
+
+  -webkit-transition-property: left, top, -webkit-transform;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-out, ease-out, ease-in-out;
+
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+}
+
+
+.card_right{
+ 
+
+  z-index: 0;
+  transform:rotate(360deg);
+
+  -webkit-transition-property: left, top, -webkit-transform;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-out, ease-out, ease-in-out;
+
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+}
+
+
+.card_left_flop, .card_middle_flop, .card_right_flop, .card_middle_turn, .card_middle_river{
+  position: absolute;
+ 
+
+  -webkit-transition-property: left, top, -webkit-transform;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-out, ease-out, ease-in-out;
+
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+}
+
+
+
+
+
+/*#hxxxxxxxxxxxx1, #hxxxxxxxxxxxx0, #hxxxxxxxxxxxx2, #hxxxxxxxxxxxx3{
+    position: absolute;
+  right: 140px;
+  top: 100px;
+  z-index: 0;
+  transform:rotate(114deg);
+
+  -webkit-transition-property: left, top, -webkit-transform;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: ease-out, ease-out, ease-in-out;
+
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+}*/

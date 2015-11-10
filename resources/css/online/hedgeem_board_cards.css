@@ -1,0 +1,127 @@
+
+#Flop_Cards {
+    width: 10%;
+    height: 100%;
+    background:url(/resources/backgrounds/flop_header.png);
+    background-repeat:no-repeat;
+    top: 0%;
+    left: 0%;
+    position: absolute;
+    padding: 0%;
+    z-index: 0; 
+    /*    
+        background-color: orange;
+        right:0px;    
+        border-collapse: collapse;    
+    */
+}
+
+#Turn_Cards {
+    width: 10%;
+    height: 100%;
+    background:url(/resources/backgrounds/turn_header.png);
+    background-repeat:no-repeat;
+    top: 0px;
+    left: 50%;
+    position: absolute;
+    padding: 0px;
+    z-index: 0; 
+    /*    
+        background-color: orange;
+        right:0px;    
+        border-collapse: collapse;    
+    */
+}
+
+#River_Cards {
+    width: 10%;
+    height: 100%;
+    background:url(/resources/backgrounds/river_header.png);
+    background-repeat:no-repeat;
+    top: 0px;
+    left: 80%;
+    position: absolute;
+    padding: 0px;
+    z-index: 0; 
+    /*    
+        background-color: orange;
+        right:0px;    
+        border-collapse: collapse;    
+    */
+}
+
+.board_cards_container
+{
+    position: absolute;
+    margin: 0% 20% 0% 20%;
+    padding: 0px 0px 0px 0px;
+    top: 20%;
+    float: left;
+    width: 60%;
+    height: 100px;
+    z-index: 20;
+    /*
+        background-color: purple;
+    */
+}
+
+.card_left_flop
+{
+    float: left;
+    position: absolute;
+    margin: 35% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    top: 0;
+    z-index: 1;
+}
+
+.card_middle_flop
+{
+    float: left;
+    position: relative;
+    margin: 35% 0% 0% 90%;
+    padding: 0% 0% 0% 0%;
+    top: 0;
+    z-index: 1;
+}
+
+
+.card_right_flop
+{
+    float: left;
+    position: absolute;
+    margin: 35% 0% 0% 170%;
+    padding: 0% 0% 0% 0%;
+    z-index: 2;
+}
+
+.card_middle_turn
+{
+    height: 100%;
+    width: 20%;
+    position: absolute;
+    margin: 35% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    text-align: center;
+    float: left;
+    --background-color: lime;
+    position: absolute;
+    left: 5%;
+    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
+
+}
+
+.card_middle_river
+{
+    height: 100%;
+    width: 20%;
+    margin: 35% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    float: left;
+    --background-color: Pink;
+    position: absolute;
+    left: 0px;
+    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
+}
+

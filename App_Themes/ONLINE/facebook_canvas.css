@@ -7,16 +7,13 @@ margin-top:0;
 }
 #table_background
 {
-    background: url(/resources/backgrounds/HedgeEmTableComposite_800x600.png);
+	 background: url("/resources/backgrounds/betfair_table.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     background-repeat:no-repeat;
     margin: 0px;
 	padding: 0px;
     overflow:hidden;
-	background-size: 100% 100%;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-
+	/*width: 800px;*/
+	height:500px;
     }
 
 #hedgeem_table_list_container
@@ -39,7 +36,7 @@ margin-top:0;
     width: 100%;
     height: 100%;
     background-repeat:repeat;
-    background:url(/resources/backgrounds/watermark_2.png);
+  /*  background:url(/resources/backgrounds/watermark_2.png);*/
     top: 0px;
     left: 0px;
     position: absolute;
@@ -54,15 +51,14 @@ margin-top:0;
       See hedgeem_table.css #hedgeem_table_backdrop  */
     //background:url(/resources/backgrounds/carpet_background_800x600.png);
     position: relative;
-    width: 100%;
+   /* width: 100%;*/
     height: 100%;
     background-repeat:no-repeat;
     top: 0px;
     left: 0px;
-    width:800px;
-    height: 600px;
+   /* width:800px;*/
     margin: auto;
-    border: 1px solid #000000; 
+  /*  border: 1px solid #000000; */
 }
 
 #lobby_hedgeem_table_list
@@ -183,7 +179,7 @@ margin-top:0;
 
 #btnLogout
 {
-	border: 1px solid #09340A;
+	/*border: 1px solid #09340A;
     border-radius: 5px;
     color: #C3C281;
     background:#214429;
@@ -197,8 +193,10 @@ margin-top:0;
     width:100px;
     cursor:pointer;
     text-align:right;
-    float:right;
+    float:right;*/
 }
+
+
 #btnLogin
 {
 	border: 1px solid #09340A;
@@ -295,13 +293,12 @@ margin-top:0;
 }
 #btn_deal_buttons_container
 {
-    position: absolute;
-    top: 85%;
+    /*position: absolute;
     left: 88%;
     margin: 0% 0% 0% 0%;
     padding: 0px 0px 0px 0px;
     height: 15%;
-    width: 12%;
+    width: 31%;
     z-index: 99; /*Keep this highest overwise hands_container, betting_container or other may prevent button from working.*/
      /*
    
@@ -330,6 +327,7 @@ margin-top:0;
     top: 0;
     width: 225px;
     z-index: 50;
+	display:none;
 }
 
 #table_logo {
@@ -343,13 +341,13 @@ margin-top:0;
     z-index: 50;
 }
 
-#social_media_container {
+/*#social_media_container {
     height: 30%;
     position: absolute;
     top: 60%;
     width: 19%;
     right:100%
-}
+}*/
 .fb-like {
     position: absolute;
    float:left;
@@ -357,10 +355,7 @@ margin-top:0;
     z-index: 99;
 }
 #twitter_container {
-  position: absolute;
-   top:35%;
-   float:left;
-    z-index: 99;
+ 
 }
 
 .fb-invite
@@ -573,7 +568,7 @@ filter: alpha(opacity=80);
     overflow: auto;
     position: absolute;
     top: 25%;
-     border-top: 40px solid #09340A!important;
+    /* border-top: 40px solid #09340A!important;*/
      border-radius: 15px;
    left:0;
    right:0;
@@ -596,7 +591,7 @@ filter: alpha(opacity=80);
     overflow: auto;
     position: absolute;
     top: 25%;
-    border-top: 50px solid #09340A !important;
+  /*  border-top: 50px solid #09340A !important;*/
     border-radius: 15px;
    right:0;
    margin-left:auto;
@@ -644,11 +639,11 @@ height:56%;
 #hide_rules
 {
 
-    background:url(/resources/buttons/cancel-icon.png);
+   /* background:url(/resources/buttons/cancel-icon.png);
     background-repeat:no-repeat;
     float:right;
     width:16px;
-    height:16px;
+    height:16px;*/
     }
   .play_now_enabled
   {
@@ -730,7 +725,7 @@ height:56%;
   {
   	text-align:center;
   	color:Red;
-  	height:15%!important;
+  	height:auto !important;
   	margin-top:-7%!important;
   	top:50%!important;
   }

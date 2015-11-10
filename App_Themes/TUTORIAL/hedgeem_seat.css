@@ -1,169 +1,97 @@
 
 /* For tutorial only*/
-#user_input
-{
-    //background-color: cyan;
-    border-width:1px;
-}
 
-.user_input_container
-{
-    position: relative;
-    //background-color: orangered;
-    border-width:3px;
-    //border-bottom-color:blueviolet;
-    font-size:10px;
-    width: 100%;
-    height: 100%;
-
-    padding:5%, 5%, 5%, 5%;
-    margin:5%, 5%, 5%, 5%;
-}
-
-
-.hedgeem_sub_content_container
-{
-    position: relative;
-    //background-color: pink;
-    border-width:1px;
-    border-bottom-style: solid;
-    //font-size:10pt;
-    height: 100%;
-    padding:5%, 5%, 5%, 5%;
-    margin:5%, 5%, 5%, 5%;
-}
-
-/*This is badly named and should be called hedgeem_single_seat_container */ 
+/*This is badly named and should be called hedgeem_single_seat_container */
 #Player_Info
 {
-    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    border-width: 1px;
+    font-size: 10pt;
+    height: 200px;
     margin: auto;
-    height: 150px;
-    width: 150px;
+    padding: 0;
+    position: relative;
     top: 10px;
-    z-index: 20;
-    font-size:10pt;
-    border-style: solid;
-    border-width:1px;
-    border-color:gray;
-    background-color: lightgray;
-    margin: 0%, 0%, 0%, 0% ;
-    padding: 0% 0% 0% 0%;
-    
-    /*
-    height: 107px;
-    background-color: cyan;
-    */
-    
+    width: 100%;
+    z-index: 20; /*     height: 107px;     background-color: cyan;     */
 }
 
 .hedgeem_seat_container
 {
-    background:url(/resources/backgrounds/seat_background_1.png);
+    background: url(/resources/backgrounds/seat_background_1.png);
     background-repeat: no-repeat;
     position: relative;
-    //float:left;
-    display: block;
-    //top: 0%;
-    //left: 0%;
-    height: 100%;
+    display: block; /*float:left;     //top: 0%;  //background-color: gold;     //left: 0%;*/
+
     width: 100%;
-    margin: 10%, 5%, 0%, 15% ;
+    margin: 10%, 5%, 0%, 15%;
     padding: 0% 0% 0% 0%;
     z-index: 30;
-    //background-color: gold;
-    
 }
 
 
-.player_image img {
+.player_image img
+{
     height: 50px;
-    width: 50px;    
+    width: 50px;
     padding: 6px;
 }
 
 .player_image
 {
-    
+    border: 0 solid #654321;
+    left: 0;
+    margin: 5% 5% 5% 0;
+    padding: 0;
     position: relative;
-    border: 0px solid #654321;
     top: 8%;
-    left: 0%;
-    margin: 5% 5% 5% 0%;
-    padding: 0% 0% 0% 0%;
-    /* Change 0deg to 90deg later when developing for ETG */
-    //transform:rotate(0deg);
-	//-ms-transform:rotate(0deg); /* IE 9 */
-	//-webkit-transform:rotate(0deg); /* Safari and Chrome */
+    width: 60px; /* Change 0deg to 90deg later when developing for ETG      //transform:rotate(0deg); 	//-ms-transform:rotate(0deg); /* IE 9 */ /*webkit-transform:rotate(0deg); /* Safari and Chrome */
 }
 
 .player_balance
 {
-    
-    position: absolute;
-    width: 40%;
-    height: 20%;
-    color: #FFFF00;
+    color: Yellow;
     font-size: 100%;
+    height: 20%;
+    left: 13%;
+    padding: 0;
+    position: absolute;
     text-align: center;
-    margin: 5% 5% 5% 5%;
-    padding: 0% 0% 0% 0%;
-    top: 20%;
-    left: 50%;
-    /*
-    background-color: green;
-    */
-    
-    
-    
-    }
-
-
+    top: 33%; /*     background-color: green;     */
+}
 .player_name
 {
     color: Black;
     float: left;
     font-size: 100%;
-    //margin-left: 26px;
+    left: 15%;
     padding: 0;
     position: absolute;
     text-align: center;
-    top: 68%;
-    left: 60%;
-    //display: none;
-    //background-color: red;
-    width: 50px
-    
+    top: 75%;
+    width: 50px;
 }
-
-
-
-.chip_image {
-    position: absolute;
+.chip_image
+{
     float: left;
-    margin: 0px;
-    padding: 0px 0px 0 0px;
+    left: 11%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 62%;
     width: 5%;
-    //display: none;
-    top: 60%;
-    left: 45%;
     z-index: 99;
-}    
+}
 
 .hand_payout_total_container
 {
-    position: absolute;
-    float: left;
-    //font-size: 14px;
-    //margin-left: 26px;
-    padding: 0;
-    float: left;
-    text-align: center;
-    //top: 12px;
-    //display: none;
-    //background-color: palegreen;
     color: pink;
-    width: 100%;
+    float: left;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    width: 50%;
 }
 
 .total_bet_label
@@ -171,17 +99,13 @@
     color: darkblue;
     float: left;
     font-size: 100%;
-    //margin-left: 26px;
     padding: 0;
     float: left;
     position: relative;
-    text-align: left;
-    //top: 12px;
-    //display: none;
-    //background-color: cyan;
+    text-align: left; /*top: 12px;     //display: none;      //margin-left: 26px;     //background-color: cyan;*/
     color: black;
     width: 90%;
-    margin: 0% 5% 0% 5% ;
+    margin: 0% 5% 0% 5%;
 }
 
 .total_bet_amount
@@ -194,33 +118,25 @@
     position: absolute;
     text-align: left;
     top: 0%;
-    left: 0%;
-    //display: none;
-    //background-color: chocolate;
+    left: 0%; /*display: none;     //background-color: chocolate;*/
     color: black;
     width: 40%;
-    margin: 0% 5% 0% 55% ;
-
+    margin: 0% 5% 0% 55%;
 }
 
 .hand_payouts_container
 {
-    position: absolute;
-    color: blue;
+    color: black;
     float: left;
     font-size: 100%;
-    //margin-left: 26px;
+    left: 0;
+    margin: 0 5%;
     padding: 0;
-    float: left;
+    position: absolute;
     text-align: center;
-    top: 100%;
-    left: 0%;
-    //display: none;
-    //background-color: blanchedalmond;
-    color: black;
+    top: 200%;
     width: 90%;
-    margin: 0% 5% 0% 5% ;
-} 
+}
 
 .hand_payout_container
 {
@@ -228,19 +144,16 @@
     color: blue;
     float: left;
     font-size: 100%;
-    //margin-left: 26px;
     padding: 0;
     float: left;
     text-align: center;
     top: 5%;
-    left: 0%;
-    //display: none;
-    //background-color: olive;
+    left: 0%; /*display: none;     //background-color: olive;       //margin-left: 26px;*/
     color: darkgoldenrod;
     width: 90%;
-    margin: 0% 5% 0% 5% ;
-} 
-    
+    margin: 0% 5% 0% 5%;
+}
+
 
 .hand_payout_label
 {
@@ -248,17 +161,12 @@
     color: blue;
     float: left;
     font-size: 100%;
-    //margin-left: 26px;
     padding: 0;
     text-align: center;
-    //top: 12px;
-    //display: none;
-    //background-color: Orange;
-    color: navy;
-    //width: 50px
-}    
-    
-    
+    color: navy; /*top: 12px;         //margin-left: 26px;     //display: none;     //background-color: Orange;        //width: 50px*/
+}
+
+
 .hand_payout_value
 {
     color: blue;
@@ -269,14 +177,9 @@
     float: left;
     position: relative;
     text-align: center;
-    //top: 12px;
-    //display: none;
-    //background-color: red;
-    color: black;
-    //width: 50px
-}    
+    color: black; /*top: 12px;     //display: none;     //background-color: red;         //width: 50px*/
+}
 
 
 
 
-    

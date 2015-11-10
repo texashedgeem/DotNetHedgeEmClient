@@ -1,6 +1,6 @@
 /*body
 {
-    background: url("../resources/new img.jpg") no-repeat scroll center top transparent;
+    background: url("../Client_Website/resources/new img.jpg") no-repeat scroll center top transparent;
     font-family: arial;
 }
 */
@@ -48,7 +48,7 @@
     /*margin-left: 300px;*/
     /*margin-top: 150px;*/
    /* background-color: cyan;*/
-    background:url(/resources/backgrounds/ONLINE.png);
+    background:url(/Client_Website/resources/backgrounds/ONLINE.png);
     //background-size:100% 100%;
     width: 800px;
     height: 600px;

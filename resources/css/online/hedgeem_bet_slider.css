@@ -1,0 +1,114 @@
+﻿#bet_slider_container
+{
+    float: left;
+    position: absolute;
+    background-color: cyan;
+    bottom: 0%;
+    left: 0px;
+    width: 50%;
+    height: 7.5%;
+    margin: 0% 22% 0% 28%;
+    z-index: 20;
+}
+
+#hedgeem_bet_slider
+{
+    background-color: #1D1D1D;
+    display: none;
+    left: 7%;
+    overflow: auto;
+    position: absolute;
+    top: 50%;
+    float: left;
+    margin: 0 12%;
+    padding: 10px;
+    width: 18%;
+    z-index: 1002;
+    text-align: center;
+    height: 9%;
+    border-radius: 15px;
+    border: 1px solid #000;
+    overflow-x:hidden;
+    overflow-y:hidden;
+}
+#hedgeem_bet_sliderxqy p
+{
+    padding: 0;
+    margin-top: 0;
+}
+
+
+#slider-range-min1xqy
+{
+    margin: 0%;
+}
+
+
+.bet_sliderxqy
+{
+    float: left;
+    margin: 0%;
+    width: 77%;
+    color: White;
+    color: brown;
+    }
+
+.bet_slider_bet_amount_text
+{
+    border: 0;
+    color: #D9D600;
+    color: orange;
+    width: 25%;
+    font-weight: bold;
+    background: #000;
+}
+
+.place_bet_buttonxqy
+{
+    background: url("/Client_Website/resources/buttons/tick-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 16px;
+    width: 16px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    background-color: #000;
+    border-radius: 3px;
+    margin-top: 2%;
+}
+
+.cancel_place_bet_buttonxqy
+{
+    background: url("/Client_Website/resources/buttons/cancel-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 16px;
+    width: 16px;
+    border: none;
+    cursor: pointer;
+    float: left;
+    background-color: #000;
+    border-radius: 3px;
+    margin-top: 2%;
+}
+
+.bet_payout_descriptionxqy
+{
+    position: absolute;
+    top: 0%;
+    border: 3px solid green;
+    border-radius: 5px;
+    float: left;
+    margin: 4% 10% 0% 10%;
+    width: 80%;
+    color: #D9D600;
+    background: red;
+}
+
+.bet_buttonsxqy
+{
+    margin-top: 0%;
+    position: absolute;
+    width: 92%;
+    background-color: purple;
+    
+}
+
+

@@ -1,0 +1,42 @@
+﻿
+#popup_message_container{
+    position:absolute;
+    margin: auto;
+}
+
+#user_message_string
+{
+    background: none repeat scroll 0 0 #214529;
+    margin: 10% 35%;
+    width: 400px;
+    padding:15px;
+    border-radius:15px;
+    float:left;
+}
+
+#detailed_message_string
+{
+	background: none repeat scroll 0 0 yellow;
+    margin: 10% 35%;
+    width: 400px;
+    padding:15px;
+    border-radius:15px;
+    float:left;
+}
+
+.logo
+{
+	background: url("/resources/logos/logo_1.png") no-repeat scroll 0 0 / 100% auto rgba(0, 0, 0, 0);
+    height: 30%;
+    margin: 62px auto;
+    padding: 0;
+    position: absolute;
+    width: 10%;
+    z-index: 50;
+}
+.error_message
+{
+	width:235px;
+	float:right;
+	color:#f1f1f1;
+}

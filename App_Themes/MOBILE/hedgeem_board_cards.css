@@ -1,0 +1,84 @@
+
+.board_cards_container
+{
+    /*background-color: purple;*/
+    position: absolute;
+    margin: 0% 0% 0% 8%;
+    padding: 0px 0px 0px 0px;
+    top: 72%;
+    float: left;
+    width: 54%;
+    height: 100px;
+    z-index: 40;
+}
+
+.board_cards_container img
+{
+    width: 40%;
+    height: 40%;
+    z-index: 40;
+}
+
+.card_left_flop
+{
+    float: left;
+    position: absolute;
+    height: 100%;
+    width: 20%;
+    margin: 0% 65% 0% 15%;
+    padding: 0px 0px 0px 0px;
+    top: 0;
+    z-index: 1;
+}
+
+.card_middle_flop
+{
+    float: left;
+    position: absolute;
+    height: 100%;
+    width: 20%;
+    margin: 0% 60% 0% 20%;
+    padding: 0px 0px 0px 0px;
+    top: 0;
+    z-index: 1;
+}
+.card_right_flop
+{
+    float: left;
+    position: absolute;
+    height: 100%;
+    width: 20%;
+    margin: 0% 55% 0% 25%;
+    padding: 0px 0px 0px 0px;
+    z-index: 2;
+}
+
+.card_middle_turn
+{
+    height: 100%;
+    width: 20%;
+    margin: 0% 38% 0% 25%;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    float: left;
+    //background-color: lime;
+    position: absolute;
+    left: 0px;
+    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
+
+}
+
+.card_middle_river
+{
+    height: 100%;
+    width: 20%;
+    margin: 0% 15% 0% 35%;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    float: left;
+   //background-color: Pink;
+    position: absolute;
+    left: 0px;
+    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
+}
+

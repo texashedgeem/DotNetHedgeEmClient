@@ -1,0 +1,1611 @@
+/*
+There are Three 'wrapper' classes used to display the Hedgeem Table.  In order of hierachy these are:
+
+    UpdatePanel1: Primarly used to support ajax updates so full screen is not used.  Is also used
+                  to center everything.
+    
+    wrapper:      Not sure of purpose of this (is it redundant (where purpose is served by 
+                  hedgeem_table_container?)
+
+    hedgeem_table_container: This is the main Hedge'Em Table container.  All gui objects/controls are
+                             placed inside this container are positioned in relation (relative to)
+                             the parent container.
+        
+*/
+
+  
+/* 
+    This is the 'top-most' container.  It is primarily used to support ajax so that the whole screen is not
+    refreshed as each stage of the game progresses.  It is also used to set the overall position of the 
+    displayed Hedge'Em table.
+    See also: #wrapper and .hedgeem_table_container
+*/
+body {
+	/*        overflow-y:hidden;
+overflow-x:hidden;
+background-repeat: repeat;
+    background: url(/resources/backgrounds/watermark_2.png);*/
+	background: url("/resources/backgrounds/bgonline.jpg") !important;
+	background-size: cover !important;
+	margin-top: 0;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	overflow: hidden !important;
+}
+.body {
+	width: 60%;
+	margin: 8px auto;
+}
+#UpdatePanel1 {
+	background-repeat: repeat;
+	height: 100%;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 0;      
+	background:none;
+}
+#wrapper {
+	position: relative;
+	margin: auto;
+	padding: 0%;
+	height: 100%;
+}
+.topbar_fixed{
+	
+	/*background: url("/resources/backgrounds/topline_bg.jpg") repeat-x scroll center top;
+    bottom: 0;
+  	box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
+    height: 5vh;
+    left: 0;
+    max-height: 100vh !important;
+    max-width: 214vh !important;
+	text-align:right;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    z-index: 1;*/
+
+	}
+	
+  
+#container {
+	
+	width: 100vw;
+	height: 67vw;
+	/* 100/56.25 = 1.778 */
+	  background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
+	max-height: 100vh !important;
+	max-width: 214vh !important;
+	/* 4/3 = 1.778 */
+	
+	margin: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	/* vertical center */
+	left: 0;
+	right: 0;/* horizontal center */
+	z-index:1;
+	
+	
+}
+
+
+#hedgeem_table_container {
+
+/*background: url("/resources/backgrounds/poker_table.png") no-repeat; background-size:cover; background-position: top center; 
+position: relative;
+margin: 0px;
+padding: 0px;
+height:95%;
+margin-top: 0px;
+
+width:60%;
+margin:0 auto;*/
+
+
+	width: 100vw;
+	height: 56vw;
+	/* 100/56.25 = 1.778 */
+	
+	max-height: 100vh !important;
+	max-width: 133vh !important;
+	/* 4/3 = 1.778 */
+	margin: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	/* vertical center */
+	left: 0;
+	right: 0;/* horizontal center */
+
+  
+
+
+}
+#hedgeem_table_backdrop {
+/*   margin: 0%;
+    padding: 0%;
+    position: absolute;
+    /*background: url(resources/backgrounds/carpet_background_800x600.png);
+    background: url(/resources/backgrounds/HedgeEmTableComposite_800x600.png);
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    z-index: 1;*/
+	
+	
+}
+.bottom_bar_fixed {
+	background-color: rgba(0, 0, 0, 0.7);
+	bottom: 0;
+	box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
+	margin: 0;
+	padding: 12px 0;
+	width: 100%;
+}
+#hedgeem_table_physical_table {
+	margin: 0%;
+	padding: 0%;
+	position: absolute;
+	background-color: green;
+	background: url(/resources/backgrounds/stand_alone_table_1_800x500.png);
+	background-repeat: no-repeat;
+	background-size: 100% 90%;
+	width: 100%;
+	height: 85%;
+	z-index: 2;
+	display: none;
+}
+li.ext {
+	display: inline-block;
+	padding-left: 0px;
+}
+#hedgeem_table_info_bar_background {
+	margin: 0%;
+	padding: 0%;
+	background: url(/resources/backgrounds/info_bar_backgrond_800x80.png);
+	background-size: 100% 100%;
+	width: 100%;
+	height: 15%;
+	background-repeat: no-repeat;
+	top: 85%;
+	position: absolute;
+	padding: 0px;
+	z-index: 3; /*              background-color: Gray;     background-size:100% 100%;          right:0px;              border-collapse: collapse;              position: relative;     float: left;     margin-left: 300px;     margin-top: 150px;     background-color: cyan;     */
+	display: none;
+}
+/*
+    All Hand panels that are display are displayed in a container so you can re-position all of them
+    left, right, up or down etc with one CSS change.
+    */
+
+#table_logo {
+	background: url(/resources/logos/logo_1.png); /* background-size:100% 100%; Do not use background size as it deforms logo */
+	background-size: 100%;
+	background-repeat: no-repeat;
+	top: 5%;
+	left: 83%;
+	position: relative;
+	padding: 0%;
+	z-index: 10;
+	width: 13%;
+	height: 10% /*      width: 13%;     height: 10%     background-color:red;     */;
+	display: none;
+}
+{
+ background: url(/resources/backgrounds/house_chips.png);
+ background-size: 100% 100%;
+ width: 20%;
+ height: 8%;
+ float: left;
+ background-repeat: no-repeat;
+ top: 0px;
+ margin: 0% 60% 0% 40%;
+ position: absolute;
+ padding: 0px;
+ z-index: 50; /*                  background-color: yellow;     */
+}
+#table_jackpot_container {
+	background: url(/resources/backgrounds/jackpot_container_background_1.png);
+	background-size: 100% 100%;
+	width: 15%;
+	height: 10%;
+	float: left;
+	background-repeat: no-repeat;
+	top: 1%;
+	left: 1%;
+	margin: 0% 0% 0% 0%;
+	position: absolute;
+	padding: 0px;
+	z-index: 50; /*          background-color:darkblue;     background-color:darkblue;          */
+}
+#btn_rules.online, #btn_get_chips {
+	text-align: center;/* top: 68px;
+    width: 30.7% !important;*/
+}
+#btn_play_for_real {
+/* width: 17%;*/
+}
+/*.hedgeem_seat_container {
+    width: 9%; 
+}
+*/
+#placed_bets {
+	background: orange;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	color: #000;
+	font-weight: bold;
+	height: auto;
+	left: 39%;
+	opacity: 0.9;
+	padding-left: 0px;
+	padding-top: 2px;
+	top: 36%;
+	text-align: center;
+	width: 17%;
+}
+
+#winner_message_container {
+	float: left;
+	position: absolute;
+	width: 60%;
+	height: 15%;
+	top: 35%;
+	margin: 0% 20% 0% 20%;
+	background: url(/resources/backgrounds/congratulations_1.png);
+	background-size: 50% 50%;
+	background-repeat: no-repeat;
+	background-position: 50% 0%;
+	padding: 0px;
+	z-index: 50; /*          background-color:lime;          background:url(/resources/backgrounds/animated_winner_1.gif);          margin: 0% 0% 0% 0%;          left: 1%;          width: 100px;          height: 100px;              */
+}
+#winner_message_string {
+	background-repeat: no-repeat;
+	color: yellow;
+	float: left;
+	font-family: arial;
+	font-weight: bold;
+	height: 40%;
+	left: 0;
+	margin: 5% 10% 0;
+	padding: 0;
+	position: absolute;
+	text-align: center;
+	text-shadow: 2px 0 #000;
+	top: 35%;
+	width: 80%;
+	z-index: 50; /*     background-color:red;     width: 100px;     height: 100px;         */
+}
+.displayed_currency {
+	color: lime;
+	width: 60%;
+	height: 40%;
+	top: 40%;
+	left: 50%;
+	float: left;
+	background-repeat: no-repeat;
+	margin: 0% 0% 0% 0%;
+	position: absolute;
+	padding: 0px;
+	z-index: 50; /*     background-color:red;     width: 100px;     height: 100px;         */
+}
+#playrealbutton {
+	display: inline-block;
+}
+.buttons_panel input[type="submit"] {
+	border: 0;
+}
+.buttons_panel {
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 20;
+	text-align: center;
+}
+#facebook_container {
+	position: absolute;
+	display: none;
+	top: 40%;
+	right: 0%;
+	height: 10%;
+	width: 8%;
+	background-color: red;
+}
+/*#social_media_container {
+    height: 30%;
+    position: absolute;
+    top: 60%;
+    width: 19%;
+    right:100%
+}*/
+.fb-like {
+	position: absolute;
+	float: right;
+	top: 5%;
+	z-index: 99;
+}
+
+fb_iframe_widget
+{ top:5px;}
+
+
+#twitter_container {
+	display: inline;
+	position: relative;
+	top: 5px;
+}
+.fb-invite {
+	float: left;
+	padding: 2px;
+	text-decoration: none;
+	background: url('/resources/invitefbfriends.png') no-repeat;
+	width: 150px;
+	height: 24px;
+}
+.Menus {
+	text-decoration: none;
+	color: Black;
+}
+#update {
+	width: 421px;
+}
+#TabContainer1 {
+	width: 421px;
+}
+.ajax__tab_xp .ajax__tab_body {
+	width: 900px !important;
+}
+.frm {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #000000;
+	float: left !important;
+	height: 600px;
+	margin: 33px 0 0 !important;
+	padding: 16px 1px 16px 2px !important;
+	width: 58%;
+}
+.panel3grid {
+	height: 300px;
+	width: 900px;
+	border-collapse: collapse;
+	margin: 4px 0 0 3px;
+	font-size: 11px;
+	font-weight: normal;
+}
+.panel3grid_dgv_table_list {
+	background: none repeat scroll 0 0 #eee;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	color: #000;
+	float: left;
+	font-size: 90%;
+	margin: 1% 0 0;
+	padding: 5px;
+	position: relative;
+	top: 0;
+	width: 80%;
+	z-index: 30;
+}
+.txtmode {
+	height: 300px;
+	width: 895px;
+}
+.NewWindow {
+	target: _blank;
+}
+.New_user_popup {
+	margin: 64px 1px 1px 1px;
+}
+/* Style for div popup message for Bet not accepted message */
+.black_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 600px;
+	background-color: black;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity=80);
+}
+.dealbtnset {
+	display: inline-block;
+}
+.white_content {
+	background-color: white;
+	border: 0 solid #A6C25C;
+	display: none;
+	overflow: auto;
+	position: absolute;
+	top: 25%;
+	/*border-top: 40px solid #09340A!important;*/
+	border-radius: 15px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 15px;
+	width: 52%;
+	z-index: 1002;
+	height: 56%;
+	top: 50%;
+	margin-top: -28%;
+}
+#short_description {
+	margin-top: 0px;
+	font-family: arial;
+	font-weight: bold;
+	font-size: 13px;
+}
+/* pop up */
+
+.green_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 180%;
+	background-color: #000;
+	z-index: -1;
+	-moz-opacity: 0;
+	opacity: 0;
+	filter: alpha(opacity=80);
+}
+.div_rules_content {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background-color: white;
+	border-bottom: 0 solid #a6c25c;
+	border-image: none;
+	border-left: 0 solid #a6c25c;
+	border-radius: 15px;
+	border-right: 0 solid #a6c25c;
+	border-top: 0 solid #09340a !important;
+	display: none;
+	float: left;
+	height: 343px;
+	left: 10%;
+	width: 60%;
+	margin: 0 12%;
+	overflow: auto;
+	position: absolute;
+	top: 11%;
+	z-index: 99999;
+}
+
+.modal-header .close {
+    margin-top: -10px !important;
+}
+.modal-header {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 15px !important;
+    min-height: 16.43px;
+    padding: 15px;
+}
+
+#tbl_transfer_funds input, #tbl_deposit_funds input {
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    padding: 5px;
+ 
+}
+
+.white_cashierdiv {
+	background-color: white;
+	border-bottom: 0 solid #a6c25c;
+	border-image: none;
+	border-left: 0 solid #a6c25c;
+	border-radius: 15px;
+	border-right: 0 solid #a6c25c;
+	border-top: 0 solid #09340a !important;
+	float: left;
+	left: 13%;
+	margin: 0 12%;
+	overflow: hidden;
+	padding: 18px;
+	position: absolute;
+	top: 11%;
+	width: 50%;
+	z-index: 99999;
+}
+#session_timeout_message {
+	background-color: white;
+	border: 0 solid #a6c25c;
+	border-radius: 15px;
+	display: none;
+	float: left;
+	height: 200px;
+	left: 14% !important;
+	margin: 0 11% !important;
+	overflow: auto !important;
+	padding: 47px 12px 12px;
+	position: absolute !important;
+	text-align: center;
+	top: 10% !important;
+	width: 50%;
+	z-index: 1002;
+}
+.fade_overlay {
+	background-color: #000;
+	display: none;
+	height: 180%;
+	left: 0;
+	opacity: 0.7;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: -1;
+}
+#txt_play_for_real_deposit_pledge {
+	border: 3px solid;
+	width: 50px;
+}
+#btn_play_for_real_deposit_pledge {
+}
+.play_for_real_deposit_pledge {
+	font-weight: bold;
+}
+#hedgeem_bet_slider1 {
+	background-color: #1D1D1D;
+	display: none;
+	left: 7%;
+	overflow: auto;
+	position: absolute;
+	top: 50%;
+	float: left;
+	margin: 0 12%;
+	padding: 10px;
+	width: 28%;
+	z-index: 1002;
+	text-align: center;
+	height: 9%;
+	border-radius: 15px;
+	border: 1px solid #000;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+#hedgeem_bet_slider1 p {
+	padding: 0;
+	margin-top: 0;
+}
+#hedgeem_bet_slider2 p {
+	padding: 0;
+	margin-top: 0;
+}
+#follow-button.btn i {
+	background: none !important;
+}
+#follow-button.btn span {
+	padding: 0 8px 0 11px
+}
+#hedgeem_bet_slider3 p {
+	padding: 0;
+	margin-top: 0;
+}
+#hedgeem_bet_slider4 p {
+	padding: 0;
+	margin-top: 0;
+}
+#hedgeem_bet_slider2 {
+	background-color: #1D1D1D;
+	display: none;
+	left: 21%;
+	overflow: auto;
+	position: absolute;
+	top: 55%;
+	float: left;
+	margin: 0 12%;
+	padding: 10px;
+	width: 28%;
+	z-index: 1002;
+	text-align: center;
+	height: 9%;
+	border-radius: 15px;
+	border: 1px solid #000;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+#hedgeem_bet_slider3 {
+	background-color: #1D1D1D;
+	display: none;
+	left: 36%;
+	overflow: auto;
+	position: absolute;
+	top: 55%;
+	float: left;
+	margin: 0 12%;
+	padding: 10px;
+	width: 28%;
+	z-index: 1002;
+	text-align: center;
+	height: 9%;
+	border-radius: 15px;
+	border: 1px solid #000;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+#hedgeem_bet_slider4 {
+	background-color: #1D1D1D;
+	display: none;
+	left: 50%;
+	overflow: auto;
+	position: absolute;
+	top: 50%;
+	float: left;
+	margin: 0 12%;
+	padding: 10px;
+	width: 28%;
+	z-index: 1002;
+	text-align: center;
+	height: 9%;
+	border-radius: 15px;
+	border: 1px solid #000;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+.no_opaque_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 180%;
+	background-color: #1B4224;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: 0;
+	filter: alpha(opacity=80);
+}
+.bet_left {
+	float: left;
+	margin-top: 0px;
+}
+.bet_right {
+	float: right;
+	margin-right: -48px;
+	margin-top: -18px !important;
+}
+#slider-range-min1 {
+	margin-left: 30px;
+}
+#slider-range-min2 {
+	margin-left: 30px;
+}
+#slider-range-min3 {
+	margin-left: 30px;
+}
+#slider-range-min4 {
+	margin-left: 30px;
+}
+.bet_slider {
+	float: left;
+	margin-top: 0;
+	width: 77%;
+	color: White;
+}
+.amount {
+	border: 0;
+	color: #D9D600;
+	width: 25%;
+	font-weight: bold;
+	background: #000;
+}
+.place_bet_button {
+	background: url("/resources/buttons/tick-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	height: 16px;
+	width: 16px;
+	border: none;
+	cursor: pointer;
+	float: right;
+	background-color: #000;
+	border-radius: 3px;
+	margin-top: 2%;
+}
+.cancel_place_bet_button {
+	background: url("/resources/buttons/cancel-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	height: 16px;
+	width: 16px;
+	border: none;
+	cursor: pointer;
+	float: left;
+	background-color: #000;
+	border-radius: 3px;
+	margin-top: 2%;
+}
+.bet_payout_description {
+	border: 1px solid #000;
+	border-radius: 5px;
+	float: left;
+	margin-left: 9%;
+	width: 90%;
+	color: #D9D600;
+	background: #000;
+}
+.bet_buttons {
+	margin-top: -22px;
+	position: absolute;
+	width: 92%;
+}
+#hedgeem_game_id {
+	position: absolute;
+	top: 100%;
+	right: 10%;
+	color: #C3C281;
+	padding: 0%;
+	margin-bottom: 0px;
+	z-index: 9999;
+	margin-top: 105px;
+	display: none;
+	color: #666;
+}
+#Logout {
+/*  position:absolute;
+    top:0;
+    right:0;
+    float:right;
+    color:#C3C281;  
+      z-index:999; */
+}
+.logout {
+	margin-left: 6px;
+}
+.login-icon {
+	background: url("/resources/buttons/login-icon.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+	height: 18px;
+	width: 24px;
+}
+.btn-group.login {
+	z-index: 9999;
+}
+#btnLogout {
+	/*border: 1px solid #09340A;
+    border-radius: 5px;
+    color: #C3C281;
+    background:#214429;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px;
+    text-decoration: none;
+    background:url(/resources/usr.png);
+    background-repeat:no-repeat;
+    background-size:contain;
+    width:135px!important;
+    cursor:pointer;
+    text-align:right;*/
+	
+	
+	background: url("/resources/buttons/exit.png") no-repeat scroll 11px 2px #652d1c;
+	border: 0 none;
+	border-radius: 0 0 10px 10px;
+	-moz-border-radius: 0 0 10px 10px;
+	-webkit-border-radius: 0 0 10px 10px;
+	color: #fff;
+	font-size: 17px;
+	font-weight: bold;
+	padding: 5px 25px 5px 42px;
+	width: auto;
+}
+.loading {
+	position: absolute;
+	z-index: 2147483647 !important;
+	overflow: hidden;
+	text-align: center;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	padding-top: 20%;
+}
+.loading img {
+	width: 50px;
+	height: 50px;
+}
+.bar {
+	position: absolute;
+	display: block;
+	width: 0px;
+	height: 16px;
+	top: 12px;
+	left: 1px;
+	background: rgb(126,234,25);
+	background: -moz-linear-gradient(top, rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(126,234,25,1)), color-stop(100%, rgba(83,173,0,1)));
+	background: -webkit-linear-gradient(top, rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
+	background: -o-linear-gradient(top, rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
+	background: -ms-linear-gradient(top, rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
+	background: linear-gradient(to bottom, rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7eea19', endColorstr='#53ad00', GradientType=0 );
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+	-webkit-box-shadow: 0px 0px 12px 0px rgba(126, 234, 25, 1), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45), inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25), inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
+	box-shadow: 0px 0px 12px 0px rgba(126, 234, 25, 1), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45), inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25), inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
+	overflow: hidden;
+}
+.bar:before {
+	position: absolute;
+	display: block;
+	content: "";
+	width: 606px;
+	height: 150%;
+	top: -25%;
+	left: -25px;
+	background: -moz-radial-gradient(center, ellipse cover, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255,255,255,0.35)), color-stop(50%, rgba(255,255,255,0.01)), color-stop(51%, rgba(255,255,255,0)), color-stop(100%, rgba(255,255,255,0)));
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
+	background: -o-radial-gradient(center, ellipse cover, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
+	background: -ms-radial-gradient(center, ellipse cover, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
+	background: radial-gradient(ellipse at center, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#59ffffff', endColorstr='#00ffffff', GradientType=1 );
+}
+.bar:after {
+	position: absolute;
+	display: block;
+	content: "";
+	width: 95%;
+	height: 16px;
+	right: 0;
+	top: 0;
+	-webkit-border-radius: 0px 16px 16px 0px;
+	border-radius: 0px 16px 16px 0px;
+	background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255,255,255,0)), color-stop(98%, rgba(255,255,255,0.6)), color-stop(100%, rgba(255,255,255,0)));
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
+	background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
+	background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff', GradientType=1 );
+}
+#progressbar {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: grey;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity=80);
+}
+#progressbar_content {
+	height: 50px;
+	padding : 50px;
+	text-align: center;
+	font-size: 36px;
+	font-weight: bolder;
+	color: #2D4F13;
+	margin-top: 6%;
+}
+/*   css style for progress bar used from - http://cssdeck.com/labs/nice-sparkle-progress-bars   */
+
+.progressbar {
+	position: relative;
+	display: block;
+	width: 35%;
+	height: 20px;
+	margin: 90px auto;
+	padding: 10px 20px;
+}
+.progressbar:before {
+	position: absolute;
+	display: block;
+	content: "";
+	width: 100%;
+	height: 18px;
+	top: 25%;
+	left: 0;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	background: #222;
+	-webkit-box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.85);
+	;
+	box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.85);
+	border: 1px solid rgba(0,0,0,0.8);
+}
+.json_txt {
+	height: 50%;
+	margin: 0 auto;
+	position: absolute;
+	right: 100%;
+	top: 0;
+}
+#btnLogin {
+	border: 1px solid #09340A;
+	border-radius: 5px;
+	color: #C3C281;
+	background: #214429;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 2px;
+	text-decoration: none;
+	width: 100px;
+	cursor: pointer;
+	z-index: 99999;
+}
+.bottom_bar_fixed {
+	background-color: rgba(0, 0, 0, 0.7);
+	bottom: 0;
+	box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
+	margin: 0;
+	padding: 12px 0;
+	width: 100%;
+	color: #fff;
+}
+#btn_rules.online {
+	/*background: #ffffff; /* Old browsers 
+background: -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f1f1f1), color-stop(51%,#e1e1e1), color-stop(100%,#f6f6f6)); /* Chrome,Safari4+ 
+background: -webkit-linear-gradient(top, #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%);
+background: -o-linear-gradient(top, #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%); 
+background: -ms-linear-gradient(top, #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%);
+background: linear-gradient(to bottom, #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 );
+border: 1px solid #3f3f3f; */
+	background: url("/resources/buttons/rule.png") no-repeat scroll 3px 2px;
+	border-radius: 0;
+	color: #fff;
+	font-size: 17px;
+	font-weight: bold;
+	padding: 4px 30px 6px 51px;
+	text-shadow: 0 -1px 3px #000;
+}
+.pushy li a:hover #btn_rules.online {
+	background: url("/resources/buttons/ruleh.png") no-repeat scroll 3px 2px;
+}
+
+/*#btn_rules.online:hover{ background: #f3f3f3}
+#btn_get_chips:hover{ background: #f3f3f3}*/
+
+#btn_get_chips {
+	background: url("/resources/buttons/chips.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+	border-radius: 0;
+	color: #fff;
+	font-size: 17px;
+	font-weight: bold;
+	padding: 4px 20px 7px 42px;
+	text-shadow: 0 -1px 3px #000;
+	width: auto;
+}
+.pushy li a:hover #btn_get_chips {
+	background: url("/resources/buttons/chipsh.png") no-repeat scroll 0 1px;
+}
+#Logout {
+	display: inline-block;
+	position: relative;
+	vertical-align: inherit;
+}
+#social_media_container {
+	/* padding-left: 0;*/
+	padding-right: 0;
+
+}
+.fb-invite {
+	background: url("/resources/backgrounds/fb.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	float: none;
+	height: 41px;
+	margin-left: 13px;
+	padding-right: 34px;
+	text-decoration: none;
+	padding-top: 5px;
+	width: 33px;
+}
+#btnDealHole {
+	background: url("/resources/buttons/dealh.png") no-repeat;
+	background-size: 100%;
+	border-radius: 120px;
+	color: #fff;
+	float: right;
+	font-size: 16px;
+	font-weight: bold;
+	height: 95px;
+	line-height: 21px;
+	padding: 26px 4px 20px;
+	text-align: center;
+	text-shadow: 2px 1px #222;
+	white-space: normal;
+	width: 95px;
+}
+#btnDealHole:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealFlop:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealTurn:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealRiver:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnNextGame:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealFlop {
+	background: url("/resources/buttons/dealh.png") no-repeat;
+	background-size: 100%;
+	border-radius: 120px;
+	color: #fff;
+	float: right;
+	font-size: 16px;
+	font-weight: bold;
+	height: 95px;
+	line-height: 21px;
+	padding: 26px 4px 20px;
+	text-align: center;
+	text-shadow: 2px 1px #222;
+	white-space: normal;
+	width: 95px;
+}
+#btnDealTurn {
+	background: url("/resources/buttons/dealh.png") no-repeat;
+	background-size: 100%;
+	border-radius: 120px;
+	color: #fff;
+	float: right;
+	font-size: 16px;
+	font-weight: bold;
+	height: 95px;
+	line-height: 21px;
+	padding: 26px 4px 20px;
+	text-align: center;
+	text-shadow: 2px 1px #222;
+	white-space: normal;
+	width: 95px;
+}
+#btnDealRiver {
+	background: url("/resources/buttons/dealh.png") no-repeat;
+	background-size: 100%;
+	border-radius: 120px;
+	color: #fff;
+	float: right;
+	font-size: 16px;
+	font-weight: bold;
+	height: 95px;
+	line-height: 21px;
+	padding: 26px 4px 20px;
+	text-align: center;
+	text-shadow: 2px 1px #222;
+	white-space: normal;
+	width: 95px;
+}
+#btnNextGame {
+	background: url("/resources/buttons/dealh.png") no-repeat;
+	background-size: 100%;
+	border-radius: 120px;
+	color: #fff;
+	float: right;
+	font-size: 16px;
+	font-weight: bold;
+	height: 95px;
+	line-height: 21px;
+	padding: 26px 4px 20px;
+	text-align: center;
+	text-shadow: 2px 1px #222;
+	white-space: normal;
+	width: 95px;
+}
+.twiiter a {
+	background: url("/resources/backgrounds/twitter.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	float: left;
+	height: 41px;
+	padding-right: 10px;
+	text-decoration: none;
+	text-indent: -99999px;
+	width: 33px;
+}
+.facebooklike a {
+	background: url("/resources/backgrounds/like.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	float: left;
+	height: 41px;
+	padding: 2px;
+	text-decoration: none;
+	text-indent: -99999px;
+	width: 37px;
+}
+.footertxt {
+	font-family: "Open Sans", sans-serif;
+	font-weight: bold;
+	padding-top: 8px;
+}
+@media screen and ( max-height: 580px ) {
+#hand_panels_container
+{ left:0 !important;}
+}
+
+
+
+
+@media screen and ( max-height: 520px ) {
+	
+
+#twitter_container {
+    display: inline;
+    position: relative;
+    top: 1px;
+}
+.fb-invite {
+    background: url("/resources/backgrounds/fb.png") no-repeat scroll 0 0 / 74% auto rgba(0, 0, 0, 0);
+    float: none;
+    height: 34px;
+    margin-left: 13px;
+    padding-right: 16px;
+    padding-top: 0;
+    text-decoration: none;
+    width: 19px;
+}
+
+
+#Logout {
+    bottom: 4px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 19px 4px / 17% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 11px 23px 9px 34px;
+    width: auto;
+}
+
+.card_right img {
+  width: auto !important;
+}
+
+
+
+.card_left img, .card_right img {
+  width: auto !important; 
+   height: 17vh;
+}
+#card_ZZ img {
+  width: auto !important; 
+    height: 17vh;
+}
+#hand_panels_container
+{ left:0 !important;}
+}
+ 
+
+ 
+ 
+@media screen and ( max-height: 400px ) {
+#hedgeem_table_container img {
+	height: 15vw;
+	max-height: 15vh;
+}
+
+#status_icons_container {
+    float: left;
+    height: auto;
+    left: 9px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    z-index: 20;
+}
+
+.fb-invite {
+    background: url("/resources/backgrounds/fb.png") no-repeat scroll 0 0 / 74% auto rgba(0, 0, 0, 0);
+    float: none;
+    height: 34px;
+    margin-left: 13px;
+    padding-right: 16px;
+    padding-top: 0;
+    text-decoration: none;
+    width: 19px;
+}
+
+
+#twitter_container {
+    display: inline;
+    position: relative;
+    top: 1px;
+}
+
+
+#Logout {
+    bottom: 10px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 15px 3px / 18% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 8px 15px 9px 30px;
+    width: auto;
+}
+
+
+#status_icons_container img {
+	height: inherit;
+}
+#hedgeem_table_container img {
+	height: 10vw;
+}.card_right img {
+  width: auto !important; right:8px;
+}
+.card_left img{ left:8px;}
+	.card_right_flop img, .card_left_flop img, .card_middle_flop img, .card_middle_turn img, .card_middle_river img {
+    width: auto !important;
+}
+
+.payoutvalue{ font-size:3vh;}
+
+#status_icons_container img {
+	  height: 6vh;
+}
+.menu-btn, .menu-btn.highlight{ background-size:35%;}
+#btn_rules.online, #btn_play_for_real { background-size:contain; font-size:4vh}
+#btn_get_chips{font-size:4vh; padding:4px 27px 7px 14px;background-size:contain;}
+.pushy li a:hover #btn_get_chips {background-size:contain;}
+.pushy li a:hover #btn_rules.online{ background-size:contain;}
+
+#placed_bets {
+	width: 25vw;
+	font-size: 2vw;
+}
+#status_icons_container {
+	font-size: 2vw;
+}
+.previous_placed_bet_for_any_stage {
+	font-size: 2vw;
+}
+#btnDealHole {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+#btnDealTurn {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+#btnDealFlop {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+#btnDealRiver {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+#btnNextGame {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+.hedgeem_seat_container {
+	background-size: 100% 100%;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+	line-height: 20vh;
+}
+.hedgeem_seat_container .player_balance {
+	font-size: 3vh;
+}
+.payoutdescription {
+	font-size: 3vh;
+}
+}
+
+@media screen and ( max-height:280px ) {
+.card_right img {
+    right: 6px !important;
+}
+.card_left img {
+    left: 6px !important;
+}
+
+}
+@media screen and ( max-height:175px ) {
+.card_left img {
+    left: 4px;
+}
+.card_right img {
+    right: 5px;
+}
+}
+
+@media (max-width:1200px) {
+#hand_panels_container{ left:0;}
+}
+@media (max-width:767px) {
+.fb-invite {
+    background: url("/resources/backgrounds/fb.png") no-repeat scroll 0 0 / 74% auto rgba(0, 0, 0, 0);
+    float: none;
+    height: 34px;
+    margin-left: 13px;
+    padding-right: 16px;
+    padding-top: 0;
+    text-decoration: none;
+    width: 19px;
+}
+
+.cancel_bet_button {
+    background-image: url("/resources/buttons/btn_cancel_bet_62x24.png");
+    background-repeat: no-repeat;
+    background-size: 38% auto;
+    color: transparent;
+    position: absolute;
+    right: -19px;
+    top: 0;
+    z-index: 99;
+}
+
+#status_icons_container {
+    float: left;
+    height: auto;
+    left: 9px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    z-index: 20;
+}
+
+
+#twitter_container {
+    display: inline;
+    position: relative;
+    top: 1px;
+}
+
+
+#Logout {
+    bottom: 4px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 19px 4px / 17% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 11px 23px 9px 34px;
+    width: auto;
+}
+#hedgeem_table_container img {
+	height: 10vw;
+}
+#status_icons_container img {
+	height: 5vh;
+}
+.menu-btn, .menu-btn.highlight{ background-size:35%;}
+
+ 
+#placed_bets {
+	width: 25vw;
+	font-size: 1.6vh;
+}
+#status_icons_container {
+	font-size: 1.6vh;
+}
+.hedgeem_seat_container .player_balance {
+	font-size: 1.6vh;
+}
+#btnDealTurn {
+	background-size: 100% 100%;
+    font-size: 1.6vh;
+    height: 10vw;
+    max-height: 10vh;
+	line-height: 2vh;
+    max-width: 10vh;
+    padding: 0;
+    width: 10vw;
+}
+#btnDealHole {
+	background-size: 100% 100%;
+	font-size: 1.6vh;
+	height: 10vw;
+	max-height: 10vh;
+	line-height: 2vh;
+	max-width: 10vh;
+	padding: 0;
+	width: 10vw;
+}
+#btnDealFlop {
+	background-size: 100% 100%;
+	font-size: 1.6vh;
+	height: 10vw;
+	max-height: 10vh;
+	line-height: 2vh;
+	max-width: 10vh;
+	padding: 0;
+	width: 10vw;
+}
+#btnDealRiver {
+	background-size: 100% 100%;
+	font-size: 2vh;
+	height: 10vw;
+	max-height: 10vh;
+	line-height: 2vh;
+	max-width: 10vh;
+	padding: 0;
+	width: 10vw;
+}
+#btnNextGame {
+	background-size: 100% 100%;
+    font-size: 1.6vh;
+    height: 10vw;
+    max-height: 10vh;
+	line-height: 2vh;
+    max-width: 10vh;
+    padding: 0;
+    width: 10vw;
+}
+.previous_placed_bet_for_any_stage {
+	font-size: 1.6vh;
+}
+.hedgeem_seat_container {
+	background-size: 100% 100%;
+	height: 10vw;
+	padding: 0;
+	max-height: 10vh;
+	max-width: 10vh;
+	width: 10vw;
+	line-height: 10vh;
+}
+.hedgeem_seat_container .player_balance {
+	font-size: 1.6vh;
+}
+}
+@media (max-width:320px) {
+	#status_icons_container img {
+    height: 3vh;
+}
+.hedgeem_seat_container {
+    line-height: 2vh;
+}
+.hedgeem_seat_container .player_balance {
+    font-size: 2vh;
+}
+#btnDealFlop {
+    font-size: 2vh;
+}
+
+}
+ @media only screen and (min-width:300px) and (max-width:478px) {
+.card_right img {
+	right: 18px;
+}
+
+
+}
+ @media only screen and (min-height:198px) and (max-height:600px) {
+.card_left img {
+    left: 13px;
+}
+
+.card_right img {
+    right: 13px;
+}
+
+ }
+
+ @media only screen and (min-height:401px) and (max-height:680px) {
+.card_right img {
+    right: 16px;
+}
+
+ }
+ @media (max-width:479px) {
+ .card_right img {
+    right: 10px !important;
+}
+
+.card_left img {
+    left: -6px !important;
+}
+ }
+
+@media only screen 
+and (min-width : 1200px) and (max-width : 1720px){
+	
+.card_left img, .card_right img {
+  
+   height:15vh;
+}
+
+
+
+.card_right_flop img, .card_left_flop img, .card_middle_flop img, .card_middle_turn img, .card_middle_river img{
+
+height:15vh;
+
+}
+
+
+}
+
+
+
+
+@media only screen 
+and (min-width : 1721px) and (max-width : 1920px){
+ 
+	
+	.card_left img, .card_right img {
+  
+   height:17vh;
+}
+
+
+
+.card_right_flop img, .card_left_flop img, .card_middle_flop img, .card_middle_turn img, .card_middle_river img{
+
+height:17vh;
+
+}
+
+
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+::i-block-chrome,.card_middle_turn, ::i-block-chrome,.card_middle_river, ::i-block-chrome,.card_right_flop, ::i-block-chrome,.card_left_flop { margin-top:14%;}
+}

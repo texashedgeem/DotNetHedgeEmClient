@@ -1,8 +1,11 @@
 ﻿#get_chips
 {
-    top: 0px;
-    width: 60%;
-    margin: 5% 0% 0% 0%;
+    height: 465px;
+    margin: 4% 9% 0;
+    top: 0;
+	width:60%;
+	
+    
 }
 
 .xxx_get_chips_content_divs
@@ -27,9 +30,16 @@
 
 .get_chips_image img
 {
-    float:left;
-    width:100px;
-    height: 50px;
+    float: left;
+    padding-top: 12px;
+    width: 88px;
+}
+
+.get_chips_image img.fbr
+{
+    float: left;
+    padding-top: 12px;
+    width:auto;
 }
 
 #option_visit_these_sites{
@@ -50,7 +60,7 @@
 }
 
 .alternatives_section_heading{
-    font-size: 12px;
+   
     float: both;
     //color: red;
     margin: 0% 0% 0% 0%; 
@@ -62,11 +72,6 @@
 #ai_BetFair_description{
     display: none;
 }
-
-#ai_Flattr_description{
-    display: none;
-}
-
 
 #ai_full_tilt_description{
     display: none;

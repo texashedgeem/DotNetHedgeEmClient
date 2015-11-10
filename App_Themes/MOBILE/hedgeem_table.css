@@ -1,0 +1,910 @@
+
+/*
+There are Three 'wrapper' classes used to display the Hedgeem Table.  In order of hierachy these are:
+
+    UpdatePanel1: Primarly used to support ajax updates so full screen is not used.  Is also used
+                  to center everything.
+    
+    wrapper:      Not sure of purpose of this (is it redundant (where purpose is served by 
+                  hedgeem_table_container?)
+
+    hedgeem_table_container: This is the main Hedge'Em Table container.  All gui objects/controls are
+                             placed inside this container are positioned in relation (relative to)
+                             the parent container.
+        
+*/
+
+
+/* 
+    This is the 'top-most' container.  It is primarily used to support ajax so that the whole screen is not
+    refreshed as each stage of the game progresses.  It is also used to set the overall position of the 
+    displayed Hedge'Em table.
+    See also: #wrapper and .hedgeem_table_container
+*/
+body
+{
+    overflow-y:hidden;
+	overflow-x:hidden;
+	background-repeat: repeat;
+    //background: url(../resources/backgrounds/watermark_2.png);
+    margin-top:0;
+}
+.body
+{
+    height: 100%;
+    width: 100%;
+
+}
+#UpdatePanel1
+{
+    width: 100%;
+    height: 100%;
+    background-repeat: repeat;
+    //background: url(/resources/backgrounds/watermark_2.png);
+    top: 0%;
+    left: 0%;
+    position: absolute;
+    padding: 0px;
+    z-index: 0; /*                  background-color: orange;              right:0px;                  border-collapse: collapse;              */
+}
+
+#wrapper
+{
+    position: relative;
+    margin: auto;
+    padding: 0%;
+    width: 800px;
+    height: 600px;
+    background-repeat: no-repeat;
+    border: 1px solid #000000;
+   
+    background-color: brown; /*          background-color: lime;          padding: 0% 10% 0% 10%;          */
+}
+
+
+#hedgeem_table_container
+{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    margin: 0%, 0% 0%, 0%;
+    background-repeat: no-repeat;
+    padding: 0%;
+    /*              background-color: cyan;     margin: 10%, 0% 10%, 0%;     background-size:100% 100%;          right:0px;              border-collapse: collapse;              position: relative;          float: left;          margin-left: 300px;          margin-top: 150px;          background-color: cyan;          */
+}
+
+#hedgeem_table_backdrop
+{
+    margin: 0%;
+    padding: 0%;
+    position: absolute;
+    //*background: url(resources/backgrounds/carpet_background_800x600.png);*/
+    //background: url(/resources/backgrounds/carpet_background_800x600.png);
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#hedgeem_table_physical_table
+{
+    margin: 0%;
+    padding: 0%;
+    position: absolute;
+    background-color: green;
+    background: url(/resources/backgrounds/itouch_table_600high.png);
+    background-repeat: no-repeat;
+    //background-size: 100% 90%;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+	  /*display: none;*/
+}
+
+
+#hedgeem_table_info_bar_background
+{
+    margin: 0%;
+    padding: 0%;
+    //background: url(/resources/backgrounds/info_bar_backgrond_800x80.png);
+    background-size: 100% 100%;
+    width: 100%;
+    height: 15%;
+    background-repeat: no-repeat;
+    top: 85%;
+    position: absolute;
+    padding: 0px;
+    z-index: 3; /*              background-color: Gray;     background-size:100% 100%;          right:0px;              border-collapse: collapse;              position: relative;     float: left;     margin-left: 300px;     margin-top: 150px;     background-color: cyan;     */
+    /*display: none;*/
+}
+
+
+
+/*
+    All Hand panels that are display are displayed in a container so you can re-position all of them
+    left, right, up or down etc with one CSS change.
+    */
+
+#table_logo
+{
+    background: url(/resources/logos/logo_1.png); /* background-size:100% 100%; Do not use background size as it deforms logo */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    top: 5%;
+    left: 83%;
+    position: relative;
+    padding: 0%;
+    z-index: 10;
+    width: 13%;
+    height: 10% /*      width: 13%;     height: 10%     background-color:red;     */;
+    display: none;
+}
+
+#house_chips
+{
+    //background: url(/resources/backgrounds/house_chips.png);
+    background-size: 100% 100%;
+    width: 20%;
+    height: 8%;
+    float: left;
+    background-repeat: no-repeat;
+    top: 0px;
+    margin: 0% 60% 0% 40%;
+    position: absolute;
+    padding: 0px;
+    z-index: 50; /*                  background-color: yellow;     */
+}
+
+
+#table_jackpot_container
+{
+    background: url(/resources/backgrounds/jackpot_container_background_1.png);
+    background-size: 100% 100%;
+    width: 15%;
+    height: 10%;
+    float: left;
+    background-repeat: no-repeat;
+    top: 1%;
+    left: 1%;
+    margin: 0% 0% 0% 0%;
+    position: absolute;
+    padding: 0px;
+    z-index: 50; /*          background-color:darkblue;     background-color:darkblue;          */
+}
+
+
+#placed_bets
+{
+    /*         background-color:red;     */
+    width: 20%;
+    height: 4%;
+    top: 45%;
+    left: 45%;
+    color: yellow;
+}
+
+
+#winner_message_container
+{
+    float: left;
+    position: absolute;
+    width: 60%;
+    height: 15%;
+    top: 35%;
+    margin: 0% 20% 0% 20%;
+    background: url(/resources/backgrounds/congratulations_1.png);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: 50% 0%;
+    padding: 0px;
+    z-index: 50; /*          background-color:lime;          background:url(/resources/backgrounds/animated_winner_1.gif);          margin: 0% 0% 0% 0%;          left: 1%;          width: 100px;          height: 100px;              */
+}
+
+
+#winner_message_string
+{
+    position: absolute;
+    color: yellow;
+    width: 80%;
+    height: 40%;
+    top: 15%;
+    left: 0%;
+    float: left;
+    text-align: center;
+    margin: 5% 10% 0% 10%;
+    background-repeat: no-repeat;
+    padding: 0px;
+    z-index: 50;
+    font-family: Bastion; /*     background-color:red;     width: 100px;     height: 100px;         */
+}
+
+.displayed_currency
+{
+    color: lime;
+    width: 60%;
+    height: 40%;
+    top: 40%;
+    left: 50%;
+    float: left;
+    background-repeat: no-repeat;
+    margin: 0% 0% 0% 0%;
+    position: absolute;
+    padding: 0px;
+    z-index: 50; /*     background-color:red;     width: 100px;     height: 100px;         */
+}
+
+#facebook_container
+{
+    position: absolute;
+    display: none;
+    top: 40%;
+    right: 0%;
+    height: 10%;
+    width: 8%;
+    background-color: red;
+}
+#social_media_container {
+    height: 30%;
+    position: absolute;
+    top: 60%;
+    width: 19%;
+    right:100%
+}
+.fb-like {
+    position: absolute;
+   float:left;
+   top:5%;
+    z-index: 99;
+}
+#twitter_container {
+  position: absolute;
+   top:35%;
+   float:left;
+    z-index: 99;
+}
+
+.fb-invite
+{
+    float: left;
+    padding: 2px;
+    text-decoration: none;
+    background:url('/resources/invitefbfriends.png') no-repeat;
+    width:150px;
+    height:24px;
+}
+
+
+.Menus
+{
+    text-decoration: none;
+    color: Black;
+}
+
+#update
+{
+    width: 421px;
+}
+
+#TabContainer1
+{
+    width: 421px;
+}
+.ajax__tab_xp .ajax__tab_body
+{
+    width: 900px !important;
+}
+.frm
+{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #000000;
+    float: left !important;
+    height: 600px;
+    margin: 33px 0 0 !important;
+    padding: 16px 1px 16px 2px !important;
+    width: 58%;
+}
+.panel3grid
+{
+    height: 300px;
+    width: 900px;
+    border-collapse: collapse;
+    margin: 4px 0 0 3px;
+    font-size: 11px;
+    font-weight: normal;
+}
+.panel3grid_dgv_table_list
+{
+    height: 300px;
+    width: 1065px;
+    border-collapse: collapse;
+    margin: 4px 0 0 3px;
+    font-size: 11px;
+    font-weight: normal;
+}
+.txtmode
+{
+    height: 300px;
+    width: 895px;
+}
+
+
+
+
+.NewWindow
+{
+    target: _blank;
+}
+
+
+
+
+.New_user_popup
+{
+    margin: 64px 1px 1px 1px;
+}
+/* Style for div popup message for Bet not accepted message */
+.black_overlay
+{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 600px;
+    background-color: black;
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: .80;
+    filter: alpha(opacity=80);
+}
+.white_content
+{
+   background-color: white;
+    border: 0 solid #A6C25C;
+    display: none;
+   
+    overflow: auto;
+    position: absolute;
+    top: 25%;
+     border-top: 40px solid #09340A!important;
+     border-radius: 15px;
+   left:0;
+   right:0;
+   margin-left:auto;
+   margin-right:auto;
+    padding: 15px;
+    width: 52%;
+    z-index: 1002;
+    height:56%;
+    top:50%;
+    margin-top:-28%;
+}
+
+#short_description
+{
+    margin-top: 20px;
+}
+
+/* pop up */
+
+.green_overlay
+{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 180%;
+    background-color: #1B4224;
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: .70;
+    filter: alpha(opacity=80);
+}
+
+.div_rules_content
+{
+    background-color: white;
+    border: 0 solid #A6C25C;
+    display: none;
+    left: 21%;
+    overflow: auto;
+    position: absolute;
+    top: 25%;
+    border-top: 50px solid #09340A !important;
+    border-radius: 15px;
+    float: left;
+    margin: 0 12%;
+    padding: 15px;
+    width: 400px;
+    z-index: 1002;
+}
+
+#session_timeout_message
+{
+    background-color: white;
+    border: 0 solid #A6C25C;
+    display: none;
+    left: 21%;
+    overflow: auto;
+    position: absolute;
+    top: 25%;
+    border-top: 50px solid #09340A !important;
+    border-radius: 15px;
+    float: left;
+    margin: 0 12%;
+    padding: 15px;
+    width: 400px;
+    z-index: 1002;
+    text-align: center;
+}
+
+
+.fade_overlay
+{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 180%;
+    background-color: #000;
+    z-index: 1001;
+}
+
+#txt_play_for_real_deposit_pledge
+{
+    border: 3px solid;
+    width: 50px;
+}
+
+#btn_play_for_real_deposit_pledge
+{
+    background: #C8BFE7;
+}
+
+.play_for_real_deposit_pledge
+{
+    text-align: center;
+    font-weight: bold;
+}
+
+#hedgeem_bet_slider1
+{
+    background-color: #1D1D1D;
+    display: none;
+    left: 7%;
+    overflow: auto;
+    position: absolute;
+    top: 50%;
+    float: left;
+    margin: 0 12%;
+    padding: 10px;
+    width: 28%;
+    z-index: 1002;
+    text-align: center;
+    height: 9%;
+    border-radius: 15px;
+    border: 1px solid #000;
+    overflow-x:hidden;
+    overflow-y:hidden;
+}
+#hedgeem_bet_slider1 p
+{
+    padding: 0;
+    margin-top: 0;
+}
+#hedgeem_bet_slider2 p
+{
+    padding: 0;
+    margin-top: 0;
+}
+
+#hedgeem_bet_slider3 p
+{
+    padding: 0;
+    margin-top: 0;
+}
+
+#hedgeem_bet_slider4 p
+{
+    padding: 0;
+    margin-top: 0;
+}
+#hedgeem_bet_slider2
+{
+    background-color: #1D1D1D;
+    display: none;
+    left: 21%;
+    overflow: auto;
+    position: absolute;
+    top: 55%;
+    float: left;
+    margin: 0 12%;
+    padding: 10px;
+    width: 28%;
+    z-index: 1002;
+    text-align: center;
+    height: 9%;
+    border-radius: 15px;
+    border: 1px solid #000;
+      overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+#hedgeem_bet_slider3
+{
+    background-color: #1D1D1D;
+    display: none;
+    left: 36%;
+    overflow: auto;
+    position: absolute;
+    top: 55%;
+    float: left;
+    margin: 0 12%;
+    padding: 10px;
+    width: 28%;
+    z-index: 1002;
+    text-align: center;
+    height: 9%;
+    border-radius: 15px;
+    border: 1px solid #000;
+      overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+#hedgeem_bet_slider4
+{
+    background-color: #1D1D1D;
+    display: none;
+    left: 50%;
+    overflow: auto;
+    position: absolute;
+    top: 50%;
+    float: left;
+    margin: 0 12%;
+    padding: 10px;
+    width: 28%;
+    z-index: 1002;
+    text-align: center;
+    height: 9%;
+    border-radius: 15px;
+    border: 1px solid #000;
+      overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+.no_opaque_overlay
+{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 180%;
+    background-color: #1B4224;
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: 0;
+    filter: alpha(opacity=80);
+}
+.bet_left
+{
+    float: left;
+    margin-top: 0px;
+}
+
+.bet_right
+{
+    float: right;
+    margin-right: -48px;
+    margin-top: -18px !important;
+}
+
+#slider-range-min1
+{
+    margin-left: 30px;
+}
+
+#slider-range-min2
+{
+    margin-left: 30px;
+}
+
+#slider-range-min3
+{
+    margin-left: 30px;
+}
+
+#slider-range-min4
+{
+    margin-left: 30px;
+}
+.bet_slider
+{
+    float: left;
+    margin-top: 0;
+    width: 77%;
+    color: White;
+}
+
+.amount
+{
+    border: 0;
+    color: #D9D600;
+    width: 25%;
+    font-weight: bold;
+    background: #000;
+}
+
+.place_bet_button
+{
+    background: url("/resources/buttons/tick-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 16px;
+    width: 16px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    background-color: #000;
+    border-radius: 3px;
+    margin-top: 2%;
+}
+
+.cancel_place_bet_button
+{
+    background: url("/resources/buttons/cancel-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 16px;
+    width: 16px;
+    border: none;
+    cursor: pointer;
+    float: left;
+    background-color: #000;
+    border-radius: 3px;
+    margin-top: 2%;
+}
+
+.bet_payout_description
+{
+    border: 1px solid #000;
+    border-radius: 5px;
+    float: left;
+    margin-left: 9%;
+    width: 81%;
+    color: #D9D600;
+    background: #000;
+}
+
+.bet_buttons
+{
+    margin-top: -22px;
+    position: absolute;
+    width: 92%;
+}
+#hedgeem_game_id
+{
+    position: absolute;
+    top: 100%;
+    right:0%;
+    color:#C3C281;
+    padding:0%;
+    margin-bottom: 0px;
+    z-index:9999;
+}
+
+#Logout
+{
+    position:absolute;
+    top:0;
+    right:0;
+    float:right;
+    color:#C3C281;  
+      z-index:999; 
+}
+
+.logout
+{
+    margin-left:6px;
+}
+
+#btnLogout
+{
+border: 1px solid #09340A;
+    border-radius: 5px;
+    color: #C3C281;
+    background:#214429;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px;
+    text-decoration: none;
+    background:url(/resources/usr.png);
+    background-repeat:no-repeat;
+    background-size:contain;
+    width:135px!important;
+    cursor:pointer;
+    text-align:right;
+}
+
+
+        .loading
+        {
+          
+            position: absolute;
+
+z-index: 2147483647 !important;
+
+overflow: hidden;
+text-align: center; top: 0; left: 0;
+height: 100%;
+width: 100%;
+padding-top:20%;
+        }
+        
+        .loading img
+        {
+            width:50px;
+            height:50px;
+        }
+        
+        .bar {
+	position:absolute;
+	display:block;
+	width:0px;
+	height:16px;
+	top:12px;
+	left:1px;
+	background: rgb(126,234,25);
+	background: -moz-linear-gradient(top,  rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(126,234,25,1)), color-stop(100%,rgba(83,173,0,1)));
+	background: -webkit-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
+	background: -o-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
+	background: linear-gradient(to bottom,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7eea19', endColorstr='#53ad00',GradientType=0 );
+	-webkit-border-radius:16px;
+	border-radius:16px;
+	-webkit-box-shadow: 0px 0px 12px 0px rgba(126, 234, 25, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
+	box-shadow: 0px 0px 12px 0px rgba(126, 234, 25, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
+	overflow:hidden;
+}
+
+.bar:before {
+	position:absolute;
+	display:block;
+	content:"";
+	width:606px;
+	height:150%;
+	top:-25%;
+	left:-25px;
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,0.35)), color-stop(50%,rgba(255,255,255,0.01)), color-stop(51%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
+	background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
+	background: radial-gradient(ellipse at center,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#59ffffff', endColorstr='#00ffffff',GradientType=1 );
+}
+.bar:after {
+	position:absolute;
+	display:block;
+	content:"";
+	width:95%;
+	height:16px;
+	right:0;
+	top:0;
+	-webkit-border-radius: 0px 16px 16px 0px;
+	border-radius: 0px 16px 16px 0px;
+	background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(98%,rgba(255,255,255,0.6)), color-stop(100%,rgba(255,255,255,0)));
+	background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
+	background: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
+	background: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
+	background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
+}
+
+#progressbar
+{
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: grey;
+        z-index:1001;
+        -moz-opacity: 0.8;
+        opacity:.80;
+        filter: alpha(opacity=80);
+        
+}
+
+#progressbar_content
+{
+
+    height: 50px;
+padding :50px;
+    text-align:center;
+    font-size:36px;
+    font-weight:bolder;
+    color:#2D4F13;
+    margin-top:6%;
+}
+
+/*   css style for progress bar used from - http://cssdeck.com/labs/nice-sparkle-progress-bars   */
+
+.progressbar{
+    position:relative;
+    display:block;
+    width:35%;
+    height:20px;
+    margin:90px auto;
+    padding:10px 20px;
+}
+.progressbar:before{
+    position:absolute;
+    display:block;
+    content:"";
+    width:100%;
+    height:18px;
+    top:25%;
+    left:0;
+	-webkit-border-radius:20px;
+    border-radius:20px;
+    background:#222;
+	-webkit-box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.85);;
+    box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.85);
+	border:1px solid rgba(0,0,0,0.8);
+}
+
+
+.get_chips_content_divs
+{
+      background: none repeat scroll 0 0 #5E5652;
+    
+    border-bottom: 10px solid #FFFFFF;
+   border-top:10px solid #629C2D;
+  border-left:10px solid #629C2D;
+  border-right:10px solid #629C2D;
+    padding: 2%;
+    color:White;
+    font-family:Arial;
+    cursor:pointer;
+    height:39px;
+    box-shadow:0px 1px 1px #629C2D;
+}
+
+.get_chips_image
+{
+   float:left;
+   width:26%;
+}
+
+#get_chips h4
+{
+    font-family:Arial;
+    font-weight:normal;
+    font-size:17px;
+}
+
+#placed_bets_container_DOES_NOT_WORK
+{
+    top:10%;
+    right: -5%;
+}
+
+#placed_bets
+{
+    top:15%;
+    left: 102%;
+    color: Black;
+}
+/*
+#get_chips
+{
+    height:auto!important;
+    margin-top:-35%!important;
+}
+
+*/
+

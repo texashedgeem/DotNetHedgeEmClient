@@ -2,7 +2,7 @@
 /*This is badly named and should be called hedgeem_single_seat_container */ 
 #Player_Info
 {
-    position: absolute;
+    /*position: absolute;
     top: 86%;
     left: 2%;
     height: 30%;
@@ -12,13 +12,13 @@
     /*
     height: 107px;
     background-color: cyan;
-    */
+    */*/
     
 }
 
 .hedgeem_seat_container
 {
-    background:url(/resources/backgrounds/seat_background_1.png);
+   /* background:url(/resources/backgrounds/seat_background_1.png);*/
     background-repeat: no-repeat;
     position: relative;
     //float:left;
@@ -39,13 +39,12 @@
 .player_image img {
     height: 50px;
     width: 50px;    
-    padding: 6px;
 }
 
 .player_image
 {
     
-    position: relative;
+  /*  position: relative;
     border: 0px solid #654321;
     top: 8%;
     left: 0%;
@@ -60,7 +59,7 @@
 .player_balance
 {
     
-    position: absolute;
+   /* position: absolute;
     width: 40%;
     height: 20%;
     color: #FFFF00;

@@ -21,8 +21,6 @@ function show_error_message() {
 function hide_error_message() {
     document.getElementById('error_message').style.display = 'none';
     document.getElementById('fade_error_message').style.display = 'none';
-    document.getElementById('userdetails').style.display = 'block';
-    document.getElementById('fade_userdetails').style.display = 'block';
     return;
 }
 
@@ -50,7 +48,7 @@ function hide_register() {
 
 function show_fb_register() {
     document.getElementById('content_register_fb_user').style.display = 'block';
-    document.getElementById('hide_fb_register').style.display = 'block';
+    document.getElementById('hide_register').style.display = 'block';
     hide_login();
     return;
 }
@@ -58,22 +56,26 @@ function show_fb_register() {
 
 function hide_fb_register() {
     document.getElementById('content_register_fb_user').style.display = 'none';
-    document.getElementById('hide_fb_register').style.display = 'none';
+    document.getElementById('hide_register').style.display = 'none';
     return;
 }
-
-
-
+function hide_alertmessage() {
+    document.getElementById('alertmessage').style.display = 'none';
+    document.getElementById('hide_register_fb_cross').style.display = 'none';
+    return;
+}
 
 function show_login() {
     document.getElementById('userdetails').style.display = 'block';
     document.getElementById('fade_userdetails').style.display = 'block';
+    document.getElementById('hide_login').style.display = 'block';
     return;
 }
 
 
 function hide_login() {
     document.getElementById('userdetails').style.display = 'none';
+  
     document.getElementById('fade_userdetails').style.display = 'none';
     return;
 }
@@ -105,12 +107,8 @@ function btn_cashier_Click() {
 
 
 function go_to_profile_edit() {
-   // window.open('frm_user_profile_edit.aspx', 'popUpWindow', 'height=300,width=550,left=300,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
     document.getElementById('edit_profile').style.display = 'block';
     document.getElementById('hide_edit_profile').style.display = 'block';
-}
-
-function hide_edit_profile() {
-    document.getElementById('edit_profile').style.display = 'none';
-    document.getElementById('hide_edit_profile').style.display = 'none';
+    
+ //   window.open('frm_user_profile_edit.aspx', 'popUpWindow', 'height=300,width=550,left=300,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
 }

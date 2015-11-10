@@ -10,15 +10,6 @@ function ChangeImage(imageType) {
     }
 }
 
-function ChangeImageFlop(imageType) {
-    if (imageType == 'mouseoverImage') {
-        document.getElementById('btnDealFlop').src = '../resources/buttons/btn_deal_flop_hover.png';
-    }
-    else {
-        document.getElementById('btnDealFlop').src = '../resources/buttons/btn_deal_flop.png';
-    }
-}
-
 
 function ChangeImageTurn(imageType) {
     if (imageType == 'mouseoverImage') {
@@ -90,7 +81,9 @@ This is used to call the HedgeEmServer to place the player's bet
 // Placeholder function - does not do anything yet Sep 15 2014
 function f_get_player_id(seat_id, player_id) {
     window.alert("Seat " + seat_id + " Player " + player_id);
-    document.getElementById('btnLogout').click();
+    document.getElementById('btn_hidden_control_temp_store_for_hand_index').value = _click_hand_index;
+    document.getElementById('btn_hidden_control_to_place_bet').click();
+    //document.getElementById('btnLogout').click();
 
 } 
 
@@ -336,9 +329,20 @@ function hide_bet_popup4() {
     document.getElementById('fade_hedgeem_bet_slider').style.display = 'none';
     return;
 }
-
 function btn_cashier_Click() {
-    window.open('frm_cashier.aspx', 'popUpWindow', 'height=300,width=550,left=300,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+}
+function btn_cashier_Clicking() {
+    var request = $.ajax({
+        url: "frm_cashier.aspx",
+        cache: false,
+        success: function (html) {
+            $("#cashier_div").append(html);
+        }
+    });
+    request.fail(function (jqXHR, textStatus) {
+        alert("Request failed: " + textStatus);
+    });
+  //  window.open('frm_cashier.aspx', 'popUpWindow', 'height=300,width=550,left=300,top=200,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
 }
 
 function ai_fultilt_click() {

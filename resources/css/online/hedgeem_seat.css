@@ -1,0 +1,115 @@
+
+/*This is badly named and should be called hedgeem_single_seat_container */ 
+#Player_Info
+{
+    position: absolute;
+    top: 86%;
+    left: 1%;
+    height: 12%;
+    width: 20%;
+    -background-color: cyan;
+    /*
+    height: 107px;
+    background-color: cyan;
+    */
+    
+}
+
+#hedgeem_seat_container
+{
+    background:url(/resources/backgrounds/seat_background_1.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0px;
+    height: 90%;
+    width: 90%;
+    margin: 5% 5% 5% 5%;
+    padding: 0% 0% 0% 0%;
+    z-index:30;
+    z-index: 30;
+    -background-color: gold;
+    /*
+    background-color: gold;
+    */
+}
+
+
+
+
+.player_image
+{
+    
+    position: absolute;
+    border: 0px solid #654321;
+    top: 0%;
+    left: 0%;
+    float: left;
+    margin: 5% 5% 5% 5%;
+    padding: 0% 0% 0% 0%;
+    /* Change 0deg to 90deg later when developing for ETG */
+    transform:rotate(0deg);
+	-ms-transform:rotate(0deg); /* IE 9 */
+	-webkit-transform:rotate(0deg); /* Safari and Chrome */
+}
+
+.player_balance
+{
+    
+    position: relative;
+    width: 40%;
+    height: 20%;
+    color: #FFFF00;
+    float: left;
+    font-size: 13px;
+    text-align: center;
+    position: absolute;
+    margin: 5% 5% 5% 5%;
+    padding: 0% 0% 0% 0%;
+    top: 20%;
+    left: 50%;
+    /*
+    background-color: green;
+    */
+    
+    
+    
+    }
+
+
+.player_name
+{
+    color: white;
+    float: left;
+    font-size: 14px;
+    margin-left: 26px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    top: 12px;
+    display: none;
+    background-color: red;
+    width: 50px
+    
+}
+
+
+
+.chip_image
+{
+    position: absolute;
+    float: left;
+    margin: 0px;
+    padding: 0px 0px 0 0px;
+    width: 14px;
+    display:none;
+    top: 78px;
+    left: 2px;
+    z-index: 80;
+    
+
+    
+    
+    
+    
+
+}

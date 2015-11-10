@@ -1,0 +1,206 @@
+﻿
+
+#hedgeem_table_list_container
+{
+	position:absolute;
+	top:50px;
+	left:300px;
+	--background: none repeat scroll 0 0 yellow;
+    background:url(/resources/backgrounds/bg_lobby_table_list.png);
+    background-repeat:no-repeat;
+    border: 0px none #000000;
+	margin: 0px;
+	padding: 0px;
+	overflow:hidden;
+	height: 320px;
+	width: 480px;
+}
+
+
+#lobby_hedgeem_table_list
+{
+	--background: none repeat scroll 0 0 pink; /*    //border: 0px solid #ff0000;  */
+    --overflow:hidden;
+    background:url(/resources/backgrounds/bg_lobby_table_list.png);
+    background-repeat:no-repeat;
+	border: none;
+	border-color: #FFFFFF;
+	float: left;
+	height: 20px; //Has no value as table height goes automatically with data.
+	margin: 0px;
+	padding: 0px;
+	width: 65%;
+	border-collapse: collapse;
+	//margin: 4px 0 0 3px; // uncomment this to see background div
+}
+.hdr_table_num
+{
+	--background-color: olive;
+	border: 1px dotted #00ff00;
+	float: left; 
+	margin: 0px;
+	padding: 0px;
+	width: 65%;
+}
+.data_table_num
+{
+	--background-color: brown;
+	border: 1px none #00ff00; 
+	margin: 0px;
+	padding: 0px;
+	width: 100px;
+}
+
+.data_table_name
+{
+	--background-color: orange;
+	border: 1px none #00ff00; 
+	margin: 0px;
+	padding: 10px;
+	font-size: 14pt;
+	width: 80%;
+}
+
+.data_table_action
+{
+	--background-color: orange;
+	border: 0px none #00ff00; 
+	margin: 0px;
+	padding: 0px;
+	font-size: 14pt;
+	width: 100px;
+}
+.data_num_of_hands
+{
+	--background-color: cyan;
+	border: 1px none #00ff00; 
+	margin: 0px;
+	padding: 0px;
+	font-size: 14pt;
+	width: 20px;
+}
+
+.data_table_seats
+{
+	--background-color: red;
+	border: 1px none #00ff00;
+	margin: 0px;
+	padding: 0px;
+	font-size: 14pt;
+	width: 20px;
+}
+
+.data_table_jackpot_game
+{
+	--background-color: lime;
+	border: 1px none #00ff00;
+	margin: 0px;
+	padding: 0px;
+	font-size: 14pt;
+	width: 20px;
+}
+
+.data_table_jackpot_fund
+{
+	--background-color: purple;
+	border: 1px none #00ff00;
+	margin: 0px;
+	padding: 0px;
+	font-size: 14pt;
+	width: 20px;
+}
+
+.data_table_theme
+{
+	--background-color: navy;
+	border: 1px none #00ff00;
+	margin: 0px;
+	padding: 0px;
+	font-size: 14pt;
+	width: 20px;
+}
+
+
+.int
+{
+	clear: both;
+	height: 20px;
+	width: 96px;
+}
+
+#btnLogout
+{
+	height: 30px;
+	width: 80px;
+	margin: 0px;
+}
+#btnLogin
+{
+	height: 30px;
+	width: 80px;
+	margin: 0px;
+}
+.abc
+{
+	width: 100px;
+}
+.def
+{
+	width: 100px;
+}
+#Simulation
+{
+	text-decoration: none;
+	color: Black;
+}
+#frm_server_manager
+{
+	text-decoration: none;
+	color: Black;
+	padding-left: 22px;
+}
+#newuser
+{
+	color: #000000 !important; /*    //margin: -204px 1px 0 5px !important; */
+	text-decoration: none !important;
+}
+#newuser1
+{
+	color: #000000 !important; /*   //margin: -173px 0 59px 119px !important; */
+	padding: 0 698px !important;
+	text-decoration: none !important;
+}
+#userdetails
+{
+	color: #000000 !important; /*    //margin: -150px -72px 0px 12px !important; */
+	text-decoration: none !important;
+}
+#fb_Login_Button
+{
+	/* //margin: -25px 0 0 78px !important; */
+	text-decoration: none !important;
+}
+#deposit_update
+{
+	text-decoration: none;
+	color: Black;
+	margin: -26px 0px 0px 102px;
+}
+.Hedgeem_New_Table
+{
+	height: 21px;
+	width: 126px;
+}
+@media only screen and(max-width:800px)
+{
+	.frm
+	{
+		background: none repeat scroll 0 0 #FFFFFF;
+		border: 1px solid #000000;
+		float: left !important;
+		height: 600px; /*   //margin: 33px 0 0;  */
+		padding: 16px 17px !important;
+		width: 58%;
+	}
+
+}

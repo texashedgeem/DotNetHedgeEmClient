@@ -5,32 +5,38 @@
     */
 #hand_panels_container
 {
+ 
+   /* height: auto;
+    margin: 0 0%;
+    padding: 0;
     position: absolute;
-    width: 90%;
-    height: 30%;
-    margin: 0% 5% 0% 5%;
-    top: 50%;
-    padding: 0%;
-    cursor: pointer;
-    z-index: 20; 
-    /*
-    background-color: teal;
-    right:0px;
-    border-collapse: collapse;
-    */
+    top:42%;
+    width: 100%;
+	left:4%;
+    z-index: 20;*/
+	
+	 height: auto;
+    left: 0;
+    margin: 0 0;
+    padding: 0;
+    position: absolute;
+    top: 42%;
+    width: 100%;
+    z-index: 20;
+   
 }
 
 .hedgeem_control_hand_panel
 {
-    height: 100%;
-    width: 100%;
+
+    display: inline-block;
+    left: 0;
+    margin: 0 2%;
+    padding: 0;
     position: relative;
-    float: left;
-    top: 0%;
-    left: 0%;
-    margin: 0% 2% 0% 2%;
-    padding: 0%;
-    z-index: 20; 
+    top:-6px;
+    width: 100%;
+    z-index: 20;
     /*
     background-color: purple;
     border-style: solid;
@@ -53,12 +59,24 @@
 
 .auto_div_hand_id_class
 {
-    float:left;
+    /*float:left;
     height: 100%;
     width: 20%;
-    margin: 0% 2% 0% 2%;
+    margin: 0% 2.4% 0% 2.4%;*/
+	
+	
+	 float: left;
+    height: 100%;
+    margin: 0 0;
+    padding-left: 2.5vw;
+    width: 25%;
+	
+	
+
     
 }
+
+
 
 /*
  ID:  auto_div_hand1 or hedgeem_control_hand_panel_hand_1
@@ -71,7 +89,7 @@
 #auto_div_hand_id1
 {
     float:left;
-    margin-top: 5%;
+    margin-top: 7%;
     /*
     background-color: Silver;
     */
@@ -80,46 +98,13 @@
 #auto_div_hand_id2
 {
     float:left;
-    margin-top: 5%;
+    margin-top: 7%;
 }
 
 
 
-.card_left
-{
-    position: absolute;
-    float: left;
-    left: 10%;
-    height: 50%;
-    width: 50%;
-    margin: 0%;
-    padding: 0%;
-    top: 0;
-    z-index: 1;
-    cursor: pointer;
-    /*
-    background-color: cyan;
-    */
-    
-}
-.card_left img
-{
-    position: absolute;
-    float: left;
-    height: 100%;
-    width: 100%;
-    margin: 0%;
-    padding: 0%;
-    z-index: 2;
-    cursor: pointer;
-    transform:rotate(-5deg);
-	-ms-transform:rotate(-5deg); /* IE 9 */
-	-webkit-transform:rotate(-5deg);
 
-    /*
-    background-color: orange;
-    */
-}
+
 
 .dead_opacity
 {   
@@ -127,41 +112,7 @@
     opacity: .30;
     filter: alpha(opacity=30);
 }
-.card_right
-{
-    position: absolute;
-    float: left;
-    top: 0%;
-    right: 10%;
-    height: 50%;
-    width: 50%;
-    margin: 0% 0% 0% 0%;
-    padding: 0% 0% 0% 0%;
-    z-index: 2;
-    cursor: pointer;
-    transform:rotate(5deg);
-	-ms-transform:rotate(5deg); /* IE 9 */
-	-webkit-transform:rotate(5deg);
-    /*
-    background-color: olive;
-    */
-}
 
-.card_right img
-{
-    position: absolute;
-    float: left;
-    right: 0%;
-    height: 100%;
-    width: 100%;
-    margin: 0% 0% 0% 0%;
-    padding: 0% 0% 0% 0%;
-    z-index: 2;
-    cursor: pointer;
-    /*
-    background-color: navy;
-    */
-}
 
 #status_icons_container 
 {
@@ -187,6 +138,13 @@
     */
 }
 
+.hedgeem_control_hand_panel:hover .card_left img{box-shadow:-3px -4px 4px yellow;}
+.hedgeem_control_hand_panel:hover .card_right img{box-shadow:3px -4px 3px yellow;}
+
+.hedgeem_control_hand_panel:hover .dead_opacity .card_left img{box-shadow:none;}
+.hedgeem_control_hand_panel:hover .dead_opacity .card_right img{box-shadow:none;}
+
+ 
 .hand_status_icon
 {
     position: relative;
@@ -221,7 +179,7 @@
 .icon_winner
 {
     top: 25%;
-    height: 20%;
+    height: 26%;
     width: 100%;
     float: left;
     margin: 0% 0% 0% 0%;
@@ -266,36 +224,42 @@
 
 .hedgeem_control_hand_panel_info_background
 {
-    top: 45%;
-    height: 40%;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
     width: 100%;
-    float: left;
+	bottom: 0;
     margin: 0% 0% 0% 0%;
-    padding: 0% 0% 0% 0%;
+    padding: 0px;
     z-index: 4;
-    color: white;
-    position: absolute;
-    background-image:url('/resources/backgrounds/hand_indicator_backgroud.png');
+    color: yellow; 
+  /*   background-image:url('/resources/backgrounds/hand_indicator_backgroud.png');
     background-size:100% 100%;
-    background-repeat:no-repeat;
-    background-position:0% 0% 0% 0%;
+   background-repeat:no-repeat;
+    background-position:0% 0% 0% 0%;*/
+	
+	background-color: #24590e;
+    /*background-image: linear-gradient(to bottom, #2f7f0c 0%, #235c0a 100%);*/
+    box-shadow: 0 1px 0 0 #2f7f0c inset;
     /*
     background-color:orange;
     */
    
 }
 
+.hedgeem_control_hand_panel:hover .hedgeem_control_hand_panel_info_background{-moz-box-shadow:1px 0px 4px yellow;
+	-webkit-box-shadow: 1px 0px 4px yellow;
+        box-shadow:1px 0px 4px yellow;}
+
 .payoutdescription
 {
-    width: 90%;
-    margin: 3% 5% 0% 5%;
     padding: 0%;
     text-align: center;
-    font-size:120%;
-    font-weight:normal;
-    position: absolute;
+    font-size:2.5vh;
+    font-weight:bold;
     top: 0%;
-    color: White;
+    color: #fff;
+	cursor:pointer;
     /*
     background-color: cyan;
     */
@@ -304,12 +268,12 @@
 .payoutvalue
 {
     width: 90%;
-    margin: 2% 5% 0% 5%;
+    margin: 0% 5% 3%;
     padding: 0px 0px 0px 0px;
     text-align: center;
-    font-size:120%;
-    font-weight:normal;
-    position: absolute;
+    font-size:2.3vh;
+    font-weight:bold;
+ 
     color: Yellow;
     top: 35%;
     /*
@@ -319,9 +283,9 @@
 
 .previous_placed_bets_container
 {
-    top: 80%;
-    left:-5%;
-    width: 110%;    /* Deliberately wide, combined with -5 left above, this offsets and centralises */
+    top:101%;
+    left:1%;
+    width: 100%;    /* Deliberately wide, combined with -5 left above, this offsets and centralises */
     height: 30%;
     float: left;
     margin: 0% 0% 0% 0%;
@@ -340,15 +304,19 @@
 
 .previous_placed_bet_for_any_stage
 {
-    top: 0%;
-    width: 80%;
-    font-size:90%;
-    color:white;
+    background: none repeat scroll 0 0 #000;
+    border-radius: 8px;
+    color: #fff;
     float: left;
-    margin: 1% 0% 0% 0%;
-    padding: 0% 0% 0% 0%;
-    z-index: 30;
+    font-size: 82%;
+	font-weight:bold;
+    margin:0 0 2px;
+    opacity: 0.7;
     position: relative;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 30;
     
     
     /*
@@ -399,15 +367,14 @@
 /*When enabled this is a button that allows the player to cancel bets on a hand for the CURRENT betting stage.*/
 .cancel_bet_button 
 {
-    position:absolute;
-    z-index: 99;
-    background-image:url('/resources/buttons/btn_cancel_bet_62x24.png');
-    background-repeat:no-repeat;
-    background-position:0% 0% 0% 0%;
-    background-size: 100%;
-    top: 0%;
-    right:-40%;
-    color:transparent; /*Commented to hide the 'Cancel' text that is returned.
+   background-image: url("/resources/buttons/btn_cancel_bet_62x24.png");
+    background-repeat: no-repeat;
+   /* background-size: 100% auto;*/
+    color: transparent;
+    position: absolute;
+    right: -37px;
+    top: 0;
+    z-index: 99; /*Commented to hide the 'Cancel' text that is returned.
     /*
     background-color:red;
     */
@@ -415,16 +382,207 @@
 
 .secured_bet_button 
 {
-    position:absolute;
-    z-index: 99;
-    background-image:url('/resources/buttons/btn_secured_bet_62x24.png');
-    background-repeat:no-repeat;
-    background-position:0% 0% 0% 0%;
-    top: 0%;
-    right:-30%;
-    background-size: 120%; /*Commented to hide the 'Secured' text that is returned.*/
-    color:transparent;
+   background-image: url("/resources/buttons/btn_secured_bet_62x24.png");
+    background-repeat: no-repeat;
+  /*  background-size: 120% auto;
+    border: 1px solid #fff;*/
+    border-radius: 5px;
+    color: transparent;
+    height: 17px;
+    position: absolute;
+    right: -39%;
+    top: 0;
+    width: 57px;
+    z-index: 9999;
     /*
     background-color:pink;
     */
-}	
+}
+
+@media only screen 
+and (min-width : 480px) and (max-width : 2670px){
+	
+	.hedgeem_control_hand_panel{
+    display:table-cell;
+	text-align:center;
+    }
+	
+	
+	
+.card_right
+{
+
+
+	display:table-cell;
+
+}
+
+.card_left
+{
+
+
+   	display:table-cell;
+    
+}
+
+.card_left img
+{
+   
+	left:16px;
+    z-index: 2;
+	position:relative;
+    cursor: pointer;
+    transform:rotate(-5deg);
+	-ms-transform:rotate(-5deg); /* IE 9 */
+	-webkit-transform:rotate(-5deg);
+
+}
+.card_right img
+{
+ 
+right:16px;
+position: relative;
+    z-index: 2;
+    cursor: pointer;
+	
+	 transform:rotate(6deg);
+	-ms-transform:rotate(6deg); /* IE 9 */
+	-webkit-transform:rotate(6deg);
+
+}
+}
+
+
+
+	@media only screen 
+and (min-width : 280px) 
+and (max-width : 479px)  { 
+.hedgeem_control_hand_panel{
+    display: inline-block;
+	text-align:center;
+    }
+	
+	.hedgeem_control_hand_panel_info_background
+	{ width:100%;}
+	
+.card_right
+{
+
+
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+	display:inline;
+    z-index: 2;
+    cursor: pointer;
+    transform:rotate(5deg);
+	-ms-transform:rotate(5deg); /* IE 9 */
+	-webkit-transform:rotate(5deg);
+    /*
+    background-color: olive;
+    */
+}
+
+.card_left
+{
+
+
+    margin: 0%;
+	display:inline;
+    padding: 0%;
+    top: 0;
+    z-index: 1;
+    cursor: pointer;
+    /*
+    background-color: cyan;
+    */
+    
+}
+.card_right img {
+    cursor: pointer;
+    position: absolute;
+    right: -8px;
+    z-index: 2;
+	 transform:rotate(6deg);
+	-ms-transform:rotate(6deg); /* IE 9 */
+	-webkit-transform:rotate(6deg);
+}
+
+.card_left img {
+    left: -8px;
+    position: relative;
+	  transform:rotate(-5deg);
+	-ms-transform:rotate(-5deg); /* IE 9 */
+	-webkit-transform:rotate(-5deg);
+}
+
+}
+
+
+
+
+@media only screen 
+and (min-width : 1440px) and (max-width : 1720px){
+
+.payoutdescription {
+   
+    font-size: 2.5vh;
+	
+	}
+	
+
+
+}
+
+@media only screen 
+and (min-width : 768px) and (max-width : 991px){
+
+
+}
+
+@media only screen 
+and (max-width :480px){
+	.secured_bet_button {
+    right: -77%;
+	}
+	.payoutdescription, .payoutvalue{ font-size:9px !important;}
+	.hedgeem_control_hand_panel_info_background{ padding:0;}
+	
+
+#placed_bets{ width:30% !important;}
+
+}
+@media only screen 
+and (min-width : 480px) and (max-width :767px){
+
+
+#placed_bets{ width:25% !important;}
+}
+
+
+@media only screen 
+and (min-width : 992px) and (max-width : 1199px){
+	
+
+
+}
+
+
+
+
+
+
+@media only screen 
+and (min-width : 1200px) and (max-width : 1439px){
+	
+
+}
+
+
+@media only screen 
+and (min-width : 1721px) and (max-width : 1920px){
+	
+	.previous_placed_bets_container{ left:13px;}
+
+
+
+}
