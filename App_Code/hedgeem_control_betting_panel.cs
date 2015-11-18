@@ -420,7 +420,7 @@ using System.Runtime.InteropServices;
 
         protected override void RenderContents(HtmlTextWriter a_html_writer)
         {
-            a_html_writer.WriteLine(String.Format("<div id='betpanel_hand{0}_stage{1}' class='generic_betting_panel_container generic_{1}_betting_panel_container betting_panel_{2}' >", _hand_index, _enum_betting_stage.ToString(), p_enum_panel_display_status.ToString()));
+            a_html_writer.WriteLine(String.Format("<div id='betpanel_hand{0}_stage{1}' onclick='javascript:f_placebet({0});' class='generic_betting_panel_container generic_{1}_betting_panel_container betting_panel_{2}' >", _hand_index, _enum_betting_stage.ToString(), p_enum_panel_display_status.ToString()));
             a_html_writer.Indent += 1;
 
             // Payout String
