@@ -20,10 +20,13 @@
     margin: 0 0;
     padding: 0;
     position: absolute;
-    top: 42%;
+    top: 54%;
     width: 100%;
     z-index: 20;
-   
+    zoom:0.80;
+    -moz-transform:scale(0.80);
+    -moz-transform-origin: 0 0;
+
 }
 
 .hedgeem_control_hand_panel
@@ -86,20 +89,19 @@
  semi-circle to follow line of table
 */
 
+/*
 #auto_div_hand_id1
 {
     float:left;
     margin-top: 7%;
-    /*
-    background-color: Silver;
-    */
+    //background-color: Silver;
 }
 
 #auto_div_hand_id2
 {
     float:left;
     margin-top: 7%;
-}
+}*/
 
 
 
@@ -238,7 +240,7 @@
    background-repeat:no-repeat;
     background-position:0% 0% 0% 0%;*/
 	
-	background-color: #24590e;
+	background-color: #010122;
     /*background-image: linear-gradient(to bottom, #2f7f0c 0%, #235c0a 100%);*/
     box-shadow: 0 1px 0 0 #2f7f0c inset;
     /*
@@ -601,12 +603,50 @@ and (min-width : 1721px) and (max-width : 1920px){
 
 
 
+#h0c1 img, #h0c2 img, #h1c1 img, #h1c2 img, #h2c1 img, #h2c2 img, #h3c1 img, #h3c2 img{
+    display:none;
+}
+
+#h0c1{
+    -webkit-animation-delay: 100ms; /* Chrome, Safari, Opera */
+    animation-delay: 100ms;
+}
+
+#h0c2{
+    -webkit-animation-delay: 200ms; /* Chrome, Safari, Opera */
+    animation-delay: 200ms;
+}
+
+#h1c1{
+    -webkit-animation-delay: 300ms; /* Chrome, Safari, Opera */
+    animation-delay: 300ms;
+}
+
+#h1c2{
+    -webkit-animation-delay: 400ms; /* Chrome, Safari, Opera */
+    animation-delay: 400ms;
+}
+#h2c1{
+    -webkit-animation-delay: 500ms; /* Chrome, Safari, Opera */
+    animation-delay: 500ms;
+}
+
+#h2c2{
+    -webkit-animation-delay: 600ms; /* Chrome, Safari, Opera */
+    animation-delay: 600ms;
+}
+#h3c1{
+    -webkit-animation-delay: 700ms; /* Chrome, Safari, Opera */
+    animation-delay: 700ms;
+}
+
+#h3c2{
+    -webkit-animation-delay: 800ms; /* Chrome, Safari, Opera */
+    animation-delay: 800ms;
+}
 
 
-
-
-
-#card_2h img, #card_3h img, #card_4h img, #card_5h img, #card_6h img, #card_7h img, #card_8h img, #card_9h img, #card_th img, #card_jh img, #card_qh img, #card_kh img, #card_ah img{
+#card_ZZ img, #card_2h img, #card_3h img, #card_4h img, #card_5h img, #card_6h img, #card_7h img, #card_8h img, #card_9h img, #card_th img, #card_jh img, #card_qh img, #card_kh img, #card_ah img{
    display:none;
 }
 	
@@ -620,8 +660,14 @@ and (min-width : 1721px) and (max-width : 1920px){
   display:none;
 }
 	
-	#card_2s img, #card_3s img, #card_4s img, #card_5s img, #card_6s img, #card_7s img, #card_8s img, #card_9s img, #card_ts img, #card_js img, #card_qs img, #card_ks img, #card_as img{ 
+#card_2s img, #card_3s img, #card_4s img, #card_5s img, #card_6s img, #card_7s img, #card_8s img, #card_9s img, #card_ts img, #card_js img, #card_qs img, #card_ks img, #card_as img{ 
 display:none;
+}
+
+#card_ZZ{ 
+    height: 108px;
+    width: 79px;
+	float:left;
 }
 
 
@@ -630,6 +676,7 @@ display:none;
     width: 79px;
 	float:left;
 }
+
 	
 #card_2d, #card_3d, #card_4d, #card_5d, #card_6d, #card_7d, #card_8d, #card_9d, #card_td, #card_jd, #card_qd, #card_kd, #card_ad{ 
    height: 108px;
@@ -664,11 +711,26 @@ display:none;
 #card_qh {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -800px 0 rgba(0, 0, 0, 0);}
 #card_kh {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -880px 0 rgba(0, 0, 0, 0);}
 #card_ah {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -960px 0 rgba(0, 0, 0, 0);}
+#card_ZZ {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -0px -433px rgba(0, 0, 0, 0);}
+
+/*
+#card_8h {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -480px 0 rgba(0, 0, 0, 0);
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+	display:inline;
+    z-index: 2;
+    cursor: pointer;
+    transform:rotate(5deg);
+	-ms-transform:rotate(5deg); 
+	-webkit-transform:rotate(5deg);
+    zoom:0.60;
+    -moz-transform:scale(0.60);
+    -moz-transform-origin: 0 0;
+}*/
+   
 
 
-
-
-#card_2d {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll 0px -108px rgba(0, 0, 0, 0);}
+#card_2d {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -0px -108px rgba(0, 0, 0, 0);}
 #card_3d {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -80px -108px rgba(0, 0, 0, 0);}
 #card_4d {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -160px -108px rgba(0, 0, 0, 0);}
 #card_5d {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -240px -108px rgba(0, 0, 0, 0);}
