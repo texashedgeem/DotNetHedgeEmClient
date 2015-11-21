@@ -12,12 +12,12 @@
     <title>Texas Hedge'Em | Watch, Predict, Win!</title>
     <script type="text/javascript" src="resources/javascript/hedgeem_table_javascript.js"></script>
     <!-- online scripts and css for place bet widget slider -->
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">-->
     <link href="resources/css/online/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="resources/javascript/animation.js" type="text/javascript"></script>
     <link href="resources/css/css-animation.css" rel="stylesheet" type="text/css" />
     <link href="resources/css/online/animate.css" rel="stylesheet" type="text/css" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>-->
     <link rel="stylesheet" href="App_Themes/ONLINE/normalize.css"/>
     <link rel="stylesheet" href="App_Themes/ONLINE/demo.css"/>
     <!-- Pushy CSS -->
@@ -30,8 +30,8 @@
 	  <script src="resources/javascript/v2p.js"></script>-->
       <script src="resources/javascript/prefixfree.min.js"></script>
   
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <script type="text/javascript" src="https://connect.facebook.net/en_US/all.js"></script>
+    <!--<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
+    <!--<script type="text/javascript" src="https://connect.facebook.net/en_US/all.js"></script>-->
     <!-- link which helped us to solve touch problem in jquery - http://touchpunch.furf.com/ and its script is used below -->
     <script type="text/javascript" src="resources/javascript/jquery.ui.touch-punch.js"></script>
   
@@ -122,14 +122,14 @@ $(".menu-btn").click(function() {
     </div>--%>
     <div id="fb-root">
     </div>
-    <script>        (function (d, s, id) {
+    <!--<script>        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
             js.src = "https://connect.facebook.net/en_US/all.js#xfbml=1&appId=119665184821685";
             fjs.parentNode.insertBefore(js, fjs);
         } (document, 'script', 'facebook-jssdk'));
-    </script>
+    </script>-->
     <form id="form1" runat="server">
     <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" EnablePageMethods="true"
         ScriptMode="Release" LoadScriptsBeforeUI="true">
@@ -220,11 +220,13 @@ $(".menu-btn").click(function() {
                             <!-- Facebook Invite Friends -->
                             <a href="#" onClick="Facebook_Invite_Friends()" class="fb-invite"></a>
                             <!-- Twitter -->
+                            <!-- Commented out by Simon as platform.twitter does not resolve
                             <div id="twitter_container">
                                 <a href="https://twitter.com/TexasHedgeEm" class="twitter-follow-button" data-show-count="false"
                                     data-show-screen-name="false">Follow @TexasHedgeEm</a>
                                 <script>                                    !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } } (document, 'script', 'twitter-wjs');</script>
                             </div>
+                                -->
                             <!-- Facebook Like Button -->
                             <div class="fb-like" data-href="https://apps.facebook.com/texashedgeem" data-layout="button_count"
                                 data-action="like" data-show-faces="false" data-share="false">
@@ -332,9 +334,34 @@ $(".menu-btn").click(function() {
                                     <!-- Deal Buttons Container -->
                                     <div id='btn_deal_buttons_container'>
                                         <!-- Deal HOLE Button -->
-                                        <!-- Player Content -->
+                                        <asp:Button ID="btnDealHole" runat="server" OnClick="btn_deal_next_stage_Click" OnClientClick="javascript:disableButton(this,3000);"
+                                                Text="Deal Hole" value="Deal Hole" />
+                                        <!-- Deal FLOP Button -->
+                                            <asp:Button ID="btnDealFlop" runat="server" class="plokplok" OnClick="btn_deal_next_stage_Click" OnClientClick="javascript:disableButton(this,3000);"
+                                              
+                                                Text="Deal Flop" value="Deal Flop" />
+                                            <!-- Deal TURN Button -->
+                                            <asp:Button ID="btnDealTurn" runat="server" OnClick="btn_deal_next_stage_Click" OnClientClick="javascript:disableButton(this,3000);"
+                                                Text="Deal Turn" value="Deal Turn" />
+                                            <!-- Deal RIVER Button -->
+                                            <asp:Button ID="btnDealRiver" runat="server" OnClientClick="javascript:disableButton(this,3000);"
+                                                Text="Deal River" OnClick="btn_deal_next_stage_Click" value="Deal River" />
+                                            <!-- Deal Next Game Button -->
+                                            <asp:Button ID="btnNextGame" runat="server" Text="Next Game" OnClick="btn_deal_next_stage_Click"
+                                                OnClientClick=" disableButton(this,3000);" value="Next Game" />
+                                        
                                          
-                                        <asp:UpdatePanel ID="updPanl_to_avoid_Postback" runat="server" UpdateMode="Conditional">
+                                        <div class="dealbtnset">
+                                        
+                                                   
+                                            </div>
+                                  
+                                    <!--Command buttons content -->
+                                </div>
+
+                                <!-- Player Content -->
+                                        
+                                <asp:UpdatePanel ID="updPanl_to_avoid_Postback" runat="server" UpdateMode="Conditional">
                                             <ContentTemplate>
                                             <script type="text/javascript">
                                                 function hide_rm() {
@@ -353,27 +380,7 @@ $(".menu-btn").click(function() {
                                                 </div>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
-                                        <div class="dealbtnset">
                                         
-                                                   <asp:Button ID="btnDealHole" runat="server" OnClick="btn_deal_next_stage_Click" OnClientClick="javascript:disableButton(this,3000);"
-                                                Text="Deal Hole" value="Deal Hole" />
-                                            <!-- Deal FLOP Button -->
-                                            <asp:Button ID="btnDealFlop" runat="server" class="plokplok" OnClick="btn_deal_next_stage_Click" OnClientClick="javascript:disableButton(this,3000);"
-                                              
-                                                Text="Deal Flop" value="Deal Flop" />
-                                            <!-- Deal TURN Button -->
-                                            <asp:Button ID="btnDealTurn" runat="server" OnClick="btn_deal_next_stage_Click" OnClientClick="javascript:disableButton(this,3000);"
-                                                Text="Deal Turn" value="Deal Turn" />
-                                            <!-- Deal RIVER Button -->
-                                            <asp:Button ID="btnDealRiver" runat="server" OnClientClick="javascript:disableButton(this,3000);"
-                                                Text="Deal River" OnClick="btn_deal_next_stage_Click" value="Deal River" />
-                                            <!-- Deal Next Game Button -->
-                                            <asp:Button ID="btnNextGame" runat="server" Text="Next Game" OnClick="btn_deal_next_stage_Click"
-                                                OnClientClick=" disableButton(this,3000);" value="Next Game" />
-                                        </div>
-                                  
-                                    <!--Command buttons content -->
-                                </div>
                             </div>
                             <!-- buttons panel-->
                             <!-- Error Message content -->
