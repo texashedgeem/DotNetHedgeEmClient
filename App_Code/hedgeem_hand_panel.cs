@@ -531,12 +531,17 @@ using HedgeEmClient;
             #region Generate the HTML to display Card 1
             writer.WriteLine("");
             writer.WriteLine("<!-- Hand " + _hand_index + ", Card 1 -->");
-            writer.WriteLine("<div id='h" + _hand_index + "c1' onclick='javascript:f_placebet(" + _hand_index + ");' class='card_left ' runat='server'>");
+            writer.WriteLine("<div id='h" + _hand_index + "c1' onclick='javascript:f_placebet(" + _hand_index + ");' class='card_left' runat='server'>");
             writer.Indent += 1;
+            writer.WriteLine(String.Format("<div id='card_{0}'></div>", p_card1));
             //writer.AddAttribute(HtmlTextWriterAttribute.Class, "animated flip");
+            //
+            // xxx Consider commenting this next block out when using sprites in all themes to improve performance.
             writer.AddAttribute(HtmlTextWriterAttribute.Src, p_card_image_filename_card1);
             writer.RenderBeginTag(HtmlTextWriterTag.Img);
             writer.RenderEndTag();
+
+
             writer.Indent -= 1;
             writer.WriteLine("");
             writer.WriteLine("</div>");
@@ -549,6 +554,9 @@ using HedgeEmClient;
             writer.WriteLine("<div id='h" + _hand_index + "c2' onclick='javascript:f_placebet(" + _hand_index + ");' class='card_right ' runat='server'>");
             writer.Indent += 1;
             //writer.AddAttribute(HtmlTextWriterAttribute.Class, "animated flip");
+
+            writer.WriteLine(String.Format("<div id='card_{0}'></div>", p_card2));
+            
             writer.AddAttribute(HtmlTextWriterAttribute.Src, p_card_image_filename_card2);
             writer.RenderBeginTag(HtmlTextWriterTag.Img);
             writer.RenderEndTag();
