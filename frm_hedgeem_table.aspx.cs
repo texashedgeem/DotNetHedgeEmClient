@@ -1076,65 +1076,65 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         // Determine the new state of the game and display the appropriate buttons
         try
         {
-            switch (_game_state)
-            {
-                case enum_game_state.STATUS_START:
-                    btnDealHole.Visible = true;
-                    btnDealFlop.Visible = false;
-                    btnDealTurn.Visible = false;
-                    btnDealRiver.Visible = false;
-                    btnNextGame.Visible = false;
-                    f_clear_players_bets_lablels();
-                    break;
+                switch (_game_state)
+                {
+                    case enum_game_state.STATUS_START:
+                        btnDealHole.Visible = true;
+                        btnDealFlop.Visible = false;
+                        btnDealTurn.Visible = false;
+                        btnDealRiver.Visible = false;
+                        btnNextGame.Visible = false;
+                        f_clear_players_bets_lablels();
+                        break;
 
-                case enum_game_state.STATUS_HOLE:
-                    btnDealHole.Visible = false;
-                    btnDealFlop.Visible = true;
-                    btnDealTurn.Visible = false;
-                    btnDealRiver.Visible = false;
-                    btnNextGame.Visible = false;
-                    break;
+                    case enum_game_state.STATUS_HOLE:
+                        btnDealHole.Visible = false;
+                        btnDealFlop.Visible = true;
+                        btnDealTurn.Visible = false;
+                        btnDealRiver.Visible = false;
+                        btnNextGame.Visible = false;
+                        break;
 
-                case enum_game_state.STATUS_FLOP:
-                    btnDealHole.Visible = false;
-                    btnDealFlop.Visible = false;
-                    btnDealTurn.Visible = true;
-                    btnDealRiver.Visible = false;
-                    btnNextGame.Visible = false;
-                    break;
+                    case enum_game_state.STATUS_FLOP:
+                        btnDealHole.Visible = false;
+                        btnDealFlop.Visible = false;
+                        btnDealTurn.Visible = true;
+                        btnDealRiver.Visible = false;
+                        btnNextGame.Visible = false;
+                        break;
 
-                case enum_game_state.STATUS_TURN:
-                    btnDealHole.Visible = false;
-                    btnDealFlop.Visible = false;
-                    btnDealTurn.Visible = false;
-                    btnDealRiver.Visible = true;
-                    btnNextGame.Visible = false;
-                    break;
+                    case enum_game_state.STATUS_TURN:
+                        btnDealHole.Visible = false;
+                        btnDealFlop.Visible = false;
+                        btnDealTurn.Visible = false;
+                        btnDealRiver.Visible = true;
+                        btnNextGame.Visible = false;
+                        break;
 
-                case enum_game_state.STATUS_RIVER:
-                    btnDealHole.Visible = false;
-                    btnDealFlop.Visible = false;
-                    btnDealTurn.Visible = false;
-                    btnDealRiver.Visible = false;
-                    btnNextGame.Visible = true;
-                    hedgeem_control_winner_message my_winner_message = new hedgeem_control_winner_message();
-                    my_winner_message.p_winner_message_str = f_calculate_winnings();
-                    if (my_winner_message.p_winner_message_str != "")
-                    {
-                        Place_Holder_Winner_Message.Controls.Add(my_winner_message);
-                    }
-                    break;
+                    case enum_game_state.STATUS_RIVER:
+                        btnDealHole.Visible = false;
+                        btnDealFlop.Visible = false;
+                        btnDealTurn.Visible = false;
+                        btnDealRiver.Visible = false;
+                        btnNextGame.Visible = true;
+                        hedgeem_control_winner_message my_winner_message = new hedgeem_control_winner_message();
+                        my_winner_message.p_winner_message_str = f_calculate_winnings();
+                        if (my_winner_message.p_winner_message_str != "")
+                        {
+                            Place_Holder_Winner_Message.Controls.Add(my_winner_message);
+                        }
+                        break;
 
-                default:
-                    btnDealHole.Visible = false;
-                    btnDealFlop.Visible = false;
-                    btnDealTurn.Visible = false;
-                    btnDealRiver.Visible = false;
-                    btnNextGame.Visible = true;
-                    break;
-            }
+                    default:
+                        btnDealHole.Visible = false;
+                        btnDealFlop.Visible = false;
+                        btnDealTurn.Visible = false;
+                        btnDealRiver.Visible = false;
+                        btnNextGame.Visible = true;
+                        break;
+                }
 
-
+            
 
         }
         catch (Exception ex)
@@ -1309,7 +1309,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
 
             // Only show the betting panels for CASINO, MOBILE or WSOP Styles
-            if (!(my_theme == enum_theme.CASINO || my_theme == enum_theme.MOBILE || my_theme == enum_theme.WSOP))
+            if (!(my_theme == enum_theme.CASINO || my_theme == enum_theme.MOBILE || my_theme == enum_theme.WSOP || my_theme == enum_theme.RETRO))
             {
                 // Do not show the betting panels
                 // return;
