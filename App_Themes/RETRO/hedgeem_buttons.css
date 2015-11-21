@@ -21,12 +21,12 @@
 #btn_deal_buttons_container
 {
     position: absolute;
-    top: 75%;
-    left: 68%;
+    top: 78%;
+    left: 75%;
     margin: 0% 0% 0% 0%;
     padding: 0% 0% 0% 0%;
-    height: 15%;
-    width: 12%;
+    height: 7%;
+    width: 18%;
     //background-color: red;
     z-index: 99; /*Keep this highest overwise hands_container, betting_container or other may prevent button from working.*/
     /*
@@ -48,20 +48,6 @@
     outline: 0;
 }
 
-
-#btnDealHole
-{
-    color: transparent;
-    position: absolute;
-    margin: 0px 0px 0px 5px;
-    padding: 0% 0% 0% 0%;
-    top: 0px;
-    left: 0px;
-    z-index: 9;
-    /*
-        background-color: palegreen;
-    */
-}
 
 
 
@@ -96,21 +82,7 @@
     background-repeat: no-repeat; 
 }
 
-#btnDealTurn
-{
-    color: transparent;
-    position: absolute;
-    margin: 0px 0px 0px 15px;
-    padding: 0% 0% 0% 0%;
-    top: 0px;
-    left: 0px;
-    z-index: 9;
-    /*
-        background-color: Navy;
-    */
-}
-
-
+/*
 #btnDealRiver
 {
     color: transparent;
@@ -120,10 +92,6 @@
     top: 0px;
     left: 0px;
     z-index: 9;
-    /*
-        background-color: purple;
-    */
-
 }
 #btnNextGame
 {
@@ -136,7 +104,7 @@
     z-index: 9;
 
 }
-
+*/
 #btn_play_for_real{
     color: transparent;
     position: absolute;
@@ -304,4 +272,90 @@
 #get_chips
 {
    
+}
+
+
+/*  Hover over buttons not required (11th Nov 2105)
+#btnDealHole:hover {
+	//background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+	background-size: 100%;
+}
+
+#btnDealFlop:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealTurn:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealRiver:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnNextGame:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+    */
+
+
+#btnDealHole {
+    background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+    /*position: absolute;
+    top: 1px;*/
+}
+
+#btnDealFlop {
+    background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+}
+#btnDealTurn {
+	background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+    color: transparent;
+	//border-radius: 120px;
+    padding: 0%;
+    margin: 0%;
+	height: 100%;
+    width: 100%;
+}
+#btnDealRiver {
+    background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	top: 10px;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+}
+#btnNextGame {
+	background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
 }

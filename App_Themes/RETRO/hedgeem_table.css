@@ -199,18 +199,19 @@ li.ext {
 	height: 10% /*      width: 13%;     height: 10%     background-color:red;     */;
 	display: none;
 }
-{
- background: url(/resources/backgrounds/house_chips.png);
- background-size: 100% 100%;
- width: 20%;
- height: 8%;
- float: left;
- background-repeat: no-repeat;
- top: 0px;
- margin: 0% 60% 0% 40%;
- position: absolute;
- padding: 0px;
- z-index: 50; /*                  background-color: yellow;     */
+
+#house_chips {
+    display:none;
+    /*background: url("/resources/backgrounds/house_chips.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    float: left;
+    height: 50px;
+    margin: 0 0 0 36%;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 225px;
+    z-index: 50;
+    //background-color: yellow;     */
 }
 #table_jackpot_container {
 	background: url(/resources/backgrounds/jackpot_container_background_1.png);
@@ -1004,106 +1005,7 @@ border: 1px solid #3f3f3f; */
 	padding-top: 5px;
 	width: 33px;
 }
-#btnDealHole {
-	background: url("/resources/buttons/dealh.png") no-repeat;
-	background-size: 100%;
-	border-radius: 120px;
-	color: #fff;
-	float: right;
-	font-size: 16px;
-	font-weight: bold;
-	height: 95px;
-	line-height: 21px;
-	padding: 26px 4px 20px;
-	text-align: center;
-	text-shadow: 2px 1px #222;
-	white-space: normal;
-	width: 95px;
-}
-#btnDealHole:hover {
-	background: url("/resources/buttons/dealh-hover.png") no-repeat;
-	background-size: 100%;
-}
-#btnDealFlop:hover {
-	background: url("/resources/buttons/dealh-hover.png") no-repeat;
-	background-size: 100%;
-}
-#btnDealTurn:hover {
-	background: url("/resources/buttons/dealh-hover.png") no-repeat;
-	background-size: 100%;
-}
-#btnDealRiver:hover {
-	background: url("/resources/buttons/dealh-hover.png") no-repeat;
-	background-size: 100%;
-}
-#btnNextGame:hover {
-	background: url("/resources/buttons/dealh-hover.png") no-repeat;
-	background-size: 100%;
-}
-#btnDealFlop {
-	background: url("/resources/buttons/dealh.png") no-repeat;
-	background-size: 100%;
-	border-radius: 120px;
-	color: #fff;
-	float: right;
-	font-size: 16px;
-	font-weight: bold;
-	height: 95px;
-	line-height: 21px;
-	padding: 26px 4px 20px;
-	text-align: center;
-	text-shadow: 2px 1px #222;
-	white-space: normal;
-	width: 95px;
-}
-#btnDealTurn {
-	background: url("/resources/buttons/dealh.png") no-repeat;
-	background-size: 100%;
-	border-radius: 120px;
-	color: #fff;
-	float: right;
-	font-size: 16px;
-	font-weight: bold;
-	height: 95px;
-	line-height: 21px;
-	padding: 26px 4px 20px;
-	text-align: center;
-	text-shadow: 2px 1px #222;
-	white-space: normal;
-	width: 95px;
-}
-#btnDealRiver {
-	background: url("/resources/buttons/dealh.png") no-repeat;
-	background-size: 100%;
-	border-radius: 120px;
-	color: #fff;
-	float: right;
-	font-size: 16px;
-	font-weight: bold;
-	height: 95px;
-	line-height: 21px;
-	padding: 26px 4px 20px;
-	text-align: center;
-	text-shadow: 2px 1px #222;
-	white-space: normal;
-	width: 95px;
-}
-#btnNextGame {
-	background: url("/resources/buttons/dealh.png") no-repeat;
-	background-size: 100%;
-	border-radius: 120px;
-	color: #fff;
-	float: right;
-	font-size: 16px;
-	font-weight: bold;
-	height: 95px;
-	line-height: 21px;
-	padding: 26px 4px 20px;
-	text-align: center;
-	text-shadow: 2px 1px #222;
-	white-space: normal;
-	width: 95px;
-}
+
 .twiiter a {
 	background: url("/resources/backgrounds/twitter.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 	float: left;
@@ -1286,15 +1188,7 @@ border: 1px solid #3f3f3f; */
 .previous_placed_bet_for_any_stage {
 	font-size: 2vw;
 }
-#btnDealHole {
-	background-size: 100% 100%;
-	font-size: 3vh;
-	height: 20vw;
-	max-height: 20vh;
-	max-width: 20vh;
-	padding: 0;
-	width: 20vw;
-}
+
 #btnDealTurn {
 	background-size: 100% 100%;
 	font-size: 3vh;
@@ -1459,16 +1353,7 @@ border: 1px solid #3f3f3f; */
     padding: 0;
     width: 10vw;
 }
-#btnDealHole {
-	background-size: 100% 100%;
-	font-size: 1.6vh;
-	height: 10vw;
-	max-height: 10vh;
-	line-height: 2vh;
-	max-width: 10vh;
-	padding: 0;
-	width: 10vw;
-}
+
 #btnDealFlop {
 	background-size: 100% 100%;
 	font-size: 1.6vh;
@@ -1609,3 +1494,5 @@ height:17vh;
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
 ::i-block-chrome,.card_middle_turn, ::i-block-chrome,.card_middle_river, ::i-block-chrome,.card_right_flop, ::i-block-chrome,.card_left_flop { margin-top:14%;}
 }
+
+

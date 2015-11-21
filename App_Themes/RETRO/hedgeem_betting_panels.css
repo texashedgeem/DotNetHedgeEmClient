@@ -1,12 +1,12 @@
 ﻿#betting_panels_container
 {
     float: left;
-    position: relative;
-    --background-color: cyan;
-    top: -40px;
+    position: absolute;
+    background-color: transparent;
+    top: 76%;
     left: 0px;
-    width: 90%;
-    height: 60px;
+    width: 70%;
+    height: 10%;
     margin: 0% 5% 0% 5%;
     z-index: 20;
 }
@@ -17,9 +17,9 @@
     --background-repeat:no-repeat;
     --background-position:0px 0px;
     display:block;
-    width: 50px;
-    height: 50px;
-    --background-color: orange;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
     float:left;
     margin: 1% 1% 1% 1%;
     z-index:99;
@@ -29,7 +29,7 @@
 
 /* xxx THIS SHOULD NOT BE HERE - Its a hack when betting stage is not being set in code*/
 .generic_NON_BETTING_STAGE_betting_panel_container {
-    position: relative;
+    /*position: relative;
     --background-image:url('/resources/chip_icon_5.png');
     --background-repeat:no-repeat;
     --background-position:0px 0px;
@@ -40,11 +40,11 @@
     float:left;
     margin: 1% 1% 1% 1%;
     z-index:99;
-
+    */
 }
 
 .generic_HOLE_BETS_betting_panel_container {
-    position: relative;
+    /*position: relative;
     --background-image:url('/resources/chip_icon_4.png');
     --background-repeat:no-repeat;
     --background-position: 50px 0px;
@@ -56,12 +56,13 @@
     float:left;
     margin: 0% 1% 0% 3%;
     z-index:99;
-
+        */
+    display:none;
 }
 
 
 .generic_FLOP_BETS_betting_panel_container {
-    position: relative;
+    /*position: relative;
     --background-image:url('/resources/chip_icon_5.png');
     --background-repeat:no-repeat;
     --background-position:0px 0px;
@@ -73,11 +74,18 @@
     float:left;
     margin: 0% 1% 0% 3%;
     z-index:99;
+        */
+    margin: 0% 5% 0% 5%;
+    width: 15%;
+    top: 0%;
+    z-index:99;
+    
 
 }
 
 .generic_TURN_BETS_betting_panel_container {
-    position: relative;
+     /*
+   position: relative;
     --background-image:url('/resources/chip_icon_5.png');
     --background-repeat:no-repeat;
     --background-position:0px 0px;
@@ -88,9 +96,10 @@
     float:left;
     margin: 0% 1% 0% 3%;
     z-index:99;
-    /*
         background-color: darkorange;
     */
+
+   display:none;
 }
 
 .chip_icon_0 {
