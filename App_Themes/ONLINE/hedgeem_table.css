@@ -225,7 +225,7 @@ li.ext {
 	padding: 0px;
 	z-index: 50; /*          background-color:darkblue;     background-color:darkblue;          */
 }
-#btn_rules.online, #btn_get_chips {
+#btn_rules.online, #btn_get_chips, #btn_cashier {
 	text-align: center;/* top: 68px;
     width: 30.7% !important;*/
 }
@@ -750,7 +750,7 @@ fb_iframe_widget
 	margin-bottom: 0px;
 	z-index: 9999;
 	margin-top: 105px;
-	display: none;
+	//display: none;
 	color: #666;
 }
 #Logout {
@@ -981,9 +981,25 @@ border: 1px solid #3f3f3f; */
 	text-shadow: 0 -1px 3px #000;
 	width: auto;
 }
+
+#btn_cashier {
+	background: url("/resources/buttons/chips.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+	border-radius: 0;
+	color: #fff;
+	font-size: 17px;
+	font-weight: bold;
+	padding: 4px 20px 7px 42px;
+	text-shadow: 0 -1px 3px #000;
+	width: auto;
+}
+
 .pushy li a:hover #btn_get_chips {
 	background: url("/resources/buttons/chipsh.png") no-repeat scroll 0 1px;
 }
+.pushy li a:hover #btn_cashier {
+	background: url("/resources/buttons/chipsh.png") no-repeat scroll 0 1px;
+}
+
 #Logout {
 	display: inline-block;
 	position: relative;
@@ -1273,7 +1289,9 @@ border: 1px solid #3f3f3f; */
 .menu-btn, .menu-btn.highlight{ background-size:35%;}
 #btn_rules.online, #btn_play_for_real { background-size:contain; font-size:4vh}
 #btn_get_chips{font-size:4vh; padding:4px 27px 7px 14px;background-size:contain;}
+#btn_cashier{font-size:4vh; padding:4px 27px 7px 14px;background-size:contain;}
 .pushy li a:hover #btn_get_chips {background-size:contain;}
+.pushy li a:hover #btn_cashier {background-size:contain;}
 .pushy li a:hover #btn_rules.online{ background-size:contain;}
 
 #placed_bets {

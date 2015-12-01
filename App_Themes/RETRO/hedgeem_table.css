@@ -751,8 +751,8 @@ fb_iframe_widget
 	margin-bottom: 0px;
 	z-index: 9999;
 	margin-top: 105px;
-	display: none;
-	color: #666;
+	//display: none;
+	color: lime;
 }
 #Logout {
 /*  position:absolute;

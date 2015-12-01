@@ -178,7 +178,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 {
 
                     Logout.Attributes.Add("style", "display:block!Important;");
-                    Page.RegisterStartupScript("OnLoading", "<script>load_edit_profile();</script>");
+                    //Page.RegisterStartupScript("OnLoading", "<script>load_edit_profile();</script>");
                     if (Session["display_name"] != null)
                     {
                         lbl_user_name.Text = Session["display_name"].ToString();
@@ -547,6 +547,125 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
        
     }
 
+
+    protected void f_login_anonymously(int a_player_id)
+    {
+
+
+
+
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        // Log the fact this method has been called
+        my_log_event.p_message = String.Format("Method [btn_login_Click] called ");
+        log.Debug(my_log_event.ToString());
+        string my_endpoint = "Not Set";
+        
+        // Declare vairibles that will be required later
+        string my_username = "";
+        string my_password = "";
+        DataTable my_user_details;
+
+        
+        try
+        {
+            // Attempt to retrieve a Player object from the HedgeEm Webservice using the credentials supplied.
+            my_endpoint = String.Format("{0}/ws_login/{1},{2},{3},{4}/", p_current_json_webservice_url_base, p_session_id, p_session_server_id, my_username, my_password);
+            HedgeEmPlayer my_player = (HedgeEmPlayer)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeEmPlayer));
+
+            if (my_player == null)
+            {
+                string my_error_msg = String.Format("Player object is null after call to Webservice to retrieve details", my_username);
+                my_log_event.p_message = my_error_msg;
+                log.Error(my_log_event.ToString());
+                throw new Exception(my_error_msg);
+            }
+
+            if (my_player.p_player_id <= 0)
+            {
+                my_log_event.p_message = my_player.p_error_message;
+                log.Error(my_log_event.ToString());
+                throw new Exception(my_log_event.ToString());
+
+            }
+            else
+            {
+                // If we have got here the user has logged into the server sucessfully so we should set some session variables for ease of use later
+                int my_player_id = my_player.p_player_id;
+                Session["p_session_player_id"] = my_player_id;
+                Session["display_name"] = my_player.p_display_name;
+                Session["p_session_username"] = my_username;
+                Session["password"] = my_password;
+                Session["user_role"] = my_player.p_role;
+                        
+                p_session_personal_table_id = my_player.p_personal_table_id;
+                if (Session["p_session_username"] != null)
+                {
+                    if (File.Exists(Server.MapPath("resources/player_avatar_" + Session["p_session_username"].ToString() + ".jpg")))
+                    {
+                        usr_image.ImageUrl = "../resources/player_avatar_" + Session["p_session_username"].ToString() + ".jpg";
+                    }
+
+                    else
+                    {
+                        usr_image.ImageUrl = "../resources/avitars/user_square.png";
+                    }
+                }
+                // As the user has now logged in by HedgeEm authentication hide the Facebook login DIV
+                if (Session["facebooklogin"] != null)
+                {
+                    //LoginDiv.Attributes.Add("style", "display:none !Important;");
+                }
+
+                // As the user has now logged show the logout button and hide the login button
+                // xxx Nov 2014.  Not sure why this is on condition of facebooklogin; I separated this out from if/else
+                // of above to figure this out.  I assume is because you could be logged in by facebook so still want to
+                // show / hide login/logout buttons appropriately
+                if (Session["facebooklogin"] == null)
+                {
+                    lbl_user_name.Text = Session["display_name"].ToString();
+                    Logout.Attributes.Add("style", "display:block !Important;");
+                    //LoginDiv.Attributes.Add("style", "display:none !Important;");
+                    divLogin.Attributes.Add("style", "display:none !Important;");
+                    userdetails.Attributes.Add("style", "display:none !Important;");
+                    btnLogout.Visible = true;
+                    btnLogout.Enabled = true;
+                    Page.RegisterStartupScript("OnLoad", "<script>document.getElementById('userdetails').style.display='none';</script>");
+                }
+
+                
+                string role = "";
+                if (my_player != null)
+                {
+                    role = my_player.p_role;
+                    my_log_event.p_message = String.Format("User/player role determined to be [{0}].", role.ToString());
+                    log.Debug(my_log_event.ToString());
+                }
+
+                
+            }
+        }
+        catch (Exception ex)
+        {
+            string my_error_message = "Fatal Errorin method [btn_login_Click] - " + ex.Message.ToString() + "');";
+
+            //  Log the error and raise a new exception
+            my_log_event.p_message = String.Format(
+                "Fatal error in method [btn_login_Click]. Reason [{0}]",
+                        ex.Message);
+            log.Error(my_log_event.ToString(), new Exception(ex.Message));
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_message.ToString();
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+        }
+
+    }
+
     protected void btnLogout_Click(object sender, EventArgs e)
     {
         _xxx_log_event.p_method_name = "btnLogout_Click";
@@ -751,20 +870,26 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             {
 
                 HedgeemThemeInfo my_hedgeem_theme_info = new HedgeemThemeInfo();
-                my_endpoint = String.Format("{0}/ws_get_theme_details_for_hedgeem_table/{1}/", p_current_json_webservice_url_base, a_table_id);
-                my_hedgeem_theme_info = (HedgeemThemeInfo)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeemThemeInfo));
+                bool my_get_theme_info_from_server_definition = false;
+                string theme_name = "ONLNE";
 
-                if (my_hedgeem_theme_info == null)
-                {
-                    throw new Exception(String.Format("Unable to determine theme for table [{0}]", a_table_id));
+                if (my_get_theme_info_from_server_definition){
+                    my_endpoint = String.Format("{0}/ws_get_theme_details_for_hedgeem_table/{1}/", p_current_json_webservice_url_base, a_table_id);
+                    my_hedgeem_theme_info = (HedgeemThemeInfo)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeemThemeInfo));
+
+                    if (my_hedgeem_theme_info == null)
+                    {
+                        throw new Exception(String.Format("Unable to determine theme for table [{0}]", a_table_id));
+                    }
+
+                    if (my_hedgeem_theme_info._error_message != "")
+                    {
+                        throw new Exception(my_hedgeem_theme_info._error_message);
+                    }
+                    theme_name = my_hedgeem_theme_info.short_name;
+                    Session["theme"] = theme_name;
                 }
 
-                if (my_hedgeem_theme_info._error_message != "")
-                {
-                    throw new Exception(my_hedgeem_theme_info._error_message);
-                }
-                string theme_name = my_hedgeem_theme_info.short_name;
-                Session["theme"] = theme_name;
 
                 // xxx Note from Simon Jan 2015 - not sure what this next line does.  If it is just a pop up it can be deleted (esp as it does not work anyway)
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", "alert('" + "Theme name -" + Session["theme"].ToString() + "');", true);
@@ -951,6 +1076,153 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// WARNING OF DUPLICACTE CODE - See btn_anon_casino_Click, btn_anon_online_Click, and btn_anon_retro_Click
+    /// only difference is theme selected
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_anon_retro_Click(object sender, EventArgs e)
+    {
+
+        // Log that the user has clicked the 'Play now' button.
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_table_id = p_session_personal_table_id;
+        my_log_event.p_server_id = p_session_server_id;
+        my_log_event.p_message = String.Format("User [{0}] clicked 'Play RETRO Anonymously", p_session_username);
+        log.Info(my_log_event.ToString());
+        Session["theme"] = enum_theme.RETRO.ToString();
+
+        try
+        {
+            f_play_anon(enum_theme.RETRO);
+        }
+        catch (Exception ex)
+        {
+            my_log_event.p_message = String.Format("Error user try to play Anonymously using RETRO Theme.  Reason [{0}]", ex.Message);
+            log.Error(my_log_event.ToString());
+            // Cant throw a exception here
+            //throw new Exception(my_log_event.ToString());
+
+        }
+    }
+
+    /// <summary>
+    /// WARNING OF DUPLICACTE CODE - See btn_anon_casino_Click, btn_anon_online_Click, and btn_anon_retro_Click
+    /// only difference is theme selected
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_anon_online_Click(object sender, EventArgs e)
+    {
+        // Log that the user has clicked the 'Play now' button.
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_table_id = p_session_personal_table_id;
+        my_log_event.p_server_id = p_session_server_id;
+        my_log_event.p_message = String.Format("User [{0}] clicked 'Play ONLINE Anonymously", p_session_username);
+        log.Info(my_log_event.ToString());
+
+        try
+        {
+            f_play_anon(enum_theme.ONLINE);
+        }
+        catch (Exception ex)
+        {
+            my_log_event.p_message = String.Format("Error user try to play Anonymously using ONLINE Theme.  Reason [{0}]", ex.Message);
+            log.Error(my_log_event.ToString());
+            // Cant throw a exception here
+            //throw new Exception(my_log_event.ToString());
+
+        }
+    }
+
+    /// <summary>
+    /// WARNING OF DUPLICACTE CODE - See btn_anon_casino_Click, btn_anon_online_Click, and btn_anon_retro_Click
+    /// only difference is theme selected
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_anon_casino_Click(object sender, EventArgs e)
+    {
+        // Log that the user has clicked the 'Play now' button.
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_table_id = p_session_personal_table_id;
+        my_log_event.p_server_id = p_session_server_id;
+        my_log_event.p_message = String.Format("User [{0}] clicked 'Play Casino Anonymously", p_session_username);
+        log.Info(my_log_event.ToString());
+
+        try
+        {
+            f_play_anon(enum_theme.CASINO);
+        }
+        catch (Exception ex)
+        {
+            my_log_event.p_message = String.Format("Error user try to play Anonymously using CASINO Theme.  Reason [{0}]", ex.Message);
+            log.Error(my_log_event.ToString());
+            // Cant throw a exception here
+            //throw new Exception(my_log_event.ToString());
+            
+        }
+    }
+
+
+    protected void f_play_anon(enum_theme a_enum_theme)
+    {
+
+        // Log that the user has clicked the 'Play now' button.
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_table_id = p_session_personal_table_id;
+        my_log_event.p_server_id = p_session_server_id;
+        my_log_event.p_message = String.Format("User [{0}] click 'Play Now", p_session_username);
+        log.Info(my_log_event.ToString());
+
+        // This fucntion should not be able to be played if the player as not logged in, so test if they have 
+        // a 'HedgeEm Session' has been established,  If not exit this fucntion. 
+        /*if (!p_valid_session_exists)
+        {
+            my_log_event.p_message = String.Format("User informed the session is invalide.");
+            log.Debug(my_log_event.ToString());
+
+            //ScriptManager.RegisterStartupScript(Page, GetType(), "Alert Message", "alert('You must be logged in to Play this game.');", true);
+            ScriptManager.RegisterStartupScript(Page, GetType(), "Alert Message", "document.getElementById('alertmessage').style.display = 'block';", true);
+            return;
+        }*/
+
+
+        // xxx Consider uncommenting the following after aslo considering consequence (if you do this when user clicks leave table 
+        // they will leave there personal table which you may not want currently as the code currently (Dec 2014) assumes you are sitting at
+        // personal table all the time.
+        HedgeEmPlayer my_hedgeem_player;
+        //my_hedgeem_player = f_get_free_anonymous_player();
+        DC_hedgeem_game_state my_game_state = f_sit_at_anonymous_table(a_enum_theme);
+        //f_login_anonymously(1201);
+        if (my_game_state.p_error_message != null)
+        {
+            if (my_game_state.p_error_message != "")
+            {
+                throw new Exception(my_game_state.p_error_message);
+            }
+        }
+
+
+        Session["p_session_username"] = my_game_state._seats[0].p_player_name;
+        Session["p_session_personal_table_id"] = my_game_state.p_table_id;
+        Session["p_session_current_table_id"] = my_game_state.p_table_id;
+        Session["p_session_player_id"] = my_game_state._seats[0].p_player_id;
+        Session["theme"] = a_enum_theme.ToString();
+        Session["role"] = "BASIC_USER";
+
+            f_goto_table(my_game_state.p_table_id);
+
+        // If code reaches here we asssume Table ID and PlayerID is known so sit the person at this table
+
+
+    }
+    
 
     protected void btn_play_now_Click(object sender, EventArgs e)
     {
@@ -1290,8 +1562,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         {
             // Fetch the email from Javascript through query string
             string email = HttpContext.Current.Request.QueryString["uid"].ToString();
-            //localhost.WebService service = new localhost.WebService();
-
+            
             if (email != "")
             {
                 string my_endpoint1 = String.Format("{0}/ws_get_password_from_db/{1}/", p_current_json_webservice_url_base,
@@ -1924,8 +2195,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         {
             // Fetch the email from Javascript through query string
             string email = HttpContext.Current.Request.QueryString["uid"].ToString();
-            localhost.WebService service = new localhost.WebService();
-
+            
             if (email != "")
             {
                 string my_endpoint1 = String.Format("{0}/ws_get_password_from_db/{1}/", p_current_json_webservice_url_base,
@@ -1959,6 +2229,105 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         
     }
 
+    private DC_hedgeem_game_state f_sit_at_anonymous_table(enum_theme a_enum_theme )
+    {
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        DC_hedgeem_game_state my_game_state = new DC_hedgeem_game_state();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_message = "f_sit_at_anonymous_table";
+        log.Debug(_xxx_log_event.ToString());
+        string my_endpoint = "Not Set";
+        try
+        {
+            try
+            {
+    
+                // Creates (registers) a new user (HedgeEmPlayer) in the HedgeEm Server.
+                // Note this also creates a Personal Table for them (which the HedgeEmTable is returned in the Player object 'p_personal_table_id
+                enum_authentication_method my_authentication_method = enum_authentication_method.FACEBOOK;
+            my_endpoint = String.Format("{0}/ws_sit_at_anonymous_table/{1},{2},{3},{4}/",
+                                                p_current_json_webservice_url_base,
+                                                "anon_session_id_123",
+                                                83,
+                                                a_enum_theme.ToString(),
+                                                "QUICK_PLAY");
+
+            my_game_state = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server(my_endpoint, typeof(DC_hedgeem_game_state));
+                if (my_game_state.p_error_message != null)
+                {
+                    if (my_game_state.p_error_message != "")
+                    {
+                        string my_error_msg = string.Format("Failed trying call 'sit anonymously' to server, Error returned [{0}], Endpoint targeted [{1}]",my_game_state.p_error_message,my_endpoint);
+                        throw new Exception(my_error_msg);
+                    }
+                }
+
+                // If we got here we assume Player was created successfully so store Player ID and continue
+                //p_session_player_id = my_game_state.p_player_id;
+
+
+                // login to the game
+                /*Session["p_session_username"] = txt_username.Text;
+                Session["password"] = txt_password.Text;
+                Session["display_name"] = txt_full_name.Text;
+                Session["p_session_personal_table_id"] = my_game_state.p_personal_table_id;
+                Session["p_session_username"] = my_game_state.p_username;
+                Session["p_session_password"] = txt_password.Text;
+                Session["p_session_display_name"] = my_game_state.p_display_name;
+
+
+                ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering,your facebook account with HedgeEm. A confirmation mail is sent to your email Id '); if(alert){ window.location='frm_facebook_canvas.aspx';}", true);
+                */
+                //Page.RegisterStartupScript("OnLoad", "<script>alert('Thank you for registering, you are now logged in an can start to play HedgeEm'); if(alert){ window.location='frm_facebook_canvas.aspx';}</script>");
+            }
+            catch (Exception ex)
+            {
+                string my_error_msg_summary = String.Format("Fatal error trying to sit at table anonymously");
+                string my_error_msg_detail = String.Format("Error in {0} Reason [{1}]", 
+                    my_log_event.p_method_name, 
+                    ex.Message.ToString());
+
+                my_log_event.p_message = my_error_msg_detail;
+
+                log.Error(my_log_event.ToString());
+
+                HedgeemerrorPopup my_popup_messageError = new HedgeemerrorPopup();
+                my_popup_messageError.p_user_message_str = my_error_msg_summary;
+                my_popup_messageError.p_detailed_message_str = my_error_msg_detail;
+                my_popup_messageError.p_is_visible = true;
+
+                Place_Holder_Popup_Message.Controls.Add(my_popup_messageError);
+
+                my_popup_messageError.Dispose();
+
+                //newuser.Visible = false;
+
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            string my_error_popup = "Error in f_get_free_anonymous_player suald - " + ex.Message.ToString();
+       //     ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            log.Error("Error in f_get_free_anonymous_player xxxaawe", new Exception(ex.Message));
+
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+
+            //newuser.Visible = false;
+
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+
+            my_popup_message.Dispose();
+
+        }
+
+        return my_game_state;
+        
+    }
 
     /// <summary>
     /// Created by Simon on 4th Jan 2014 - I dont think this method is called - VERY BAD DUPLICATED CODE

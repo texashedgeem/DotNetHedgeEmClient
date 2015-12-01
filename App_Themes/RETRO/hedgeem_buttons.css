@@ -174,17 +174,18 @@
 
 
 #btn_cashier{
-   background: url("/resources/buttons/chips.png") no-repeat scroll 26px 13px rgba(0, 0, 0, 0);
-    border-radius: 0;
-    color: #fff;
-    font-size: 17px;
-    font-weight: bold;
-    padding: 17px 72px;
-    text-shadow: 0 -1px 3px #000;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    width: auto;
-	display:block;
+    position: relative;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    width: 20%;
+    top: 0px;
+    left: 1%;
+    z-index: 9;
+    background:#999;
+    border-radius:2px;
+    cursor:pointer;
+    text-align:center;
+    font-size:small;
      
     /*
         background-color: yellow;

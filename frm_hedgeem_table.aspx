@@ -142,65 +142,111 @@ $(".menu-btn").click(function() {
              <li>
                
                <a href="#"> 
-               <div id="playrealbutton"> 
-            <asp:UpdatePanel ID="UpdatePanel2" runat="server" RenderMode="Inline">
-            <ContentTemplate>
-               <asp:Button ID="btn_play_for_real" runat="server" Text="Play for Real" OnClientClick=
-               "show_play_for_real_text();" OnClick="btn_play_for_real_Click" value="Play for Real" />
-               </ContentTemplate>
-               </asp:UpdatePanel>
-               </div>    
+                  <div id="playrealbutton"> 
+                     <asp:UpdatePanel ID="UpdatePanel2" runat="server" RenderMode="Inline">
+                     <ContentTemplate>
+                        <asp:Button ID="btn_play_for_real" runat="server" Text="Play for Real" OnClientClick=
+                        "show_play_for_real_text();" OnClick="btn_play_for_real_Click" value="Play for Real" />
+                     </ContentTemplate>
+                     </asp:UpdatePanel>
+                  </div>    
                </a>  
                                     
+                 </li>
+             
+                <li>
+                   <a href="#"> 
+                      <div id="menu_exit_button"> 
+                         <asp:UpdatePanel ID="UpdatePanel3" runat="server" RenderMode="Inline">
+                         <ContentTemplate>
+                            <asp:Button 
+                                ID="Button1" 
+                                runat="server" 
+                                Text="Exit" 
+                                OnClick="btn_leave_table_Click" 
+                                value="Leave Table" />
+                         </ContentTemplate>
+                         </asp:UpdatePanel>
+                      </div>    
+                   </a>  
+                </li>
+             
+                <li>
                    
-                <div id='command_buttons_container'>
-                <!-- Lobby button -->
-                <div id='btn_lobby'>
-                <asp:ImageButton ID="btnLobby" runat="server" ImageUrl="../resources/buttons/btn_lobby.png"
-                OnClick="btnLobby_Click" />
-                </div>
+                    <!-- <div id='command_buttons_container'>-->
+                
+                    <!-- Lobby button -->
+                    <div id='btn_lobby'>
+                        <asp:ImageButton 
+                            ID="btnLobby" 
+                            runat="server" 
+                            ImageUrl="../resources/buttons/btn_lobby.png"
+                            OnClick="btnLobby_Click" />
+                    </div>
+                 </li>
+             
                 <!-- Help button -->
-                <div id='btn_help'>
-                <asp:ImageButton ID="btn_help" runat="server" ImageUrl="../resources/buttons/btn_help.png"
-                OnClick="btnLobby_Click" />
-                </div>
-                                
-             </li>
-                                <!-- Rules button -->
-             <li>  
-             <a href="#">
-              <div id='btn_rules' class="online" onClick="show_rules();">
-                                
-                                    Rules
-              </div>
-             </a>
-             </li>   
+                <li>
+                    <div id='btn_help'>
+                       <asp:ImageButton 
+                           ID="btn_help" 
+                           runat="server" 
+                           ImageUrl="../resources/buttons/btn_help.png"
+                           OnClick="btnLobby_Click" />
+                    </div>
+                 </li>
+                 
+                 <!-- Rules button -->
+                 <li>  
+                     <a href="#">
+                         <div id='btn_rules' class="online" onClick="show_rules();">
+                             Rules
+                         </div>
+                     </a>
+                 </li>   
                              
-              <!-- Get Chips button -->
-             <li>
-                <a href="#">  <div id='btn_get_chips' onClick="show_get_chips();">
-                Get Chips
-                </div></a>
+                  <!-- Get Chips button -->
+                 <li>
+                    <a href="#">  
+                        <div id='btn_get_chips' 
+                            onClick="show_get_chips();">
+                            Get Chips
+                       </div>
+                    </a>
+                  </li>
+
+                <li> <!-- Cashier button -->
+                    <a href="#">  
+                       <div id='btn_cashier' 
+                           onClick="btn_cashier_Click();" 
+                           runat="server">
+                           Cashier
+                       </div>
+                    </a>
+                </li>
                
-                <!-- Show Admin Button (Show odds for all hands)-->
-                <div id='btn_show_admin'>
-                <asp:ImageButton ID="btn_Show_Admin_Flag" runat="server"
-                 ImageUrl="../resources/buttons/btn_debug.png"
-                Text="Show Admin" OnClick="btn_Show_Admin_Flag_Click" Visible="false" />
-                </div>
-                <!-- Hide Admin Button (Show odds for all hands)-->
-                <div id='btn_hide_admin'>
-                <asp:ImageButton ID="btn_Hide_Admin_Flag" runat="server"
-                 ImageUrl="../resources/buttons/btn_debug.png"
-                Text="Hide Admin" Visible="false" OnClick="btn_Hide_Admin_Flag_Click" />
-                </div>
+                  <!-- Show Admin Button (Show odds for all hands)-->
+                    <div id='btn_show_admin'>
+                       <asp:ImageButton ID="btn_Show_Admin_Flag" runat="server"
+                           ImageUrl="../resources/buttons/btn_debug.png"
+                           Text="Show Admin" 
+                           OnClick="btn_Show_Admin_Flag_Click" 
+                           Visible="false" />
+                    </div>
+                
+                     <!-- Hide Admin Button (Show odds for all hands)-->
+                    <div id='btn_hide_admin'>
+                       <asp:ImageButton ID="btn_Hide_Admin_Flag" runat="server"
+                           ImageUrl="../resources/buttons/btn_debug.png"
+                           Text="Hide Admin" 
+                           Visible="false" 
+                           OnClick="btn_Hide_Admin_Flag_Click" />
+                    </div>
+
                 </div>
                            
                </li>
                
-               <li> <!-- Cashier button -->
-               <div id='btn_cashier' onClick="btn_cashier_Click();" runat="server" visible="false">Cashier
-                </div></li>
                             
                
               
@@ -350,17 +396,18 @@ $(".menu-btn").click(function() {
                                             <asp:Button ID="btnNextGame" runat="server" Text="Next Game" OnClick="btn_deal_next_stage_Click"
                                                 OnClientClick=" disableButton(this,3000);" value="Next Game" />
                                         
-                                         
-                                        <div class="dealbtnset">
+                                          <!--Do NOT delete this empty DIV is is used and will break app Simon Nov 2015 - Ask Jatin why he added this-->
+                                        <!--<div class="dealbtnset">
                                         
                                                    
-                                            </div>
+                                            </div>-->
                                   
-                                    <!--Command buttons content -->
+                                    <!-- End of Command buttons content -->
                                 </div>
 
                                 <!-- Player Content -->
                                         
+                                <!--<div>  Do not add this Div added by Simon Nov 2015 to connect with what appeared to be orphanned div below -->
                                 <asp:UpdatePanel ID="updPanl_to_avoid_Postback" runat="server" UpdateMode="Conditional">
                                             <ContentTemplate>
                                             <script type="text/javascript">
@@ -374,10 +421,12 @@ $(".menu-btn").click(function() {
                                                     <asp:PlaceHolder ID="Place_Holder_Player_Info" runat="server"></asp:PlaceHolder>
                                                 </div>
                                                 <!-- Odds_bets -->
+
+                                                <!-- Commented out by Simon Nov 2015 - need to ask Webguruz what this is for
                                                 <div id="Place_Holder_Odds_bets_sample" runat="server">
                                                     <asp:PlaceHolder ID="Place_Holder_Odds_bets" runat="server"></asp:PlaceHolder>
                                                 </div>
-                                                </div>
+                                                </div>-->
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                         

@@ -131,6 +131,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 my_log_event.p_message = "Attempting to set theme.";
                 log.Debug(my_log_event.ToString());
                 f_set_theme();
+                
             }
         }
         catch (Exception ex)
@@ -397,6 +398,11 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                             Place_Holder_Popup_Message.Controls.Add(my_popup_message);
 
                         }
+                        int dummy_var_for_break_point = 22;
+                        if (Session["user_role"] == null)
+                        {
+                            Session["user_role"] = enum_user_role.BASIC_USER.ToString();
+                        }
                         string role = Session["user_role"].ToString();
                         // if user is admin, show cashier button
                         if (role == enum_user_role.ADMIN.ToString())
@@ -479,8 +485,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             catch (Exception ex)
             {
                 //string my_error_popup = "alert('Error in Page Load - " + ex.Message.ToString() + "');";
-                string my_error_popup = "Fatal Error in Reason [{0}]" + ex.Message;
-                my_log.p_message = String.Format("Fatal error. Reason [{0}]", ex.Message);
+                string my_error_popup = String.Format("Fatal Error in frm_hedgeem_table.aspx.cs Page Load. Reason [{0}]", ex.Message);
+                my_log.p_message = String.Format("Fatal Error in frm_hedgeem_table.aspx.cs Page Load. Reason [{0}]", ex.Message);
                 // xxxeh This exception does not show to users
                 //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
                 HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
@@ -666,11 +672,11 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string my_error_popup = "Error in f_get_previous_bets_for_stage_and_hand" + ex.Message.ToString();
+            string my_error_popup = "Error in f_get_previous_bets_for_stage_and_hand " + ex.Message.ToString();
            // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
-            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
+            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand FIX-ME_ReflectionNEEDED";
             my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
             my_log.p_table_id = p_session_personal_table_id;
@@ -740,7 +746,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
           //  ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
-            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
+            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand FixX Me reflection";
             my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
             my_log.p_table_id = p_session_personal_table_id;
@@ -870,7 +876,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
            // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
-            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
+            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand - Refelcstionm needed";
             my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
             my_log.p_table_id = p_session_personal_table_id;
@@ -940,7 +946,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
           //  ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
-            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
+            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand weweReflection xxx needed";
             my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
             my_log.p_table_id = p_session_personal_table_id;
@@ -994,7 +1000,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             HedgeEmLogEvent my_log = new HedgeEmLogEvent();
             my_log.p_message = "Exception caught in f_get_hand_stage_info_object_for_stage_and_hand function " + ex.Message;
-            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand";
+            my_log.p_method_name = "f_get_hand_stage_info_object_for_stage_and_hand -reflection sas xxx needed";
             my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
             my_log.p_game_id = game_id;
             my_log.p_table_id = p_session_personal_table_id;

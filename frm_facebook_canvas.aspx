@@ -491,6 +491,7 @@
                         <div id='btn_help'>
                             <%--   <asp:ImageButton ID="btn_help" runat="server" ImageUrl="../resources/buttons/btn_help.png" />--%>
                         </div>
+                     
                         <!-- Rules button -->
                         <div id='btn_rules' class="online" onclick="show_rules();">
                             <%-- <asp:Button ID="btn_rules" runat="server" 
@@ -507,6 +508,12 @@
                             Please wait for a while, we are preparing your table.</p>
                         <asp:Button ID="btn_play_now" Enabled="true" runat="server" OnClick="btn_play_now_Click"
                             OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play Now" CssClass="play_now_enabled btn btn-success" />
+                        <asp:Button ID="btn_play_retro" Enabled="true" runat="server" OnClick="btn_anon_retro_Click"
+                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Retro'" CssClass="play_now_enabled btn btn-success" />
+                        <asp:Button ID="btn_play_anon" Enabled="true" runat="server" OnClick="btn_anon_online_Click"
+                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Online'" CssClass="play_now_enabled btn btn-success" />
+                        <asp:Button ID="btn_play_casino" Enabled="true" runat="server" OnClick="btn_anon_casino_Click"
+                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Casino'" CssClass="play_now_enabled btn btn-success" />
                     </div>
                     <!-- Login Button -->
                     <div class="btn-group pull-right login" id="divLogin" runat="server" onclick="show_login();">
