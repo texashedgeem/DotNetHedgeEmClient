@@ -49,7 +49,7 @@ public class HedgeemerrorPopup : WebControl
 
         }
     }
-    private String _user_message_str = "Sorry something has gone wrong with this operation.  The HedgeEm administrators have been notified.";
+    private String _user_message_str = "Sorry somethings gone wrong with this operation.  The Hedge'Em administrators have been notified.";
 
 
 
@@ -79,10 +79,12 @@ public class HedgeemerrorPopup : WebControl
 
 
             // For Detailed message
+            string my_time_of_error = DateTime.Now.ToString("MM\\/dd\\/yyyy h\\:mm tt");
             writer.WriteLine(String.Format("<div id ='detailed_message_string' >"));
             writer.WriteLine("");
             writer.Indent += 1;
-            writer.WriteLine(p_detailed_message_str);
+            writer.WriteLine(String.Format("Date:[{0}], Error [{1}]", my_time_of_error, p_detailed_message_str));
+            //writer.WriteLine(p_detailed_message_str);
             writer.WriteLine("");
             writer.Indent -= 1;
             writer.WriteLine("</div>");
