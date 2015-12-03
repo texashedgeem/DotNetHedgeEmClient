@@ -870,10 +870,10 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             {
 
                 HedgeemThemeInfo my_hedgeem_theme_info = new HedgeemThemeInfo();
-                bool my_get_theme_info_from_server_definition = false;
-                string theme_name = "ONLNE";
+                bool xxxHC_my_get_theme_info_from_server_definition = false;
+                string theme_name = enum_theme.ONLINE.ToString();
 
-                if (my_get_theme_info_from_server_definition){
+                if (xxxHC_my_get_theme_info_from_server_definition){
                     my_endpoint = String.Format("{0}/ws_get_theme_details_for_hedgeem_table/{1}/", p_current_json_webservice_url_base, a_table_id);
                     my_hedgeem_theme_info = (HedgeemThemeInfo)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeemThemeInfo));
 
@@ -892,7 +892,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
 
                 // xxx Note from Simon Jan 2015 - not sure what this next line does.  If it is just a pop up it can be deleted (esp as it does not work anyway)
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", "alert('" + "Theme name -" + Session["theme"].ToString() + "');", true);
+                //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", "alert('" + "Theme name -" + Session["theme"].ToString() + "');", true);
 
                 my_log_event.p_message = String.Format("Successfully retrieved theme for table ID [{0}] Theme [{1}] so redirecting to (opening) HedgeEmTable page so ASP can render page to this theme.", a_table_id, theme_name);
                 log.Debug(my_log_event.ToString());
