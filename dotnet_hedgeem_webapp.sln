@@ -3,18 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "dotnet_hedgeem_webapp", ".", "{9267375B-336D-4D13-B5E0-7D9F6B99791B}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DotNetHedgeEmClient", ".", "{9267375B-336D-4D13-B5E0-7D9F6B99791B}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/hedgeem_webapp_client"
-		Debug.AspNetCompiler.PhysicalPath = "..\dotnet_hedgeem_webapp\"
+		Debug.AspNetCompiler.PhysicalPath = "..\DotNetHedgeEmClient\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\hedgeem_webapp_client\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/hedgeem_webapp_client"
-		Release.AspNetCompiler.PhysicalPath = "..\dotnet_hedgeem_webapp\"
+		Release.AspNetCompiler.PhysicalPath = "..\DotNetHedgeEmClient\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\hedgeem_webapp_client\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
@@ -22,7 +22,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "dotnet_hedgeem_webapp", "."
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "2574"
 		VWDDynamicPort = "false"
-		SlnRelativePath = "..\dotnet_hedgeem_webapp\"
+		SlnRelativePath = "..\DotNetHedgeEmClient\"
 	EndProjectSection
 EndProject
 Global
