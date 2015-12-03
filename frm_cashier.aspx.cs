@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-
 using System.Net;
 using System.IO;
 using System.Runtime.Serialization.Json;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
-using System.Media;
-using System.Data;
 using System.Text;
-using System.Web.Services;
 using HedgeEmClient;
-using System.Runtime.Serialization;
-using System.ServiceModel;
 using System.Web.Configuration;
 
 public partial class frm_cashier : System.Web.UI.Page

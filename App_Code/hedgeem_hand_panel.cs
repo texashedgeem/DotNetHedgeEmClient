@@ -83,7 +83,7 @@ using HedgeEmClient;
             set { _current_betting_stage = value; }
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return String.Format("Desc[{0}], (Card1[{1}],Card2[{2}]). IsDead[{3}]",
                                     _description,
