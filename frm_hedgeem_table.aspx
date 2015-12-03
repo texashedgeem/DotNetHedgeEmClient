@@ -189,7 +189,7 @@ $(".menu-btn").click(function() {
                 <li>
                     <div id='btn_help'>
                        <asp:ImageButton 
-                           ID="btn_help" 
+                           ID="btn_help_asp" 
                            runat="server" 
                            ImageUrl="../resources/buttons/btn_help.png"
                            OnClick="btnLobby_Click" />
@@ -243,7 +243,7 @@ $(".menu-btn").click(function() {
                            OnClick="btn_Hide_Admin_Flag_Click" />
                     </div>
 
-                </div>
+               <!--  </div> commented out this div 2 Dec 2015-->
                            
                </li>
                
