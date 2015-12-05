@@ -2170,7 +2170,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
             f_call_functions_to_render_screen();
         }
-        catch (Exception ex)
+        catch (Exception ex)    
         {
             string my_error_message = String.Format("Error in f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets. Reason {0}", ex.Message);
 
