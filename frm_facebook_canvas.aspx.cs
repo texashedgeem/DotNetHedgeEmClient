@@ -2250,7 +2250,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                                                 "anon_session_id_123",
                                                 83,
                                                 a_enum_theme.ToString(),
-                                                "QUICK_PLAY");
+                                                "FASTPLAY_FLOP");
 
             my_game_state = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server(my_endpoint, typeof(DC_hedgeem_game_state));
                 if (my_game_state.p_error_message != null)
