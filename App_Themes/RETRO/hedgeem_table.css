@@ -744,16 +744,17 @@ fb_iframe_widget
 }
 #hedgeem_game_id {
 	position: absolute;
-	top: 100%;
-	right: 10%;
-	color: #C3C281;
+	top: 1%;
+	right: 0%;
+	//color: #C3C281;
 	padding: 0%;
 	margin-bottom: 0px;
 	z-index: 9999;
-	margin-top: 105px;
+	margin-top: 0%;
 	//display: none;
-	color: lime;
+	color: grey;
 }
+
 #Logout {
 /*  position:absolute;
     top:0;
