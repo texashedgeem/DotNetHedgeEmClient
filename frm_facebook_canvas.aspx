@@ -173,21 +173,27 @@
                     <div id="btn_deal_buttons_container" class="online">
                         
                         <!-- Rules button -->
+                        <!--
                         <div id='btn_rules' class="online" onclick="show_rules();">
                         </div>
+                        -->
                         
                         <!-- Play Classic (Online) Mode -->
                         <asp:Button ID="btn_play_anon" Enabled="true" runat="server" OnClick="btn_anon_online_Click"
-                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Standard'" CssClass="play_now_enabled btn btn-success" />
+                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play" CssClass="play_now_enabled btn btn-success" />
                         
                         <!-- Play Casino Mode -->
+                        <!--
                         <asp:Button ID="btn_play_retro" Enabled="true" runat="server" OnClick="btn_anon_retro_Click"
                             OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Retro'" CssClass="play_now_enabled btn btn-success" />
+                        -->
                         
                         <!-- Play Casino Mode -->
+                        <!--
                         <asp:Button ID="btn_play_casino" Enabled="true" runat="server" OnClick="btn_anon_casino_Click"
                             OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Casino'" CssClass="play_now_enabled btn btn-success" />
-                    </div>
+                         -->
+                     </div>
                     
                 </div>
         

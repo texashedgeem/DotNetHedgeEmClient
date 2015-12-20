@@ -76,8 +76,9 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             {
                 if (strUserAgent != null)
                 {
-                    if (MobileDevice == true || strUserAgent.Contains("iphone") || strUserAgent.Contains("blackberry") || strUserAgent.Contains("mobile") ||
-                    strUserAgent.Contains("android") || strUserAgent.Contains("windows ce") || strUserAgent.Contains("opera mini") || strUserAgent.Contains("palm"))
+                    //if (MobileDevice == true || strUserAgent.Contains("iphone") || strUserAgent.Contains("blackberry") || strUserAgent.Contains("mobile") ||
+                    //strUserAgent.Contains("android") || strUserAgent.Contains("windows ce") || strUserAgent.Contains("opera mini") || strUserAgent.Contains("palm"))
+                    if (strUserAgent.Contains("iphone"))
                     {
                         Response.Redirect("https://itunes.apple.com/gb/app/texas-hedgeem/id1018941577?mt=8");
                     }
