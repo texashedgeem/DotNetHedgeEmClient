@@ -37,6 +37,7 @@
             height: 50px;
         }
     </style>
+
     <script type="text/javascript">
         function GetParameterValues(param) {
             var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -47,42 +48,23 @@
                 }
             }
         }
+
         function preventBack() { window.history.forward(); }
         setTimeout("preventBack()", 0);
         window.onunload = function () { null };       
     </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#logged_in_user2").click(function () {
-                window.location = "frm_user_profile_edit.aspx";
-
-                //Uncomment these 3 lines if you want to show edit profile in Popup
-                //                load_edit_profile();              
-                $("#edit_profile").css("display", "inline-block");
-                $("#hide_edit_profile").css("display", "inline-block");
-                //            document.getElementById('edit_profile').style.display = 'block';
-                //            document.getElementById('hide_edit_profile').style.display = 'block';
-            });
-        });
-
-    </script>
 </head>
+
 <body>
+    <!-- This shows a splash screen until page has loaded -->
     <div id="element" class="introLoading" style="display: none;">
     </div>
-    <!-- Div to show Progress Bar while images are loading on Page_Load -->
-    <%--<div id="progressbar">
-        <p id="progressbar_content">
-        </p>
-        <div id="div_progress" class="progressbar">
-            <div id="div_progress_bar" class="bar">
-            </div>
-            <div id="div_percent" class="bar">
-            </div>
-        </div>
-    </div>--%>
+    
+    <!-- Not sure what this does, try deleting and see -->
     <div id="fb-root">
     </div>
+    
+    <!-- Not sure what this does, try deleting and see -->
     <script type="text/javascript">
         // Load the SDK Asynchronously
         (function (d) {
@@ -93,10 +75,13 @@
             ref.parentNode.insertBefore(js, ref);
         } (document));       
     </script>
+    
     <form id="form1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server">
-    </asp:ScriptManager>
-    <div class="topbar_fixed">
+    
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+    
+        <div class="topbar_fixed">
         <div class="container">
             <div class="row">
                 <div class="col-sm-offset-7 col-md-3" id="social_media_container">
@@ -122,7 +107,8 @@
             </div>
         </div>
     </div>
-    <div id="wrapper" class="container">
+    
+        <div id="wrapper" class="container">
         <div class="row">
             <asp:Label ID="lb_alert" runat="server" Text="" ForeColor="Red"></asp:Label>
             <div id="table_background">
@@ -131,147 +117,20 @@
             <div class="table_inner">
                 <div id="hedgeem_table_info_bar_background">
                 </div>
-                <!-- Image to show Casino logo -->
-                <div id="table_logo">
-                </div>
-                <!-- Image to show house chips -->
-                <div id="house_chips">
-                </div>
-                <!-- social_media_container -->
-                <asp:Button ID="btnAdmin" CssClass="btn btn-primary" Style="display: none;" runat="server"
-                    Text="Hi Admin, click here!" OnClick="btnAdmin_Click" />
-                <!-- Login Section -->
-                <div align="left" id="userdetails" class="white_content animated bounceInDown modal-content"
-                    runat="server">
-                    <div class="modal-header">
-                        <div id="hide_login" class="close" onclick="hide_login();">
-                            <span aria-hidden="true">×</span>
-                        </div>
-                        <h4 id="H1" class="modal-title">
-                            Login</h4>
-                    </div>
-                    <table cellpadding="5" cellspacing="2" class="logintable">
-                        <tr>
-                            <td>
-                                <div class="fb-login-button" scope="user_photos,email,user_checkins">
-                                    <a href="#" id="fblogin">
-                                        <img src="../resources/buttons/loginfb.png" id="fbloginimg" /></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="login_notice">
-                                Connect with your Facebook account, or quickly sign up for Playing Texas Hold’Em
-                                Poker.
-                                <hr />
-                            </td>
-                        </tr>
-                        <tr>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label ID="lbl_login_status_msg" runat="server" Visible="false" ForeColor="Red"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:TextBox ID="txtUsername" Text="" runat="server" CssClass="int" placeholder="Username"></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*"
-                                    ControlToValidate="txtUsername" ValidationGroup="check"></asp:RequiredFieldValidator>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:TextBox ID="txtPassword" Text="" runat="server" CssClass="int" placeholder="Password"
-                                    TextMode="Password"></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*"
-                                    ControlToValidate="txtPassword" ValidationGroup="check"></asp:RequiredFieldValidator>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a href="#" onclick="show_forgot_password();">Forgot Password?</a>
-                            </td>
-                        </tr>
-                        <tr class="brdr">
-                            <td>
-                                <asp:Button ID="btnLogin" runat="server" CssClass="btns btn btn-default" Text="Login"
-                                    OnClick="btn_login_Click" ValidationGroup="check" TabIndex="1" />
-                                <input type="button" id="btnRegister" class="btns btn btn-primary" onclick="show_register();"
-                                    value="Register" />
-                                <!-- Add New User Section -->
-                                <div id="newuser" runat="server" style="display: none;">
-                                    <a href="JavaScript:newPopup('frm_new_user.aspx');" id="newuser">New User</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="center">
-                                <asp:Label ID="lblmsg" runat="server" Text="Label" Visible="false" ForeColor="#ff3300"
-                                    Font-Size="10"></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+
+                
+                
+        
                 <div id="popup_message">
                     <script type="text/javascript">
                         function onclose() {
                             document.getElementById('hide_edit_profile').style.display = 'none';
                             document.getElementById('popup_message').style.display = 'none';
                         }
-
                     </script>
                     <asp:PlaceHolder ID="Place_Holder_Popup_Message" runat="server"></asp:PlaceHolder>
                 </div>
-                <!-- Forgot Password -->
-                <div id="forgot_password" class="white_content animated bounceInDown modal-content"
-                    style="display: none;">
-                    <div class="modal-header">
-                        <div id="hide_forgot_password" onclick="hide_forgot_password();" class="close">
-                            <span aria-hidden="true">×</span>
-                        </div>
-                        <h4 id="myModalLabel" class="modal-title">
-                            Forgot Password</h4>
-                    </div>
-                    <table width="100%" class="logintable" cellpadding="5" cellspacing="2">
-                        <tr>
-                            <td colspan="3">
-                                Please Enter your Email below to get your Password :
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding-top: 12px">
-                                Email :
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="100%">
-                                <asp:TextBox ID="txt_Email" CssClass="int" runat="server"></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="email_validator" runat="server" ControlToValidate="txt_Email"
-                                    ValidationGroup="check_fp_val" ErrorMessage="*"></asp:RequiredFieldValidator>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Button ID="btnSend" CssClass="btn btn-primary" runat="server" Text="Send" ValidationGroup="check_fp_val"
-                                    OnClick="btnSend_Click" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                            </td>
-                            <td colspan="2">
-                                <asp:RegularExpressionValidator ID="email_format_validator" runat="server" ControlToValidate="txt_Email"
-                                    ErrorMessage="Please enter valid Email Address" ValidationExpression="^([a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]){1,70}$"
-                                    SetFocusOnError="True" ValidationGroup="check_fp_val"></asp:RegularExpressionValidator>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+
                 <!-- Rules Div -->
                 <div id="content" class="white_content modal-content animated bounceInDown">
                     <div class="modal-header">
@@ -296,280 +155,54 @@
                         Players can bet on any hand and at any stage and can ‘Hedge their bets’ to reduce
                         risk or even guarantee a win.</p>
                 </div>
-                <!-- session time out message div -->
-                <div id="session_timeout_message">
-                    <p>
-                        Your Session to sit on this table has expired.</p>
-                    <p>
-                        Please Login again to continue.</p>
-                    <input type="button" onclick="javascript:window.location='frm_facebook_canvas.aspx';"
-                        value="Proceed" />
-                </div>
-                <!-- Register new user popup-->
-                <div id='content_register_user' class="white_content modal-content" style="display: none;">
-                    <div class="modal-header">
-                        <div id="hide_register_cross" onclick="hide_register();" class="close">
-                            <span aria-hidden="true">×</span>
-                        </div>
-                        <h4 id="myModalLabel" class="modal-title">
-                            Sign up for Playing Texas Hold’Em Poker.</h4>
-                    </div>
-                    <div class="New_user_popup">
-                        <table width="100%" cellspacing="6" cellpadding="2">
-                            <tr>
-                                <td>
-                                    <asp:Label ID="lbl_register_status_msg" runat="server" Visible="false" ForeColor="Red"></asp:Label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:RegularExpressionValidator ID="expEmail" runat="server" ControlToValidate="txt_username"
-                                        ErrorMessage="Please enter valid Email Address" ValidationExpression="^([a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]){1,70}$"
-                                        SetFocusOnError="True" ValidationGroup="checkval"></asp:RegularExpressionValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:TextBox ID="txt_username" runat="server" CssClass="int" placeholder="Email"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="rqd_validator_txt_username" runat="server" ControlToValidate="txt_username"
-                                        ValidationGroup="checkval" ErrorMessage="*"></asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:TextBox ID="txt_password" runat="server" TextMode="Password" CssClass="int"
-                                        placeholder="Password"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="rqd_validator_txt_password" runat="server" ControlToValidate="txt_password"
-                                        ValidationGroup="checkval" ErrorMessage="*"></asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:TextBox ID="txt_full_name" runat="server" CssClass="int" placeholder="Display Name"
-                                        MaxLength="10"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="rqd_validator_txt_full_name" runat="server" ControlToValidate="txt_full_name"
-                                        ValidationGroup="checkval" ErrorMessage="*"></asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:Button ID="btn_new_user" CssClass="btn btn-primary" runat="server" Text="Register"
-                                        ValidationGroup="checkval" OnClientClick="javascript:disableButton(this,3000);"
-                                        OnClick="btn_new_user_Click" />
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <!-- Edit Profile -->
-                <div id="edit_profile" class="edit_profile_content" style="display: none;">
-                </div>
-             <%--   Uncomment this java script code if you want to load edit profile page--%>
-
-             <%--   <script type="text/javascript">
-                    function load_edit_profile() {
-
-                        var request = $.ajax({
-                            url: "frm_user_profile_edit.aspx",
-                            cache: false,
-                            success: function (html) {
-                                $("#edit_profile").append(html);
-                            },
-                            error: function (response) {
-                                errorValue = response.responseText;
-                                alert(errorValue);
-
-                            }
-                        });
-                        request.fail(function (jqXHR, textStatus) {
-                            //                            alert("Request failed: " + textStatus);
-                        });
-                    }
-                  
-                </script>--%>
-                <!-- Register new facebook user popup-->
-                <div id='content_register_fb_user' class="white_content modal-content" style="display: none;">
-                    <div class="modal-header">
-                        <div id="hide_register_fb_cross" onclick="hide_fb_register();" class="close">
-                            <span aria-hidden="true">×</span>
-                        </div>
-                    </div>
-                    <div class="New_user_popup">
-                        <table cellspacing="6" cellpadding="2" align="center">
-                            <tr>
-                                <td id="signup_fb_notice" class="signup_notice" align="center">
-                                    Thanks you are now connected via facebook and can start to play. Optionally you
-                                    can create a local HedgeEm password and display name.<br>
-                                    <hr />
-                                    <hr />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:Label ID="lbl_register_fb_status_msg" runat="server" Visible="false" ForeColor="Red"></asp:Label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:RegularExpressionValidator ID="expEmail1" runat="server" ControlToValidate="txt_fb_username"
-                                        ErrorMessage="Please enter valid Email Address" ValidationExpression="^([a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]){1,70}$"
-                                        SetFocusOnError="True" ValidationGroup="checkfbval"></asp:RegularExpressionValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:TextBox ID="txt_fb_username" runat="server" CssClass="int" placeholder="Email"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="rqd_validator_txt_fb_username" runat="server" ControlToValidate="txt_fb_username"
-                                        ValidationGroup="checkfbval" ErrorMessage="*"></asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:TextBox ID="txt_fb_display_name" runat="server" CssClass="int" placeholder="Display Name"
-                                        MaxLength="10"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txt_fb_display_name"
-                                        ValidationGroup="checkfbval" ErrorMessage="*"></asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:Button ID="btn_new_fb_user" CssClass="btn btn-primary" runat="server" Text="Register"
-                                        ValidationGroup="checkfbval" OnClick="btn_new_fb_user_Click" />
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+        
+                
                 <!-- error message div -->
                 <div id="error_message" class="white_content modal-content">
                     <p>
                         The username/password you have entered is incorrect.</p>
                     <input type="button" onclick="hide_error_message();" value="OK" />
                 </div>
+                
                 <!-- User Details & Play Now -->
                 <div class="button_toolbar">
-                    <div id="newuser1">
-                        <asp:Image ID="usr_image" runat="server" CssClass="img" Height="50px" />
-                        <asp:TextBox ID="txt_get_fm_email_id" runat="server" Style="display: none;" AutoPostBack="True"></asp:TextBox>
-                        <asp:TextBox ID="txt_fullname" runat="server" Style="display: none;" AutoPostBack="True"></asp:TextBox>
-                        <asp:HiddenField ID="fb_user_id" runat="server" />
-                    </div>
-                    <table id="deposit_update" runat="server" visible="false">
-                        <tr>
-                            <td>
-                                <a href="JavaScript:depositupdatePopup()"></a>
-                            </td>
-                        </tr>
-                    </table>
-                    <!--Command buttons content -->
-                    <div class="online" id="command_buttons_container">
-                        <!-- Help button -->
-                        <div id='btn_help'>
-                            <%--   <asp:ImageButton ID="btn_help" runat="server" ImageUrl="../resources/buttons/btn_help.png" />--%>
-                        </div>
                      
+                    <p id="login_wait_message" style="display: none;">
+                            Please wait for a while, we are preparing your table.</p>
+                                                
+                    <div id="btn_deal_buttons_container" class="online">
+                        
                         <!-- Rules button -->
                         <div id='btn_rules' class="online" onclick="show_rules();">
-                            <%-- <asp:Button ID="btn_rules" runat="server" 
-                        ImageUrl="../resources/buttons/btn_rules.png" onclick="btn_rules_Click" Text="Rules" />--%>Rules
                         </div>
-                        <!-- Cashier button -->
-                        <div id='btn_cashier' onclick="btn_cashier_Click();" style="display: none">
-                            <%-- <asp:ImageButton ID="btn_cashier"
-                        ImageUrl="../resources/buttons/btn_cashier.png" OnClientClick="btn_cashier_Click()" />--%>
-                        </div>
-                    </div>
-                    <div id="btn_deal_buttons_container" class="online">
-                        <p id="login_wait_message" style="display: none;">
-                            Please wait for a while, we are preparing your table.</p>
-                        <asp:Button ID="btn_play_now" Enabled="true" runat="server" OnClick="btn_play_now_Click"
-                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play Now" CssClass="play_now_enabled btn btn-success" />
+                        
+                        <!-- Play Classic (Online) Mode -->
+                        <asp:Button ID="btn_play_anon" Enabled="true" runat="server" OnClick="btn_anon_online_Click"
+                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Standard'" CssClass="play_now_enabled btn btn-success" />
+                        
+                        <!-- Play Casino Mode -->
                         <asp:Button ID="btn_play_retro" Enabled="true" runat="server" OnClick="btn_anon_retro_Click"
                             OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Retro'" CssClass="play_now_enabled btn btn-success" />
-                        <asp:Button ID="btn_play_anon" Enabled="true" runat="server" OnClick="btn_anon_online_Click"
-                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Online'" CssClass="play_now_enabled btn btn-success" />
+                        
+                        <!-- Play Casino Mode -->
                         <asp:Button ID="btn_play_casino" Enabled="true" runat="server" OnClick="btn_anon_casino_Click"
                             OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Casino'" CssClass="play_now_enabled btn btn-success" />
                     </div>
-                    <!-- Login Button -->
-                    <div class="btn-group pull-right login" id="divLogin" runat="server" onclick="show_login();">
-                        <button type="button" class="btn btn-warning" value="Login" id="Login" onclick="show_login();">
-                            Login</button>
-                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="glyphicon login-icon"></i>
-                        </button>
-                    </div>
-                    <!-- Admin Button -->
-                    <!-- Facebook Logout Section -->
-                    <div id="facebooklogout" runat="server">
-                        <!-- Logout Section -->
-                        <div id="Logout" runat="server" style="display: none;" class="btn-group pull-right">
-                            <div id="logged_in_user">
-                                <asp:Label ID="lbl_user_name" runat="server"></asp:Label>
-                            </div>
-                            <asp:Button ID="btnLogout" CssClass="btns btn btn-warning" runat="server" Text="Logout"
-                                OnClick="btnLogout_Click" />
-                            <button id="logged_in_user2" type="button" class="btn btn-warning dropdown-toggle"
-                                data-toggle="dropdown" aria-expanded="false">
-                                <i class="glyphicon login-icon"></i>
-                            </button>
-                        </div>
-                    </div>
+                    
                 </div>
-            </div>
-        </div>
-        <div id="alertmessage" class="" style="display: none;">
+        
+                <div id="alertmessage" class="" style="display: none;">
             <div class="modal-header">
                 <div id="Div1" onclick="hide_alertmessage();" class="close">
                     <span aria-hidden="true">×</span>
                 </div>
             </div>
-            <h4>
-                You are not authorized to view this page.
-            </h4>
-        </div>
-        <div id="fade" class="black_overlay" onclick="hide_rules();">
-        </div>
-        <div id="fade_session_timeout_message" class="fade_overlay">
-        </div>
-        <div id="hide_register" class="black_overlay" onclick="hide_register();">
-        </div>
-        <div id="hide_fb_register" class="black_overlay" onclick="hide_fb_register();">
-        </div>
-        <div id="fade_userdetails" class="black_overlay" onclick="hide_login();">
-        </div>
-        <div id="fade_error_message" class="black_overlay" onclick="hide_error_message();">
-        </div>
-        <div id="fade_forgot_password" class="black_overlay" onclick="hide_forgot_password();">
-        </div>
-        <div id="hide_edit_profile" class="black_overlay" onclick="hide_edit_profile();">
-        </div>
-        <!-- script to login and invite friends to facebook -->
+            
+                </div>
+        
+                
+        
+                <!-- script to login and invite friends to facebook -->
         <script type="text/javascript">
 
             // Init the SDK upon load
@@ -664,41 +297,7 @@
                                             }
                                         });
                                     });
-
-                                    //                                    $(document).ready(function () {
-
-                                    //                                        $.ajax({
-                                    //                                            type: "POST",
-                                    //                                            contentType: "application/json; charset=utf-8",
-                                    //                                            url: "frm_facebook_canvas.aspx/f_check_user_logged_in_from_facebook_first_time?uid=" + email,
-                                    //                                            data: "{}",
-                                    //                                            dataType: "json",
-                                    //                                            success: function (data) {
-                                    //                                                var if_exists = data.d;
-                                    //                                                if (if_exists == true) {
-                                    //                                                    // let them login and play
-                                    //                                                    //   document.getElementById('signup_notice').innerHTML = "Sign up for Playing Texas Hold’Em Poker.<br> <hr />";
-                                    //                                                    var request = $.ajax({
-                                    //                                                        url: "frm_user_profile_edit.aspx",
-                                    //                                                        cache: false,
-                                    //                                                        success: function (html) {
-                                    //                                                            $("#edit_profile").append(html);
-                                    //                                                        }
-                                    //                                                    });
-                                    //                                                    request.fail(function (jqXHR, textStatus) {
-                                    //                                                        //                                                        alert("Request failed: " + textStatus);
-                                    //                                                    });
-                                    //                                                }
-                                    //                                                else {
-                                    //                                                    hide_login();
-                                    //                                                    document.getElementById('signup_notice').innerHTML = "Thanks you are now connected  via facebook and can start to play.Optionally you can create a local HedgeEm password and display name.<br> <hr />";
-                                    //                                                    show_fb_register();
-                                    //                                                    document.getElementById('txt_fb_username').value = email;
-                                    //                                                }
-                                    //                                            }
-                                    //                                        });
-                                    //                                    });
-                                }
+}
                             })
                             //                            document.getElementById('btn_play_now').style.display = 'block';
                             document.getElementById('btnLogin').style.display = 'none';
@@ -869,7 +468,7 @@
                     <div class="footertxt">
                         <%--<asp:Button ID="Button1" CssClass="btn btn-primary" runat="server" OnClick="Button1_Click"
                             Text="Button" />--%>
-                        Copyright © Qeetoto Ltd 2009-2015. All rights reserved.
+                        Copyright © Qeetoto Ltd 2009-2016. All rights reserved.
                     </div>
                 </div>
             </div>
