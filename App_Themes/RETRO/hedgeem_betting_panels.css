@@ -1,110 +1,95 @@
-﻿#betting_panels_container
+﻿/*
+    Theme: RETRO
+    Style: hedgeem_betting_panels
+    Description: Styles anything to do with a 'HedgeEm Betting Panel'.  There is one HedgeEm Betting Panel per hand/stage 
+                 combination. You can style each differently (if desired) but it is not normal to style one 'generic' betting 
+                 panel and apply this to all.  See design documentation and sytling Tutorials for more information about 
+                 Betting Panels
+*/
+
+
+/*
+   All betting panels for all hands and stages are positioned within ONE large betting panels container.
+    Tip: uncomment the background colour to see this container.
+*/
+#betting_panels_container
 {
+    /*background-color: red;*/
     float: left;
-    position: absolute;
-    background-color: transparent;
+    position: relative;
     top: 76%;
     left: 0px;
-    width: 70%;
-    height: 10%;
-    margin: 0% 5% 0% 5%;
+    width: 75%;
+    height: 50%;   /*For RETRO style we want only a single line of buttons so keep this small and overlap each stage button with next*/
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
     z-index: 20;
 }
 
+/*
+    Every betting panel for each hand and stage will have generic styling that applies to all.
+*/
 .generic_betting_panel_container {
     position: relative;
-    --background-image:url('/resources/chip_icon_5.png');
-    --background-repeat:no-repeat;
-    --background-position:0px 0px;
     display:block;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
+    background-color: lime;
     float:left;
     margin: 1% 1% 1% 1%;
     z-index:99;
+    background: url("http://localhost:2574/resources/buttons/animated_bet_button_yellow_active.gif") no-repeat;
+    background-position: 0px;
+	background-size: 150%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+    /*position: absolute;
+    top: 1px;*/
 
 }
 
 
 /* xxx THIS SHOULD NOT BE HERE - Its a hack when betting stage is not being set in code*/
 .generic_NON_BETTING_STAGE_betting_panel_container {
-    /*position: relative;
-    --background-image:url('/resources/chip_icon_5.png');
-    --background-repeat:no-repeat;
-    --background-position:0px 0px;
-    display:block;
-    width: 50px;
-    height: 50px;
-    --background-color: red;
-    float:left;
-    margin: 1% 1% 1% 1%;
-    z-index:99;
-    */
 }
 
 .generic_HOLE_BETS_betting_panel_container {
-    /*position: relative;
-    --background-image:url('/resources/chip_icon_4.png');
-    --background-repeat:no-repeat;
-    --background-position: 50px 0px;
-    top: 30px;
-    display:block;
-    width: 150px;
-    height: 30px;
-    --background-color: lime;
-    float:left;
-    margin: 0% 1% 0% 3%;
-    z-index:99;
-        */
-    display:none;
-}
-
-
-.generic_FLOP_BETS_betting_panel_container {
-    /*position: relative;
-    --background-image:url('/resources/chip_icon_5.png');
-    --background-repeat:no-repeat;
-    --background-position:0px 0px;
-    display:block;
-    top: -30px;
-    width: 150px;
-    height: 30px;
-    --background-color: olive;
-    float:left;
-    margin: 0% 1% 0% 3%;
-    z-index:99;
-        */
+    position: relative;
     margin: 0% 5% 0% 5%;
+    height: 30%;
     width: 15%;
     top: 0%;
-    z-index:99;
-    
+    z-index:10;
+    /*background-color: chocolate;*/
+
+}
+
+.generic_FLOP_BETS_betting_panel_container {
+    position: relative;
+    margin: 0% 5% 0% 5%;
+    height: 30%;
+    width: 15%;
+    top: 0%;
+    z-index:20;
+    /*background-color: silver;*/
 
 }
 
 .generic_TURN_BETS_betting_panel_container {
-     /*
-   position: relative;
-    --background-image:url('/resources/chip_icon_5.png');
-    --background-repeat:no-repeat;
-    --background-position:0px 0px;
-    display:block;
-    top: -90px;
-    width: 150px;
-    height: 30px;
-    float:left;
-    margin: 0% 1% 0% 3%;
-    z-index:99;
-        background-color: darkorange;
-    */
-
-   display:none;
+    position: relative;
+    height: 30%;
+    margin: 0% 5% 0% 5%;
+    width: 15%;
+    top: 0%;
+    z-index:30;
+    /*background-color: lime; */  
 }
 
 .chip_icon_0 {
     position: absolute;
-    background-image:url('/resources/chip_icon_5.png');
+    background-image:url("http://localhost:2574/resources/chip_icon_5.png");
     background-repeat:no-repeat;
     background-position:0px 0px;
     width: 30px;
@@ -120,7 +105,7 @@
 
 .chip_icon_1 {
     position: absolute;
-    background-image:url('/resources/chip_icon_1.png');
+    background-image:url("http://localhost:2574/resources/chip_icon_1.png");
     background-repeat:no-repeat;
     background-position:0px 0px;
     width: 40px;
@@ -134,115 +119,6 @@
 
 }
 
-/*
-#betpanel_hand0_stageHOLE_BETS
-{
-    
-    position: relative;
-    background-color: green;
-    float:left;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-}
-
-#betpanel_hand1_stageHOLE_BETS
-{
-    
-    position: relative;
-    float:left;
-    background-color: green;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-    }
-
-#betpanel_hand2_stageHOLE_BETS
-{
-    
-    position: relative;
-    float:left;
-    background-color: green;
-    width: 15%;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-    }
-
-#betpanel_hand3_stageHOLE_BETS
-{
-    
-    position: relative;
-    float:left;
-    background-color: green;
-    width: 15%;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-    }
-
-#betpanel_hand0_stageFLOP_BETS
-{
-    
-    position: relative;
-    float:left;
-    background-color: red;
-    width: 15%;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-}
-
-#betpanel_hand1_stageFLOP_BETS
-{
-    position: relative;
-    float:left;
-    background-color: red;
-    width: 15%;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-}
-
-#betpanel_hand2_stageFLOP_BETS
-{
-    position: relative;
-    float:left;
-    background-color: red;
-    width: 15%;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-}
-
-#betpanel_hand3_stageFLOP_BETS
-{
-    
-    position: relative;
-    float:left;
-    background-color: red;
-    width: 15%;
-    margin: 0% 2% 0% 2%;
-    padding: 0% 2% 0% 2%;
-    top: 5px;
-    height: 30px;
-    width: 15%;
-}
-    */
 
 /* Positions the text that shows the value of the bet.  May be used in the center of a chip icon 
     to indicate the value of the chip*/
@@ -250,3 +126,64 @@
     position: absolute;
     margin: 0% 10% 0% 10%;
 }
+
+.betting_panel_IN_PLAY_DEAD{
+    position: relative;
+    background: url("http://localhost:2574/resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	z-index:1000;
+}
+
+
+.generic_NON_BETTING_STAGE_betting_panel_container{
+    display:none;
+}
+
+.betting_panel_UNDEFINED {
+    display:none;
+}
+
+.betting_panel_IN_PLAY_PREVIOUS_BETTING_STAGE_NOT_ACTIVE {
+   display:none;
+}
+
+.betting_panel_IN_NON_BETTING_STAGE {
+    position: relative;
+    /*background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	background-color:black;
+    z-index:1000;
+    */
+    display:none;
+}
+
+.betting_panel_IN_PLAY_WINNER {
+    position: relative;
+    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	/*background-color:purple;*/
+    z-index:1000;
+    display:block;
+}
+
+.betting_panel_IN_PLAY_WILL_WIN {
+    position: relative;
+    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	/*background-color:purple;*/
+    z-index:1000;
+    display:block;
+}
+
+.betting_panel_IN_PLAY_FAVOURITE {
+    position: relative;
+    background: url("http://localhost:2574/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
+    background-position: 0px;
+	z-index:1000;
+        background: url("/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
+    background-position: 0px;
+	background-size: 150%;
+    /*background-color:green;*/
+    
+    }
+    

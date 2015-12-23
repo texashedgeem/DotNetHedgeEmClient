@@ -1,3 +1,10 @@
+/*
+    THEME: RETRO
+    CSS: hedgeem_buttons.css
+    Description. The sytles of any buttons that are *NOT* associated with any other specific 'HedgeEm object' 
+                 (such as hands and betting panels) are defined here.
+*/
+
 #command_buttons_container
 {
     position: absolute;
@@ -49,38 +56,6 @@
 }
 
 
-
-
-#btnDealFlop
-{
-    cursor: pointer;
-    position: absolute;
-    margin: 0px 0px 0px 5px;
-    padding: 0% 0% 0% 0%;
-    top: 0px;
-    left: 0px;
-    z-index: 9;
-    //background-color: green;
-    color: transparent;
-    background-image: url('/resources/buttons/btn_deal_flop.png');
-    height: 80px;
-    width: 90px;
-    background-repeat: no-repeat; 
- 
-    
-    /*
-        background-color: Red;
-    */
-}
-
-
-#btnDealFlop:hover {
-    //background-color: Red;
-    height: 80px;
-    width: 90px;
-    background-image: url('/resources/buttons/btn_deal_flop_hover.png');
-    background-repeat: no-repeat; 
-}
 
 /*
 #btnDealRiver
@@ -293,7 +268,7 @@
 
 
 #btnDealHole {
-    background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
     background-position: -80px;
 	background-size: 200%;
 	//border-radius: 120px;
@@ -307,7 +282,7 @@
 }
 
 #btnDealFlop {
-    background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
     background-position: -80px;
 	background-size: 200%;
 	//border-radius: 120px;
@@ -318,7 +293,7 @@
     width: 100%;
 }
 #btnDealTurn {
-	background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+	background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
     background-position: -80px;
 	background-size: 200%;
     color: transparent;
@@ -329,7 +304,7 @@
     width: 100%;
 }
 #btnDealRiver {
-    background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+    background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
     background-position: -80px;
 	background-size: 200%;
 	//border-radius: 120px;
@@ -341,7 +316,7 @@
     width: 100%;
 }
 #btnNextGame {
-	background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+	background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
     background-position: -80px;
 	background-size: 200%;
 	//border-radius: 120px;
@@ -352,15 +327,6 @@
     width: 100%;
 }
 
-/* Logout buttons for all pages */
-#btnLogout
-{
-	/*height: 30px;
-	width: 80px;
-	margin: 0px;
-	
-	*/
-}
 
 .logout {
 	margin-left: 6px;
