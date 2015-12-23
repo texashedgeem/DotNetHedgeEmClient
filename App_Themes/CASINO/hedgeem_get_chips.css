@@ -1,0 +1,97 @@
+﻿#get_chips
+{
+    height: 465px;
+    margin: 4% 9% 0;
+    top: 0;
+	width:60%;
+	
+    
+}
+
+.xxx_get_chips_content_divs
+{
+    background: none repeat scroll 0 0 #5E5652;
+    border-bottom: 5px solid #FFFFFF;
+    border-top:5px solid #629C2D;
+    border-left:5px solid #629C2D;
+    border-right:5px solid #629C2D;
+    padding: 1%;a
+    color:White;
+    font-family:Arial;
+    cursor:pointer;
+    height:35px;
+    box-shadow:0px 1px 1px #629C2D;
+    margin: 4%;
+}
+
+#alternatives{
+    float:left;
+}
+
+.get_chips_image img
+{
+    float: left;
+    padding-top: 12px;
+    width: 88px;
+}
+
+.get_chips_image img.fbr
+{
+    float: left;
+    padding-top: 12px;
+    width:auto;
+}
+
+#option_visit_these_sites{
+    clear:both;
+    padding: 3% 0% 0% 0%;
+}
+
+#option_share{
+    clear:both;
+    margin: 5% 0% 0% 0%;
+    padding: 3% 0% 0% 0%;
+}
+
+#option_donate{
+    clear:both;
+    margin: 5% 0% 0% 0%;
+    padding: 3% 0% 0% 0%;
+}
+
+.alternatives_section_heading{
+   
+    float: both;
+    //color: red;
+    margin: 0% 0% 0% 0%; 
+}
+#ai_PayPal_description{
+    display: none;
+}
+
+#ai_BetFair_description{
+    display: none;
+}
+
+#ai_full_tilt_description{
+    display: none;
+}
+
+#ai_BetFair_description{
+    display: none;
+}
+
+#ai_recommend_facebook_description{
+    display: none;
+}
+
+#ai_share_facebook_description{
+    display: none;
+}
+
+#get_chips h4
+{
+    font-family:Arial;
+    font-weight:normal;
+    font-size:17px;
+}

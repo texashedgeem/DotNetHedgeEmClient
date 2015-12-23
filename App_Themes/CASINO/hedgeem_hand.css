@@ -3,92 +3,124 @@
     All Hand panels that are display are displayed in a container so you can re-position all of them
     left, right, up or down etc with one CSS change.
     */
-.hand_panels_container
+#hand_panels_container
 {
+ 
+   /* height: auto;
+    margin: 0 0%;
+    padding: 0;
     position: absolute;
-    width: 54%;
-    height: 100px;
-    margin: 0% 23% 0% 23%;
-    top: 22%;
-    left:2%;
-    padding: 0px;
-    
-    z-index: 40; 
-    /*    
-    margin: 0% 12% 0% 12%;
-    background-color: brown;
-    width: 76%;
-    height: 28%;
-    right:0px;    
-    border-collapse: collapse;
-    */
+    top:42%;
+    width: 100%;
+	left:4%;
+    z-index: 20;*/
+	
+	 height: auto;
+    left: 0;
+    margin: 0 0;
+    padding: 0;
+    position: absolute;
+    top: 42%;
+    width: 100%;
+    z-index: 20;
+   
 }
 
 .hedgeem_control_hand_panel
 {
+
+    display: inline-block;
+    left: 0;
+    margin: 0 2%;
+    padding: 0;
     position: relative;
-    
-    float: left;
-    margin: 0% 0% 0% 1%;
-    //padding: 5%;
-    margin-top: 0%;
+    top:0px;
+    height: 75%;
+    width: 75%;
+    z-index: 20;
+    /*
+    background-color: purple;
     border-style: solid;
     border-width: 0px;
-    height: 80px;
-    width: 100px;
-    padding: 0px;
-    z-index: 20; 
-    /*
-    background-color: lime;
     background-image:url('resources/hand_indicator_backgroud.png');
+    background-size:100% 100%;
     background-repeat:no-repeat;
-    background-position:20px 60px;
-    right:0px;
-    border-collapse: collapse;    
+    background-position:0% 0%;
+    right:0px;    border-collapse: collapse;    
     */
 }
-.card_left img
+
+/*
+ ID:   hedgeem_control_hand_panel_hand_1
+ Only use this to override hand_panels_container
+ Done here to 'offset' the top position of the
+ hand panel to make it appear the HAND is dealt in 
+ semi-circle to follow line of table
+*/
+
+.auto_div_hand_id_class
 {
-    position: absolute;
-    float: left;
-    margin: 0% 0% 0% 0%;
-    padding: 0% 0% 0% 0%;
-    top: 0;
-    z-index: 99;
-    height: 80%;
-    width: 50%;
+    /*float:left;
+    height: 100%;
+    width: 20%;
+    margin: 0% 2.4% 0% 2.4%;*/
+	
+	
+	 float: left;
+    height: 100%;
+    margin: 0 0;
+    padding-left: 2.5vw;
+    width: 25%;
+	
+	
+
+    
+}
+
+
+
+/*
+ ID:  auto_div_hand1 or hedgeem_control_hand_panel_hand_1
+ Only use this to override hand_panels_container
+ Done here to 'offset' the top position of the
+ hand panel to make it appear the HAND is dealt in 
+ semi-circle to follow line of table
+*/
+
+#auto_div_hand_id1
+{
     /*
-    background-color: red;
-    height: 50%;
-    width: 50%;
-    cursor: pointer;
+    float:left;
+    margin-top: 7%;
+    background-color: Silver;
     */
 }
-.card_right img
+
+#auto_div_hand_id2
 {
-    position: absolute;
-    float: left;
-    margin: 0% 0% 0% 35%;
-    padding: 0% 0% 0% 0%;
-    z-index: 2;
-    z-index: 99;
-    //background-color: red;
-    height: 80%;
-    width: 50%;
     /*
-    background-color: navy;
-    cursor: pointer;
-     */
+    float:left;
+    margin-top: 7%;
+    */
 }
+
+
+
+
+
+
+.dead_opacity
+{   
+    -moz-opacity: 0.3;
+    opacity: .30;
+    filter: alpha(opacity=30);
+}
+
 
 #status_icons_container 
 {
-    display: none;
     position: absolute;
     float: left;
-    --border-style: solid;
-    --border-width: 1px;
-    --background-color: cyan;
     top:45px;
     left: 0px;
     margin: 0% 5% 0% 5%;
@@ -98,11 +130,24 @@
     height: 30px;
     width: 90%;
     
-    //background-color: #ff0000;
     padding: 0px;
-    z-index: 20; /*    right:0px;    border-collapse: collapse;    */
+    z-index: 20; 
+    /*    
+    border-style: solid;
+    border-width: 1px;
+    background-color: cyan;
+    right:0px;    
+    border-collapse: collapse;    
+    */
 }
 
+.hedgeem_control_hand_panel:hover .card_left img{box-shadow:-3px -4px 4px yellow;}
+.hedgeem_control_hand_panel:hover .card_right img{box-shadow:3px -4px 3px yellow;}
+
+.hedgeem_control_hand_panel:hover .dead_opacity .card_left img{box-shadow:none;}
+.hedgeem_control_hand_panel:hover .dead_opacity .card_right img{box-shadow:none;}
+
+ 
 .hand_status_icon
 {
     position: relative;
@@ -123,27 +168,26 @@
 {
      /*Do not use this unless you specifcally need to style the 'favorite' icon
      See style 'hand_status_icon' that applies to all status icons */
-     display: none;
+    //display:none;
 }
 
 .icon_best_value
 {
-    /*Do not use this unless you specifcally need to style the 'favorite' icon
-    See style 'hand_status_icon' that applies to all status icons */
-		display: none;
+     /*Do not use this unless you specifcally need to style the 'favorite' icon
+     See style 'hand_status_icon' that applies to all status icons */
+    //display:none;
 }
 
 
 .icon_winner
 {
-    top: 20%;
-    left: -3%;
-    height: 20%;
+    top: 25%;
+    height: 26%;
     width: 100%;
-    z-index: 99;
     float: left;
     margin: 0% 0% 0% 0%;
     padding: 0% 0% 0% 0%;
+    z-index: 80;
     color: White;
     position: absolute;
     background-image:url('/resources/icons/icon_winning_hand_indicator1.png');
@@ -152,72 +196,396 @@
     background-position:0% 0% 0% 0%;
     /*
     background-color:orange;
+    float: left; 
+    margin: 0px 0px 0px 0px;
+    padding: 45px 0px 0px 0px;
+    z-index: 3;
+    position: absolute;
     */
 }
 
-
 .icon_dead
 {
-    height: 100px;
-    width: 100px;
+    top: 25%;
+    height: 100%;
+    width: 100%;
     float: left;
-    color:lime;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    z-index: 99;
+    margin: 0px 0px 0px 0%;
+    padding: 0px 0px 0px 0%;
+    z-index: 80;
     position: absolute;
-    top: 20%;
-    left: -13%;
     background-image:url('/resources/icons/icon_dead_hand_indicator.png');
+    background-size: 100%;
     background-repeat:no-repeat;
-    background-position:0px 0px;
-    //background-color:red;
+    background-position:0% 0% 0% 0%;
+    /*
+    background-color:orange;
+    */
     
 }
-
-.dead_opacity
-{   
-    -moz-opacity: 0.3;
-    opacity: .30;
-    filter: alpha(opacity=30);
-}
-
 
 
 .hedgeem_control_hand_panel_info_background
 {
-	display: none;
-    width: 90%;
-    margin: 0% 5% 0% 5%;
-    top: 80px;
-    padding: 0% 0% 0% 0%;
-    //background-color: grey;
-    position: absolute;
-    color: White;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+    width: 100%;
+	bottom: 0;
+    margin: 0% 0% 0% 0%;
+    padding: 0px;
+    z-index: 4;
+    color: yellow; 
+  /*   background-image:url('/resources/backgrounds/hand_indicator_backgroud.png');
+    background-size:100% 100%;
+   background-repeat:no-repeat;
+    background-position:0% 0% 0% 0%;*/
+	
+	background-color: #24590e;
+    /*background-image: linear-gradient(to bottom, #2f7f0c 0%, #235c0a 100%);*/
+    box-shadow: 0 1px 0 0 #2f7f0c inset;
+    /*
+    background-color:orange;
+    */
+   
 }
+
+.hedgeem_control_hand_panel:hover .hedgeem_control_hand_panel_info_background{-moz-box-shadow:1px 0px 4px yellow;
+	-webkit-box-shadow: 1px 0px 4px yellow;
+        box-shadow:1px 0px 4px yellow;}
 
 .payoutdescription
 {
-    display: none;
-    width: 90%;
-    margin: 0% 5% 0% 5%;
-    padding: 0px 0px 0px 0px;
+    padding: 0%;
     text-align: center;
-    //background-color: cyan;
-    position: absolute;
+    font-size:2.5vh;
+    font-weight:bold;
     top: 0%;
-    color: White;
+    color: #fff;
+	cursor:pointer;
+    /*
+    background-color: cyan;
+    */
 }
 
 .payoutvalue
 {
-    display: none;
     width: 90%;
-    margin: 0% 5% 0% 5%;
+    margin: 0% 5% 3%;
     padding: 0px 0px 0px 0px;
     text-align: center;
-    position: absolute;
-    top: 35%;
-    //background-color: olive;
+    font-size:2.3vh;
+    font-weight:bold;
+ 
     color: Yellow;
+    top: 35%;
+    /*
+    background-color: olive;
+    */
+}
+
+.previous_placed_bets_container
+{
+    top:101%;
+    left:1%;
+    width: 100%;    /* Deliberately wide, combined with -5 left above, this offsets and centralises */
+    height: 30%;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    z-index: 30;
+    position: absolute;
+    background-repeat:no-repeat;
+    background-position:0% 0% 0% 0%;
+    /*
+    background-image:url('/resources/backgrounds/hand_indicator_backgroud.png');
+    background-color:yellow;  
+    background-color:pink;
+    */
+    
+}
+
+.previous_placed_bet_for_any_stage
+{
+    background: none repeat scroll 0 0 #000;
+    border-radius: 8px;
+    color: #fff;
+    float: left;
+    font-size: 82%;
+	font-weight:bold;
+    margin:0 0 2px;
+    opacity: 0.7;
+    position: relative;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 30;
+    
+    
+    /*
+    background-image:url('/resources/chip_yellow.png');
+    background-repeat:no-repeat;
+    background-position:0% 0% 0% 0%;
+    background-size: 10%;
+    
+    background-color:navy;
+    
+    height: 14px;
+    width: 100%;
+    float: left;
+    font-size:8pt;
+    color:white;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 10%;
+    z-index: 30;
+    background-image:url('/resources/backgrounds/hand_indicator_backgroud.png');
+
+        */
+    
+}
+
+/*
+.previous_placed_bet_for_Hole_stage {
+    top: -0px;
+    --color:brown;
+}
+.previous_placed_bet_for_Flop_stage {
+    top: -30px;
+    --color:orange;
+}
+.previous_placed_bet_for_Turn_stage {
+    top: -60px;
+    --color:red;
+}
+    http://learn.shayhowe.com/advanced-html-css/detailed-css-positioning
+    */
+
+.lost_bet {
+    /*
+        color: grey;
+        */
+    display: none;
+}
+
+/*When enabled this is a button that allows the player to cancel bets on a hand for the CURRENT betting stage.*/
+.cancel_bet_button 
+{
+   background-image: url("/resources/buttons/btn_cancel_bet_62x24.png");
+    background-repeat: no-repeat;
+   /* background-size: 100% auto;*/
+    color: transparent;
+    position: absolute;
+    right: -37px;
+    top: 0;
+    z-index: 99; /*Commented to hide the 'Cancel' text that is returned.
+    /*
+    background-color:red;
+    */
+}
+
+.secured_bet_button 
+{
+   background-image: url("/resources/buttons/btn_secured_bet_62x24.png");
+    background-repeat: no-repeat;
+  /*  background-size: 120% auto;
+    border: 1px solid #fff;*/
+    border-radius: 5px;
+    color: transparent;
+    height: 17px;
+    position: absolute;
+    right: -39%;
+    top: 0;
+    width: 57px;
+    z-index: 9999;
+    /*
+    background-color:pink;
+    */
+}
+
+@media only screen 
+and (min-width : 480px) and (max-width : 2670px){
+	
+	.hedgeem_control_hand_panel{
+    display:table-cell;
+	text-align:center;
+    }
+	
+	
+	
+.card_right
+{
+
+
+	display:table-cell;
+
+}
+
+.card_left
+{
+
+
+   	display:table-cell;
+    
+}
+
+.card_left img
+{
+   
+	left:16px;
+    z-index: 2;
+	position:relative;
+    cursor: pointer;
+    transform:rotate(-5deg);
+	-ms-transform:rotate(-5deg); /* IE 9 */
+	-webkit-transform:rotate(-5deg);
+
+}
+.card_right img
+{
+ 
+right:16px;
+position: relative;
+    z-index: 2;
+    cursor: pointer;
+	
+	 transform:rotate(6deg);
+	-ms-transform:rotate(6deg); /* IE 9 */
+	-webkit-transform:rotate(6deg);
+
+}
+}
+
+
+
+	@media only screen 
+and (min-width : 280px) 
+and (max-width : 479px)  { 
+.hedgeem_control_hand_panel{
+    display: inline-block;
+	text-align:center;
+    }
+	
+	.hedgeem_control_hand_panel_info_background
+	{ width:100%;}
+	
+.card_right
+{
+
+
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+	display:inline;
+    z-index: 2;
+    cursor: pointer;
+    transform:rotate(5deg);
+	-ms-transform:rotate(5deg); /* IE 9 */
+	-webkit-transform:rotate(5deg);
+    /*
+    background-color: olive;
+    */
+}
+
+.card_left
+{
+
+
+    margin: 0%;
+	display:inline;
+    padding: 0%;
+    top: 0;
+    z-index: 1;
+    cursor: pointer;
+    /*
+    background-color: cyan;
+    */
+    
+}
+.card_right img {
+    cursor: pointer;
+    position: absolute;
+    right: -8px;
+    z-index: 2;
+	 transform:rotate(6deg);
+	-ms-transform:rotate(6deg); /* IE 9 */
+	-webkit-transform:rotate(6deg);
+}
+
+.card_left img {
+    left: -8px;
+    position: relative;
+	  transform:rotate(-5deg);
+	-ms-transform:rotate(-5deg); /* IE 9 */
+	-webkit-transform:rotate(-5deg);
+}
+
+}
+
+
+
+
+@media only screen 
+and (min-width : 1440px) and (max-width : 1720px){
+
+.payoutdescription {
+   
+    font-size: 2.5vh;
+	
+	}
+	
+
+
+}
+
+@media only screen 
+and (min-width : 768px) and (max-width : 991px){
+
+
+}
+
+@media only screen 
+and (max-width :480px){
+	.secured_bet_button {
+    right: -77%;
+	}
+	.payoutdescription, .payoutvalue{ font-size:9px !important;}
+	.hedgeem_control_hand_panel_info_background{ padding:0;}
+	
+
+#placed_bets{ width:30% !important;}
+
+}
+@media only screen 
+and (min-width : 480px) and (max-width :767px){
+
+
+#placed_bets{ width:25% !important;}
+}
+
+
+@media only screen 
+and (min-width : 992px) and (max-width : 1199px){
+	
+
+
+}
+
+
+
+
+
+
+@media only screen 
+and (min-width : 1200px) and (max-width : 1439px){
+	
+
+}
+
+
+@media only screen 
+and (min-width : 1721px) and (max-width : 1920px){
+	
+	.previous_placed_bets_container{ left:13px;}
+
+
+
 }

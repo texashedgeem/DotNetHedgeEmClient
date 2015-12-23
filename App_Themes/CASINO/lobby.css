@@ -1,4 +1,12 @@
-﻿
+﻿body
+{
+	/*background:url(/resources/backgrounds/ONLINE.png);*/
+    background-repeat:no-repeat;
+    margin: 0px;
+	padding: 0px;
+    overflow:hidden;
+
+    }
 
 #hedgeem_table_list_container
 {
@@ -130,9 +138,11 @@
 
 #btnLogout
 {
-	height: 30px;
+	/*height: 30px;
 	width: 80px;
 	margin: 0px;
+	
+	*/
 }
 #btnLogin
 {

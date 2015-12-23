@@ -2237,6 +2237,17 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         my_log_event.p_message = "f_sit_at_anonymous_table";
         log.Debug(_xxx_log_event.ToString());
         string my_endpoint = "Not Set";
+
+        // Set the game mode for this call
+        // xxx this should be a enum and passed as a arg
+        // should get enum from client enums but game mode is not visible for some reason
+        // Simon 23 Dec 2015
+        string xxx_my_enum_game_mode = "AUTO";
+        if (a_enum_theme == enum_theme.RETRO)
+        {
+            xxx_my_enum_game_mode = "FASTPLAY_FLOP";
+        }
+
         try
         {
             try
@@ -2250,7 +2261,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                                                 "anon_session_id_123",
                                                 83,
                                                 a_enum_theme.ToString(),
-                                                "FASTPLAY_FLOP");
+                                                xxx_my_enum_game_mode);
 
             my_game_state = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server(my_endpoint, typeof(DC_hedgeem_game_state));
                 if (my_game_state.p_error_message != null)

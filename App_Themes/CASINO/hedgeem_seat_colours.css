@@ -1,0 +1,149 @@
+	
+/*This is badly named and should be called hedgeem_single_seat_container */ 
+#Player_Info
+{
+	
+	/*background: #45484d; 
+background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); 
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); 
+background: -webkit-linear-gradient(top, #45484d 0%,#000000 100%);
+background: -o-linear-gradient(top, #45484d 0%,#000000 100%); 
+background: -ms-linear-gradient(top, #45484d 0%,#000000 100%); 
+background: linear-gradient(to bottom, #45484d 0%,#000000 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 );
+    box-shadow: 0 1px 0 0 #8d8d8d inset;
+    height:11%;
+    left: 0;
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    z-index: 20;
+border: 1px solid #333;
+border-radius:12px;
+-moz-border-radius:12px;
+-webkit-border-radius:12px;
+border-bottom-left-radius: 0;
+border-bottom-right-radius: 0;
+    /*
+    height: 107px;
+    background-color: cyan;
+    */
+    
+}
+
+.hedgeem_seat_container
+{
+  background: url("/resources/buttons/seatbal.png") no-repeat;
+  background-size:100%;
+    border-radius: 120px;-moz-border-radius: 120px;-webkit-border-radius: 120px;
+    color: #fff;
+    float: right;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 93px;
+    text-align: center;
+    text-shadow: 1px 1px #222;
+    white-space: normal;
+    width: 95px;
+    z-index: 30;
+}
+
+.hedgeem_seat_container:hover{background: url("/resources/buttons/seatbal-hover.png") no-repeat;background-size:100%;}
+.hedgeem_seat_container:hover .player_balance {
+   /* background: url("/resources/buttons/stack.png") no-repeat scroll 8px 6px ;*/
+}
+.player_image img {
+    height: 32px;
+    padding: 3px;
+    width: 29px;
+	display:none;
+}
+
+.player_image
+{
+	display:inline-block;
+    
+    /*border: 0 solid #654321;
+    left: 4%;
+    margin: 2% 0 0;
+    padding: 0;
+    position: relative;
+    top: 6%;
+    /* Change 0deg to 90deg later when developing for ETG */
+    //transform:rotate(0deg);
+	//-ms-transform:rotate(0deg); /* IE 9 */
+	//-webkit-transform:rotate(0deg); /* Safari and Chrome */
+}
+
+.player_balance
+{
+width:100%;
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 -1px 3px #000;
+ 
+   /* height: 57%;
+    left: 37%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    top:15%;
+    width: 35%;
+/* background-color: green; */
+/* background-color: green; */
+
+/* background-color: green; */
+    /*
+    background-color: green;
+    */
+    
+    
+    
+    }
+	
+	input[type="image"] { border:none !important;}
+
+
+.player_name
+{
+    color: Black;
+    float: left;
+    font-size: 14px;
+    margin-left: 26px;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    top: 12px;
+    display: none;
+    background-color: red;
+    width: 50px
+    
+}
+
+
+
+.chip_image
+{
+    position: absolute;
+    float: left;
+    margin: 0px;
+    padding: 0px 0px 0 0px;
+    width: 5%;
+    display:none;
+    top: 60%;
+    left: -5%;
+    z-index: 99;
+    
+
+    
+    
+    
+    
+
+}
+
