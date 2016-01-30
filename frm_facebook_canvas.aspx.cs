@@ -1000,7 +1000,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         string my_endpoint = "Not Set";
         try
         {
-            int xxxHC_a_opening_balance = 100;
+            int xxxHC_a_opening_balance = 25;
             string xxx_default_password = "hedgeem123";
             try
             {

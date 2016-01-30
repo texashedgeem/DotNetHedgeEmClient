@@ -520,6 +520,10 @@ $(".menu-btn").click(function() {
                     <div id='option_visit_these_sites' class="alternatives_section_heading">
                         Visit one of our favourite sites ...
                     </div>
+                    <div>
+                    <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-eu.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=GB&source=ac&ref=qf_sp_asin_til&ad_type=product_link&tracking_id=teheem01-21&marketplace=amazon&region=GB&placement=B019PQPYVY&asins=B019PQPYVY&linkId=&show_border=true&link_opens_in_new_window=true">
+</iframe>
+                    </div>
                     <!-- Fulltilt -->
                     <div id='action_item_fulltilt' class="get_chips_content_divs" onclick='ai_fultilt_click();'>
                         <div id='ai_fult_tilt_image' class="get_chips_image">
