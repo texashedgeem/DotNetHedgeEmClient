@@ -484,3 +484,7 @@
     top: 0%;
     left: 0%;
 }
+
+.betting_panel_UNDEFINED{
+    display:none;
+}
