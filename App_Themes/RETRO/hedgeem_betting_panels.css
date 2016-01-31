@@ -14,13 +14,15 @@
 */
 #betting_panels_container
 {
-    /*background-color: red;*/
+    /*
+    */
+    background-color: orange;
     float: left;
-    position: relative;
+    position: absolute;
     top: 76%;
-    left: 0px;
-    width: 75%;
-    height: 50%;   /*For RETRO style we want only a single line of buttons so keep this small and overlap each stage button with next*/
+    left: 0%;
+    width: 100%;
+    height: 10%;/*For RETRO style we want only a single line of buttons so keep this small and overlap each stage button with next*/
     margin: 0% 0% 0% 0%;
     padding: 0% 0% 0% 0%;
     z-index: 20;
@@ -28,25 +30,34 @@
 
 /*
     Every betting panel for each hand and stage will have generic styling that applies to all.
+    In the RETRO style (that looks like a arcarde/slot/video-poker machine we will want to see a 'Bet' button that is disabled
+    (i.e. not illuminated or flashing.  This needs to be overridden later when the button is enabled.
+    http://stackoverflow.com/questions/3288946/how-to-use-scale-with-moz-transform
 */
 .generic_betting_panel_container {
     position: relative;
-    display:block;
     background-color: lime;
     float:left;
-    margin: 1% 1% 1% 1%;
     z-index:99;
     background: url("http://localhost:2574/resources/buttons/animated_bet_button_yellow_active.gif") no-repeat;
+    background: url("http://localhost:2574/resources/buttons/slot_button_disabled_bet.png") no-repeat;
     background-position: 0px;
-	background-size: 150%;
+	background-size: 100%;
 	//border-radius: 120px;
     padding: 0%;
     color: transparent;
 	margin: 0%;
-	height: 100%;
+	/*
+    margin: 1% 1% 1% 1%;
+    display:block;
+    height: 100%;
     width: 100%;
-    /*position: absolute;
-    top: 1px;*/
+    */
+    transform: scale(1,1);
+    -ms-transform: scale(1,1); /* IE 9 */
+    -webkit-transform: scale(1,1); /* Safari and Chrome */
+    -o-transform: scale(1,1); /* Opera */
+    -moz-transform: scale(1,1); /* Firefox */
 
 }
 
@@ -55,36 +66,150 @@
 .generic_NON_BETTING_STAGE_betting_panel_container {
 }
 
+
+/*This class applies to all betting panel containers associated with the HOLE stage of the game*/
 .generic_HOLE_BETS_betting_panel_container {
+    /*
     position: relative;
     margin: 0% 5% 0% 5%;
     height: 30%;
     width: 15%;
     top: 0%;
     z-index:10;
-    /*background-color: chocolate;*/
-
+    background-color: chocolate;
+    */
 }
 
+/*This class applies to all betting panel containers associated with the FLOP stage of the game*/
 .generic_FLOP_BETS_betting_panel_container {
+    /*
     position: relative;
     margin: 0% 5% 0% 5%;
     height: 30%;
     width: 15%;
     top: 0%;
     z-index:20;
-    /*background-color: silver;*/
-
+    background-color: silver;
+    */
 }
 
+/*This class applies to all betting panel containers associated with the TURN stage of the game*/
 .generic_TURN_BETS_betting_panel_container {
+    /*
     position: relative;
     height: 30%;
     margin: 0% 5% 0% 5%;
     width: 15%;
     top: 0%;
     z-index:30;
-    /*background-color: lime; */  
+    background-color: lime; 
+    */  
+}
+
+/*  This class applies to all betting panel containers associated with a hand that is dead and can't win.
+    Typically you would show a bet button that is disabled. (i.e. let the generic class define this)
+*/
+.betting_panel_IN_PLAY_DEAD{
+    /*
+    position: relative;
+    background: url("http://localhost:2574/resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	z-index:1000;
+    display:none;
+    */
+}
+
+/*  This class applies to all betting panel containers associated with a stage of the game when betting is not 
+    permitted (e.g. at the start or end of the game)
+    Typically you would show a bet button that is disabled. (i.e. let the generic class define this)
+*/
+.generic_NON_BETTING_STAGE_betting_panel_container{
+    /*
+    position: relative;
+    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	background-color:black;
+    z-index:1000;
+    display:none;
+    */
+}
+
+.betting_panel_UNDEFINED {
+    /*
+    display:none;
+    */
+}
+
+.betting_panel_IN_PLAY_PREVIOUS_BETTING_STAGE_NOT_ACTIVE {
+    /*
+    
+    */
+    display:none;
+}
+
+
+.betting_panel_IN_NON_BETTING_STAGE {
+    /*
+    position: relative;
+    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	background-color:black;
+    z-index:1000;
+    display:none;
+    */
+}
+
+/*  
+    This class applies to all betting panel containers associated with a hand that has won, typically this is only valid at
+    the end of the game)
+    Typically you would show a bet button that is disabled. (i.e. let the generic class define this)
+*/
+.betting_panel_IN_PLAY_WINNER {
+    /*
+    position: relative;
+    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	background-color:purple;
+    z-index:1000;
+    display:block;
+    display:none;
+    */
+}
+
+/*  
+    This class applies to all betting panel containers associated with a hand that will definitely win no matter what next 
+    cards are dealt.
+    Typically you would show a bet button that is disabled. (i.e. let the generic class define this)
+*/
+.betting_panel_IN_PLAY_WILL_WIN {
+    /*
+    position: relative;
+    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
+    background-position: 0px;
+	background-color:purple;
+    z-index:1000;
+    display:block;
+    display:none;
+    */
+}
+
+/*  
+    This class applies to all betting panel containers associated with a hand that is MOST LIKELY TO WIN when the next 
+    cards are dealt.
+    Typically you would show a bet button that is enabled and highlighted in some way (e.g. flashing faster than other buttons)
+*/
+.betting_panel_IN_PLAY_FAVOURITE {
+    /*
+    position: relative;
+    background: url("http://localhost:2574/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
+    background-position: 0px;
+	z-index:1000;
+        background: url("/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
+    background-position: 0px;
+	background-size: 150%;
+    background-color:green;
+    display:none;
+    */
 }
 
 .chip_icon_0 {
@@ -104,6 +229,7 @@
 }
 
 .chip_icon_1 {
+    /*
     position: absolute;
     background-image:url("http://localhost:2574/resources/chip_icon_1.png");
     background-repeat:no-repeat;
@@ -112,11 +238,8 @@
     float:left;
     margin: 0% 5% 0% 10%;
     z-index:99;
-    /*
-        background-color: olive;
+    background-color: olive;
     */
-
-
 }
 
 
@@ -127,63 +250,237 @@
     margin: 0% 10% 0% 10%;
 }
 
-.betting_panel_IN_PLAY_DEAD{
-    position: relative;
-    background: url("http://localhost:2574/resources/buttons/slot_button_disabled_bet.png") no-repeat;
-    background-position: 0px;
-	z-index:1000;
+#betpanel_hand0_stageNON_BETTING_STAGE
+{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 0%;
+    z-index:10;
+    background-color: limegreen;
+}
+
+#betpanel_hand1_stageNON_BETTING_STAGE
+{
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 20%;
+    z-index:11;
+    background-color: chocolate;
+}
+
+#betpanel_hand2_stageNON_BETTING_STAGE
+{
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 40%;
+    z-index:12;
+    background-color: purple;
+    
+}
+    
+#betpanel_hand3_stageNON_BETTING_STAGE
+{
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 60%;
+    z-index:13;
+    background-color: darkcyan;
+    
 }
 
 
-.generic_NON_BETTING_STAGE_betting_panel_container{
-    display:none;
+
+#betpanel_hand0_stageHOLE_BETS
+{
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 0%;
+    z-index:20;
+    background-color: limegreen;
+    
 }
 
-.betting_panel_UNDEFINED {
-    display:none;
+#betpanel_hand1_stageHOLE_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 20%;
+    z-index:21;
+    background-color: chocolate;
+    
 }
 
-.betting_panel_IN_PLAY_PREVIOUS_BETTING_STAGE_NOT_ACTIVE {
-   display:none;
+#betpanel_hand2_stageHOLE_BETS
+{
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 40%;
+    z-index:22;
+    background-color: purple;
+    
+}
+    
+#betpanel_hand3_stageHOLE_BETS
+{
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 60%;
+    z-index:23;
+    background-color: darkcyan;
+    
 }
 
-.betting_panel_IN_NON_BETTING_STAGE {
-    position: relative;
-    /*background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
-    background-position: 0px;
-	background-color:black;
-    z-index:1000;
-    */
-    display:none;
+#betpanel_hand0_stageFLOP_BETS
+{
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 0%;
+    z-index:10;
+    background-color: wheat;
+    
 }
 
-.betting_panel_IN_PLAY_WINNER {
-    position: relative;
-    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
-    background-position: 0px;
-	/*background-color:purple;*/
-    z-index:1000;
-    display:block;
+#betpanel_hand1_stageFLOP_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 20%;
+    z-index:10;
+    background-color: turquoise;
+    
 }
 
-.betting_panel_IN_PLAY_WILL_WIN {
-    position: relative;
-    background: url("resources/buttons/slot_button_disabled_bet.png") no-repeat;
-    background-position: 0px;
-	/*background-color:purple;*/
-    z-index:1000;
-    display:block;
+#betpanel_hand2_stageFLOP_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 40%;
+    z-index:10;
+    background-color: magenta;
+    
+}
+    
+#betpanel_hand3_stageFLOP_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 60%;
+    z-index:10;
+    background-color: olive;
+    
 }
 
+#betpanel_hand0_stageTURN_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 0%;
+    z-index:10;
+    background-color: slategray;
+    
+}
+
+#betpanel_hand1_stageTURN_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 20%;
+    z-index:10;
+    background-color: rosybrown;
+    
+}
+
+#betpanel_hand2_stageTURN_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 40%;
+    z-index:10;
+    background-color: blueviolet;
+    
+}
+    
+#betpanel_hand3_stageTURN_BETS{
+    
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    height: 100%;
+    width: 15%;
+    top: 0%;
+    left: 60%;
+    z-index:10;
+    background-color: darkorchid;
+    
+}
+
+/*  
+    This class applies to all betting panel containers associated with a hand that is MOST LIKELY TO WIN when the next 
+    cards are dealt.
+    Typically you would show a bet button that is enabled and highlighted in some way (e.g. flashing faster than other buttons)
+*/
 .betting_panel_IN_PLAY_FAVOURITE {
-    position: relative;
-    background: url("http://localhost:2574/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
-    background-position: 0px;
-	z-index:1000;
-        background: url("/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
-    background-position: 0px;
-	background-size: 150%;
-    /*background-color:green;*/
     
-    }
+    z-index:1000;
+    background: url("/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
+    background-position: 45%;
+	background-size: 250%;
+    top: 0%;
+    left: 0%;
+}
+
+.betting_panel_IN_PLAY_BETTING_STAGE_ACTIVE {
     
+    background: url("http://localhost:2574/resources/buttons/.gif") no-repeat;
+    z-index:1000;
+        background: url("/resources/buttons/animated_bet_button_yellow_active.gif") no-repeat;
+    background-position: 45%;
+	background-size: 250%;
+    top: 0%;
+    left: 0%;
+}

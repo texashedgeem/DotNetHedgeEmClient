@@ -1423,15 +1423,22 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                         // ... retrieve the HandStageInfo object, then ... 
                         HedgeEmHandStageInfo my_hand_stage_info;
                         my_hand_stage_info = f_get_hand_stage_info_object_for_stage_and_hand(my_game_state, hand_index);
+                        if (my_hand_stage_info == null)
+                        {
+                            //string my_error_msg = String.Format("HedgeEmHandStageInfo object null for stage[0], hand_index[{1}]",my_game_state.ToString(),hand_index);
+                            //throw new Exception(my_error_msg);
+                            // xxx hack to create a empty object when no data returned from server (Simon 30 Jan 2016
+                            my_hand_stage_info = new HedgeEmHandStageInfo(my_game_state, hand_index);
+                        }
 
                         // Create a 'HedgeEmControl' to display the BettingPanel for this Betting stage and hand.
                         _hedgeem_betting_panels[(int)stage_index, hand_index] = new BETTING_PANEL(my_number_of_seats);
                         Place_Holder_Betting_Panel.Controls.Add(_hedgeem_betting_panels[(int)stage_index, hand_index]);
+                        _hedgeem_betting_panels[(int)stage_index, hand_index].p_hand_index = hand_index;
 
                         if (_global_game_state_object._hands.Count() != 0)
                         {
                             // ... update the corresponding Betting Panel with info from server
-                            _hedgeem_betting_panels[(int)stage_index, hand_index].p_hand_index = hand_index;
                             _hedgeem_betting_panels[(int)stage_index, hand_index].p_enum_betting_stage = stage_index;
                             _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_draw = my_hand_stage_info.p_odds_percent_draw_string;
                             _hedgeem_betting_panels[(int)stage_index, hand_index].p_odds_percent_win_or_draw = my_hand_stage_info.p_odds_percent_win_or_draw_string;
