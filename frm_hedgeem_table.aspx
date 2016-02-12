@@ -13,7 +13,7 @@
     <script type="text/javascript" src="resources/javascript/hedgeem_table_javascript.js"></script>
     <!-- online scripts and css for place bet widget slider -->
     <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">-->
-    <link href="resources/css/online/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="resources/javascript/animation.js" type="text/javascript"></script>
     <link href="resources/css/css-animation.css" rel="stylesheet" type="text/css" />
     <link href="resources/css/online/animate.css" rel="stylesheet" type="text/css" />
