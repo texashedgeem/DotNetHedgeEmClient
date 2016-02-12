@@ -1,3 +1,4 @@
+var parseerror = function () { console.log("Parse error at index " + i + ", processing codepoint 0x" + code.toString(16) + " in state " + state + "."); return true; };
 (function (root, factory) {
     // Universal Module Definition (UMD) to support AMD, CommonJS/Node.js,
     // Rhino, and plain browser loading.

@@ -21,6 +21,7 @@
     <script src="resources/javascript/jquery.easing.1.3.js" type="text/javascript"></script>
     <script src="resources/javascript/spin.min.js" type="text/javascript"></script>
     <script src="resources/javascript/jquery.introLoader.js" type="text/javascript"></script>
+    <script type="text/javascript" src="resources/javascript/hedgeem_table_javascript.js"></script>
     <style type="text/css">
         .loading-register
         {
@@ -56,6 +57,8 @@
 </head>
 
 <body>
+    <audio id="sound_deal" src="../resources/waves/Deal-6.mp3" preload="auto"></audio>
+    
     <!-- This shows a splash screen until page has loaded -->
     <div id="element" class="introLoading" style="display: none;">
     </div>
