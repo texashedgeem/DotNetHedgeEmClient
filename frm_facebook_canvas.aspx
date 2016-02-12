@@ -14,7 +14,7 @@
     <link href="resources/css/online/animate.css" rel="stylesheet" type="text/css" />
     <link href="resources/css/online/introLoader.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-    <script src="resources/javascript/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
     <script src="resources/javascript/facebook_canvas.js" type="text/javascript"></script>
     <script src="resources/javascript/preload_images_with_progressbar.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://connect.facebook.net/en_US/all.js"></script>
