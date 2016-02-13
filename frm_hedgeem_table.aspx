@@ -23,12 +23,12 @@
     <!-- Pushy CSS -->
     <link rel="stylesheet" href="App_Themes/ONLINE/pushy.css"/>
     <!-- jQuery -->
-        <script src="resources/javascript/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
 
 
   
-	  <script src="resources/javascript/v2p.js"></script>-->
-      <script src="resources/javascript/prefixfree.min.js"></script>
+	  <script src="resources/javascript/v2p.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js" type="text/javascript"></script>
   
     <!--<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
     <!--<script type="text/javascript" src="https://connect.facebook.net/en_US/all.js"></script>-->
