@@ -2,33 +2,45 @@
 #Flop_Cards {
     width: 10%;
     height: 100%;
-    top: 0%;
-    left: 0%;
+    top: 25%;
+    left: 10%;
     position: absolute;
     padding: 0%;
     z-index: 0; 
+    zoom:0.58;
+    -moz-transform:scale(0.58);
+    -moz-transform-origin: 0 0;
+ 
     
 }
 
 #Turn_Cards {
     width: 10%;
     height: 100%;
-    top: 0px;
-    left: 50%;
+    top: 25%;
+    left: 48%;
     position: absolute;
     padding: 0px;
     z-index: 0; 
+    zoom:0.58;
+    -moz-transform:scale(0.58);
+    -moz-transform-origin: 0 0;
+ 
    
 }
 
 #River_Cards {
     width: 10%;
     height: 100%;
-    top: 0px;
-    left: 80%;
+    top: 25%;
+    left: 78%;
     position: absolute;
     padding: 0px;
     z-index: 0; 
+    zoom:0.58;
+    -moz-transform:scale(0.58);
+    -moz-transform-origin: 0 0;
+ 
    
 }
 

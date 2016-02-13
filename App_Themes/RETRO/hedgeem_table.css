@@ -253,6 +253,7 @@ li.ext {
 	top: 36%;
 	text-align: center;
 	width: 17%;
+     display:none;
 }
 
 #winner_message_container {
@@ -1182,6 +1183,7 @@ border: 1px solid #3f3f3f; */
 #placed_bets {
 	width: 25vw;
 	font-size: 2vw;
+     display:none;
 }
 #status_icons_container {
 	font-size: 2vw;
@@ -1337,6 +1339,7 @@ border: 1px solid #3f3f3f; */
 #placed_bets {
 	width: 25vw;
 	font-size: 1.6vh;
+     display:none;
 }
 #status_icons_container {
 	font-size: 1.6vh;

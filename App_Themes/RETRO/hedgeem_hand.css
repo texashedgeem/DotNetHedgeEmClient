@@ -59,6 +59,16 @@
  hand panel to make it appear the HAND is dealt in 
  semi-circle to follow line of table
 */
+#hedgeem_control_hand_panel_hand_0 {
+    left: 20%;
+}#hedgeem_control_hand_panel_hand_1 {
+    left: 25%;
+}#hedgeem_control_hand_panel_hand_2 {
+    left: 30%;
+}
+#hedgeem_control_hand_panel_hand_3 {
+    left: 40%;
+}
 
 .auto_div_hand_id_class
 {
@@ -301,7 +311,6 @@
     background-color:yellow;  
     background-color:pink;
     */
-    
 }
 
 .previous_placed_bet_for_any_stage
@@ -400,6 +409,7 @@
     background-color:pink;
     */
 }
+
 
 @media only screen 
 and (min-width : 480px) and (max-width : 2670px){
@@ -550,14 +560,16 @@ and (max-width :480px){
 	.hedgeem_control_hand_panel_info_background{ padding:0;}
 	
 
-#placed_bets{ width:30% !important;}
+#placed_bets{ width:30% !important;
+              display:none;
+}
 
 }
 @media only screen 
 and (min-width : 480px) and (max-width :767px){
 
 
-#placed_bets{ width:25% !important;}
+#placed_bets{ width:25% !important;  display:none;}
 }
 
 
@@ -777,3 +789,13 @@ display:none;
 #card_ks {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -880px -325px rgba(0, 0, 0, 0);}
 #card_as {background: url("http://dev.hedgeem.com/resources/cards/sprites/videopoker_cards.png") repeat scroll -960px -325px rgba(0, 0, 0, 0);}
 
+#hedgeem_control_hand_panel_hand_0 {
+    left: 10%;
+}#hedgeem_control_hand_panel_hand_1 {
+    left: 25%;
+}#hedgeem_control_hand_panel_hand_2 {
+    left: 30%;
+}
+#hedgeem_control_hand_panel_hand_3 {
+    left: 40%;
+}

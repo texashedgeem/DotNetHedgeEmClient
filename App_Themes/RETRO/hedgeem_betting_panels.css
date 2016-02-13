@@ -15,8 +15,8 @@
 #betting_panels_container
 {
     /*
-    */
     background-color: orange;
+    */
     float: left;
     position: absolute;
     top: 76%;
@@ -36,13 +36,12 @@
 */
 .generic_betting_panel_container {
     position: relative;
-    background-color: lime;
     float:left;
     z-index:99;
     background: url("http://localhost:2574/resources/buttons/animated_bet_button_yellow_active.gif") no-repeat;
     background: url("http://localhost:2574/resources/buttons/slot_button_disabled_bet.png") no-repeat;
     background-position: 0px;
-	background-size: 100%;
+	background-size: 65%;
 	//border-radius: 120px;
     padding: 0%;
     color: transparent;
@@ -51,6 +50,7 @@
     margin: 1% 1% 1% 1%;
     display:block;
     height: 100%;
+    background-color: lime;
     width: 100%;
     */
     transform: scale(1,1);
@@ -222,9 +222,12 @@
     float:left;
     margin: 0% 2% 0% 2%;
     z-index:99;
+    top: -40px;
+    left: 40px;
     /*
         background-color: white;
     */
+     display:none;
 
 }
 
@@ -260,7 +263,9 @@
     top: 0%;
     left: 0%;
     z-index:10;
+    /*
     background-color: limegreen;
+    */
 }
 
 #betpanel_hand1_stageNON_BETTING_STAGE
@@ -272,7 +277,9 @@
     top: 0%;
     left: 20%;
     z-index:11;
+    /*
     background-color: chocolate;
+    */
 }
 
 #betpanel_hand2_stageNON_BETTING_STAGE
@@ -284,8 +291,9 @@
     top: 0%;
     left: 40%;
     z-index:12;
+    /*
     background-color: purple;
-    
+    */
 }
     
 #betpanel_hand3_stageNON_BETTING_STAGE
@@ -297,8 +305,9 @@
     top: 0%;
     left: 60%;
     z-index:13;
+    /*
     background-color: darkcyan;
-    
+    */
 }
 
 
@@ -312,7 +321,9 @@
     top: 0%;
     left: 0%;
     z-index:20;
+    /*
     background-color: limegreen;
+    */
     
 }
 
@@ -325,8 +336,9 @@
     top: 0%;
     left: 20%;
     z-index:21;
+    /*
     background-color: chocolate;
-    
+    */
 }
 
 #betpanel_hand2_stageHOLE_BETS
@@ -338,8 +350,9 @@
     top: 0%;
     left: 40%;
     z-index:22;
+    /*
     background-color: purple;
-    
+    */
 }
     
 #betpanel_hand3_stageHOLE_BETS
@@ -351,8 +364,9 @@
     top: 0%;
     left: 60%;
     z-index:23;
+    /*
     background-color: darkcyan;
-    
+    */
 }
 
 #betpanel_hand0_stageFLOP_BETS
@@ -364,8 +378,9 @@
     top: 0%;
     left: 0%;
     z-index:10;
+    /*
     background-color: wheat;
-    
+    */
 }
 
 #betpanel_hand1_stageFLOP_BETS{
@@ -377,8 +392,9 @@
     top: 0%;
     left: 20%;
     z-index:10;
+    /*
     background-color: turquoise;
-    
+    */
 }
 
 #betpanel_hand2_stageFLOP_BETS{
@@ -390,8 +406,9 @@
     top: 0%;
     left: 40%;
     z-index:10;
+    /*
     background-color: magenta;
-    
+    */
 }
     
 #betpanel_hand3_stageFLOP_BETS{
@@ -403,8 +420,9 @@
     top: 0%;
     left: 60%;
     z-index:10;
+    /*
     background-color: olive;
-    
+    */
 }
 
 #betpanel_hand0_stageTURN_BETS{
@@ -416,8 +434,9 @@
     top: 0%;
     left: 0%;
     z-index:10;
+    /*
     background-color: slategray;
-    
+    */
 }
 
 #betpanel_hand1_stageTURN_BETS{
@@ -429,8 +448,9 @@
     top: 0%;
     left: 20%;
     z-index:10;
+    /*
     background-color: rosybrown;
-    
+    */
 }
 
 #betpanel_hand2_stageTURN_BETS{
@@ -442,7 +462,9 @@
     top: 0%;
     left: 40%;
     z-index:10;
+    /*
     background-color: blueviolet;
+    */
     
 }
     
@@ -455,7 +477,9 @@
     top: 0%;
     left: 60%;
     z-index:10;
+    /*
     background-color: darkorchid;
+    */
     
 }
 
@@ -469,7 +493,7 @@
     z-index:1000;
     background: url("/resources/buttons/animated_bet_button_yellow_fast.gif") no-repeat;
     background-position: 45%;
-	background-size: 250%;
+	background-size: 175%;
     top: 0%;
     left: 0%;
 }
@@ -480,7 +504,7 @@
     z-index:1000;
         background: url("/resources/buttons/animated_bet_button_yellow_active.gif") no-repeat;
     background-position: 45%;
-	background-size: 250%;
+	background-size: 175%;
     top: 0%;
     left: 0%;
 }

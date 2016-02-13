@@ -35,13 +35,13 @@
 .generic_betting_panel_container {
     position: relative;
     display:block;
-    background-color: lime;
     float:left;
     margin: 1% 1% 1% 1%;
     padding: 1% 1% 1% 1%;
     z-index:99;
     /*
     background: url("http://localhost:2574/resources/buttons/animated_bet_button_yellow_active.gif") no-repeat;
+    background-color: lime;
     background-position: 0px;
 	background-size: 150%;
 	border-radius: 120px;
@@ -62,8 +62,9 @@
     //margin: 0% 5% 0% 5%;
     top: 0%;
     z-index:10;
-    background-color: chocolate;
-
+    /*
+        background-color: chocolate;
+    */
 }
 
 .generic_FLOP_BETS_betting_panel_container {
@@ -71,7 +72,9 @@
     //margin: 0% 5% 0% 5%;
     top: 0%;
     z-index:20;
-    background-color: magenta;
+    /*
+        background-color: chocolate;
+    */
 
 }
 
@@ -80,7 +83,9 @@
     //margin: 0% 5% 0% 5%;
     top: 0%;
     z-index:30;
-    background-color: lavender;  
+    /*
+        background-color: chocolate;
+    */
 }
 
 
@@ -113,14 +118,18 @@
 
 .betting_panel_IN_NON_BETTING_STAGE {
     position: relative;
-    background-color:black;
+    /*
+    background-color: chocolate;
+    */
     display:block;
 }
 
 .betting_panel_IN_PLAY_WINNER {
     position: relative;
     background-position: 0px;
-	background-color:royalblue;
+    /*
+    background-color: chocolate;
+    */
     z-index:1000;
     display:block;
 }
@@ -128,7 +137,9 @@
 .betting_panel_IN_PLAY_WILL_WIN {
     position: relative;
     background-position: 0px;
-	background-color:purple;
+    /*
+    background-color: chocolate;
+    */
     z-index:1000;
     display:block;
 }
@@ -137,7 +148,9 @@
 .betting_panel_IN_PLAY_FAVOURITE {
     position: relative;
     background-position: 0px;
-	background-color:salmon;
+	/*
+    background-color: chocolate;
+    */
     z-index:1000;
     display:block;
 }
@@ -173,7 +186,7 @@
 
 .presented_odds_IN_PLAY_BETTING_STAGE_ACTIVE {
     position: absolute;
-    font-size: 12pt;
+    font-size: 36pt;
     top: 0px;
     right: 5px;
     color: yellow;
