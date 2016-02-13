@@ -826,8 +826,8 @@ $(".menu-btn").click(function() {
 </script>
             
             
-       <script src="resources/javascript/tokenizer.js"></script>
-         <script src="resources/javascript/parser.js"></script>
-        <script src="resources/javascript/vminpoly.js"></script> 
+       <script type="text/javascript" src="resources/javascript/tokenizer.js"></script>
+         <script type="text/javascript" src="resources/javascript/parser.js"></script>
+        <script type="text/javascript" src="resources/javascript/vminpoly.js"></script> 
     
 </html>
