@@ -1,0 +1,50 @@
+﻿#hedgeem_backdrop_container
+{
+	position: absolute;
+    background-color: plum;
+    background-image:url('/resources/backgrounds/background_velvet_wallpaper.jpg');
+    height: 100%;
+    width: 100%;
+    left: 0%;
+    margin: 0% 0% 0% 0% ;
+    padding: 0% 0% 0% 0% ;
+    top: 0%;
+    z-index: 0;
+    display: table-cell;
+}
+
+#hedgeem_fixed_aspect_ratio_container
+{
+    position: absolute;
+    background-color: lightsteelblue;
+    background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
+	
+    height: 600px;
+    width: 800px;
+    left: 0%;
+    margin: 0% 10% 0% 10% ;
+    padding: 0% 0% 0% 0% ;
+    position: absolute;
+    z-index: 0;
+    display: table-cell;
+
+}
+
+
+@media only screen and (max-width : 800px) {
+
+    #hedgeem_fixed_aspect_ratio_container {
+        zoom: .5;
+        -moz-transform: scale(.5);
+        -moz-transform-origin: 0 0;
+    }
+}
+
+@media only screen and (min-width : 801px) {
+
+    #hedgeem_fixed_aspect_ratio_container {
+        zoom: 1;
+        -moz-transform: scale(1);
+        -moz-transform-origin: 0 0;
+    }
+}

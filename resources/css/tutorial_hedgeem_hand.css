@@ -1,0 +1,132 @@
+
+/*
+    All Hand panels that are display are displayed in a container so you can re-position all of them
+    left, right, up or down etc with one CSS change.
+        http://learn.shayhowe.com/advanced-html-css/detailed-css-positioning
+
+    */
+#hand_panels_container
+{	
+	height: 22%;
+    width: 60%;
+    left: 3%;
+    margin: 0 10% 0 10%;
+    padding: 0;
+    position: absolute;
+    top: 52%;
+    z-index: 20;
+    //background-color: red;
+}
+
+.hedgeem_control_hand_panel
+{
+
+    position: relative;
+    float: left; 
+    left: 5%;
+    margin: 0 1% 0 1%;
+    padding: 0%;
+    position: relative;
+    top:5%;
+    height: 75%;
+    width: 20%;
+    z-index: 20;
+    //background-color: purple;
+    /*
+    
+    */
+}
+
+
+
+
+
+
+.hedgeem_control_hand_panel:hover .card_left img{box-shadow:-3px -4px 4px yellow;}
+.hedgeem_control_hand_panel:hover .card_right img{box-shadow:3px -4px 3px yellow;}
+
+.hedgeem_control_hand_panel:hover .dead_opacity .card_left img{box-shadow:none;}
+.hedgeem_control_hand_panel:hover .dead_opacity .card_right img{box-shadow:none;}
+
+ 
+
+
+.card_left img
+{
+    position: absolute;
+	left:0%;
+    z-index: 2;
+	cursor: pointer;
+    transform:rotate(-5deg);
+	-ms-transform:rotate(-5deg); /* IE 9 */
+	-webkit-transform:rotate(-5deg);
+
+}
+.card_right img
+{
+    position: absolute;
+    right:1%;
+    z-index: 2;
+    cursor: pointer;
+	
+	 transform:rotate(6deg);
+	-ms-transform:rotate(6deg); /* IE 9 */
+	-webkit-transform:rotate(6deg);
+
+}
+.hedgeem_control_hand_panel_info_background
+{
+	position: absolute;
+    border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+    width: 90%;
+	margin: 0% 5% 0% 5%;
+    padding: 0px;
+    z-index: 4;
+    color: yellow; 
+    top: 67%;
+  
+	/*background-image: linear-gradient(to bottom, #2f7f0c 0%, #235c0a 100%);*/
+    box-shadow: 0 1px 0 0 #2f7f0c inset;
+    /*
+    background-color:orange;
+    */
+   background-image: linear-gradient(to bottom, #2f7f0c 0%, #235c0a 100%);
+}
+
+.hedgeem_control_hand_panel:hover .hedgeem_control_hand_panel_info_background{-moz-box-shadow:1px 0px 4px yellow;
+	-webkit-box-shadow: 1px 0px 4px yellow;
+        box-shadow:1px 0px 4px yellow;}
+
+.payoutdescription
+{
+    padding: 0%;
+    text-align: center;
+    font-size:11px;
+    font-weight:bold;
+    top: 0%;
+    color: #fff;
+	cursor:pointer;
+    /*
+    background-color: cyan;
+    */
+}
+
+.payoutvalue
+{
+    width: 90%;
+    margin: 0% 5% 3%;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    font-size:12px;
+    font-weight:bold;
+ 
+    color: Yellow;
+    top: 35%;
+    /*
+    background-color: olive;
+    */
+}
+
+
