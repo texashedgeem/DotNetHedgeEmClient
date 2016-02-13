@@ -7,7 +7,7 @@
     <title></title>
     <link href="../resources/css/online/profile_edit.css" rel="stylesheet" type="text/css" />
     <link href="/resources/css/online/facebook_canvas.css" rel="stylesheet" type="text/css" />
-    <link href="/resources/css/online/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/resources/css/online/animate.css" rel="stylesheet" type="text/css" />
     <link href="/resources/css/online/hedgeem_popup_message.css" rel="stylesheet" type="text/css" />
     <script src="//code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>

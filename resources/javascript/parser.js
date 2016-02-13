@@ -11,7 +11,8 @@
 }(this, function (exports) {
 
 function parse(tokens) {
-	var mode = 'top-level';
+
+    var mode = 'top-level';
 	var i = -1;
 	var token;
 
@@ -83,7 +84,7 @@ function parse(tokens) {
 			case "CDC":
 			case "WHITESPACE": break;
 			case "AT-KEYWORD": push(new AtRule(token.value)) && switchto('at-rule'); break;
-			case "{": parseerror("Attempt to open a curly-block at top-level.") && consumeAPrimitive(); break;
+			case "{": console.log("Attempt to open a curly-block at top-level.") && consumeAPrimitive(); break;
 			case "EOF": finish(); return stylesheet;
 			default: push(new StyleRule) && switchto('selector') && reprocess();
 			}
@@ -94,7 +95,7 @@ function parse(tokens) {
 			case ";": pop() && switchto(); break;
 			case "{":
 				if(rule.fillType !== '') switchto(rule.fillType);
-				else parseerror("Attempt to open a curly-block in a statement-type at-rule.") && discard() && switchto('next-block') && reprocess();
+				else console.log("Attempt to open a curly-block in a statement-type at-rule.") && discard() && switchto('next-block') && reprocess();
 				break;
 			case "EOF": finish(); return stylesheet;
 			default: rule.appendPrelude(consumeAPrimitive());
@@ -127,7 +128,7 @@ function parse(tokens) {
 			case "AT-RULE": push(new AtRule(token.value)) && switchto('at-rule'); break;
 			case "IDENT": push(new Declaration(token.value)) && switchto('after-declaration-name'); break;
 			case "EOF": finish(); return stylesheet;
-			default: parseerror() && discard() && switchto('next-declaration');
+			default: console.log("declaration") && discard() && switchto('next-declaration');
 			}
 			break;
 
@@ -137,7 +138,7 @@ function parse(tokens) {
 			case ":": switchto('declaration-value'); break;
 			case ";": parseerror("Incomplete declaration - semicolon after property name.") && discard() && switchto(); break;
 			case "EOF": discard() && finish(); return stylesheet;
-			default: parseerror("Invalid declaration - additional token after property name") && discard() && switchto('next-declaration');
+			default: console.log("Invalid declaration - additional token after property name") && discard() && switchto('next-declaration');
 			}
 			break;
 
@@ -165,7 +166,7 @@ function parse(tokens) {
 			case ";": pop() && switchto(); break;
 			case "}": pop() && pop() && switchto(); break;
 			case "EOF": finish(); return stylesheet;
-			default: parseerror("Invalid declaration - additional token after !important.") && discard() && switchto('next-declaration');
+			default: console.log("Invalid declaration - additional token after !important.") && discard() && switchto('next-declaration');
 			}
 			break;
 

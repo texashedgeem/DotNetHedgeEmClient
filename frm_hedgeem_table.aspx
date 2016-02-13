@@ -13,7 +13,7 @@
     <script type="text/javascript" src="resources/javascript/hedgeem_table_javascript.js"></script>
     <!-- online scripts and css for place bet widget slider -->
     <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">-->
-    <link href="resources/css/online/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="resources/javascript/animation.js" type="text/javascript"></script>
     <link href="resources/css/css-animation.css" rel="stylesheet" type="text/css" />
     <link href="resources/css/online/animate.css" rel="stylesheet" type="text/css" />
@@ -23,12 +23,12 @@
     <!-- Pushy CSS -->
     <link rel="stylesheet" href="App_Themes/ONLINE/pushy.css"/>
     <!-- jQuery -->
-        <script src="resources/javascript/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
 
 
   
-	  <script src="resources/javascript/v2p.js"></script>-->
-      <script src="resources/javascript/prefixfree.min.js"></script>
+	  <script src="resources/javascript/v2p.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js" type="text/javascript"></script>
   
     <!--<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
     <!--<script type="text/javascript" src="https://connect.facebook.net/en_US/all.js"></script>-->
@@ -826,8 +826,8 @@ $(".menu-btn").click(function() {
 </script>
             
             
-       <script src="resources/javascript/tokenizer.js"></script>
-         <script src="resources/javascript/parser.js"></script>
-        <script src="resources/javascript/vminpoly.js"></script> 
+       <script type="text/javascript" src="resources/javascript/tokenizer.js"></script>
+         <script type="text/javascript" src="resources/javascript/parser.js"></script>
+        <script type="text/javascript" src="resources/javascript/vminpoly.js"></script> 
     
 </html>
