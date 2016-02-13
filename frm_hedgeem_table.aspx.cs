@@ -354,8 +354,10 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         // If we dont have a player ID we need to redirect the user back to the home screen where they can login or play anonymously to get a PlayerID.
         if (Session["p_session_player_id"] == null) 
         {
-            string my_webapp_home_page = WebConfigurationManager.AppSettings["hedgeem_webapp_landing_page"].ToString();
-            Response.Redirect(my_webapp_home_page);
+            //string my_webapp_home_page = WebConfigurationManager.AppSettings["hedgeem_webapp_landing_page"].ToString();
+            //Response.Redirect(my_webapp_home_page);
+            Response.Redirect("/", false);
+            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
