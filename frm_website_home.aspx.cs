@@ -734,6 +734,11 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             HttpWebRequest request;
             String my_service_url = "not set";
 
+            if (endpoint == "")
+            {
+                my_log_event.p_message = "endpoint not set";
+                throw new Exception(my_log_event.ToString());
+            }
 
             //my_service_url = WebConfigurationManager.AppSettings["hedgeem_server_default_webservice_url"];
             my_log_event.p_message = String.Format("Webservice configured for GoDaddy Deployment URI = [{0}]", endpoint); ;
@@ -810,6 +815,15 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                               );
                     break;
 
+
+                case HttpStatusCode.InternalServerError:
+                    my_log_event.p_message = String.Format(
+                       "Error (Web Exception: InternalServerError). It looks like the HedgeEm Webservice is down, try pasting this Endpoint into a browser to see if this is the case; Endpoint [{0}], Status Code [{1}]",
+                              endpoint,
+                               my_error_response.StatusCode
+                              );
+                    break;
+
                 default: my_log_event.p_message = String.Format(
                        "Error unexpected status code (Web Exception of type Status Code [{0}] for Endpoint [{1}], ",
                               my_error_response.StatusCode,
@@ -819,8 +833,8 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             }
 
 
-
-            return new WebException(my_log_event.ToString(), webex);
+            throw new Exception(my_log_event.ToString());
+            //return new WebException(my_log_event.ToString(), webex);
         }
         catch (Exception ex)
         {
@@ -839,8 +853,8 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
             }
             log.Error(my_log_event.ToString());
-            //throw new Exception(my_log_event.ToString());
-            return new Exception(my_log_event.ToString());
+            throw new Exception(my_log_event.ToString());
+            //return new Exception(my_log_event.ToString());
         }
         
     }
@@ -1198,7 +1212,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         // personal table all the time.
         HedgeEmPlayer my_hedgeem_player;
         //my_hedgeem_player = f_get_free_anonymous_player();
-        DC_hedgeem_game_state my_game_state = f_sit_at_anonymous_table(a_enum_theme);
+        HedgeEmGameState my_game_state = f_sit_at_anonymous_table(a_enum_theme);
         //f_login_anonymously(1201);
         if (my_game_state.p_error_message != null)
         {
@@ -1648,13 +1662,15 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 // Creates (registers) a new user (HedgeEmPlayer) in the HedgeEm Server.
                 // Note this also creates a Personal Table for them (which the HedgeEmTable is returned in the Player object 'p_personal_table_id
                 enum_authentication_method my_authentication_method = enum_authentication_method.FACEBOOK;
-                my_endpoint = String.Format("{0}/ws_register_user_and_create_personal_table/{1},{2},{3},{4},{5}/",
+                enum_user_role my_user_role = enum_user_role.PAYING_USER;
+                my_endpoint = String.Format("{0}/ws_register_user_and_create_personal_table/{1},{2},{3},{4},{5},{6}/",
                                                 p_current_json_webservice_url_base,
                                                 email,
                                                 xxx_default_password,
                                                 email,
                                                 xxxHC_a_opening_balance,
-                                                my_authentication_method);
+                                                my_authentication_method,
+                                                my_user_role);
 
                 HedgeEmPlayer my_player = (HedgeEmPlayer)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeEmPlayer));
                 if (my_player.p_error_message != null)
@@ -1872,15 +1888,17 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 try
                 {
                     enum_authentication_method my_authentication_method = enum_authentication_method.HEDGEEM_ACCOUNT;
+                    enum_user_role my_user_role = enum_user_role.PAYING_USER;
                     // Creates (registers) a new user (HedgeEmPlayer) in the HedgeEm Server.
                     // Note this also creates a Personal Table for them (which the HedgeEmTable is returned in the Player object 'p_personal_table_id
-                    my_endpoint = String.Format("{0}/ws_register_user_and_create_personal_table/{1},{2},{3},{4},{5}/",
+                    my_endpoint = String.Format("{0}/ws_register_user_and_create_personal_table/{1},{2},{3},{4},{5},{6}/",
                                                     p_current_json_webservice_url_base,
                                                     txt_username.Text,
                                                     txt_password.Text,
                                                     txt_full_name.Text,
                                                     xxxHC_a_opening_balance,
-                                                    my_authentication_method);
+                                                    my_authentication_method,
+                                                    my_user_role);
 
                     HedgeEmPlayer my_player = (HedgeEmPlayer)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeEmPlayer));
                     if (my_player.p_error_message != null)
@@ -2229,10 +2247,10 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         
     }
 
-    private DC_hedgeem_game_state f_sit_at_anonymous_table(enum_theme a_enum_theme )
+    private HedgeEmGameState f_sit_at_anonymous_table(enum_theme a_enum_theme )
     {
         HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
-        DC_hedgeem_game_state my_game_state = new DC_hedgeem_game_state();
+        HedgeEmGameState my_game_state = new HedgeEmGameState();
         my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
         my_log_event.p_message = "f_sit_at_anonymous_table";
         log.Debug(_xxx_log_event.ToString());
@@ -2263,7 +2281,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                                                 a_enum_theme.ToString(),
                                                 xxx_my_enum_game_mode);
 
-            my_game_state = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server(my_endpoint, typeof(DC_hedgeem_game_state));
+            my_game_state = (HedgeEmGameState)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeEmGameState));
                 if (my_game_state.p_error_message != null)
                 {
                     if (my_game_state.p_error_message != "")
@@ -2361,13 +2379,15 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 // Creates (registers) a new user (HedgeEmPlayer) in the HedgeEm Server.
                 // Note this also creates a Personal Table for them (which the HedgeEmTable is returned in the Player object 'p_personal_table_id
                 enum_authentication_method my_authentication_method = enum_authentication_method.FACEBOOK;
-                my_endpoint = String.Format("{0}/ws_register_user_and_create_personal_table/{1},{2},{3},{4},{5}/",
+                enum_user_role my_user_role = enum_user_role.PAYING_USER;
+                my_endpoint = String.Format("{0}/ws_register_user_and_create_personal_table/{1},{2},{3},{4},{5},{6}/",
                                                 p_current_json_webservice_url_base,
                                                 txt_fb_username.Text,
                                                 xxx_default_password,
                                                 txt_fb_display_name.Text,
                                                 xxxHC_a_opening_balance,
-                                                my_authentication_method);
+                                                my_authentication_method,
+                                                my_user_role);
 
                 HedgeEmPlayer my_player = (HedgeEmPlayer)f_get_object_from_json_call_to_server(my_endpoint, typeof(HedgeEmPlayer));
                 if (my_player.p_error_message != null)

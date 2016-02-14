@@ -82,7 +82,7 @@ public partial class frm_home_page : System.Web.UI.Page
     //For Logging
     private static String logger_name_as_defined_in_app_config = "client." + System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString();
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(logger_name_as_defined_in_app_config);
-    DC_hedgeem_game_state _global_game_state_object = new DC_hedgeem_game_state();
+    HedgeEmGameState _global_game_state_object = new HedgeEmGameState();
 
     // preinit event changes the theme of the page at runtime before page loads
     protected void Page_PreInit(object sender, EventArgs e)
@@ -237,8 +237,8 @@ public partial class frm_home_page : System.Web.UI.Page
                 {
                     try
                     {
-                        _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
-                        // _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_next_game_state_object/" + _table_id + "," + f_get_player_id(), typeof(DC_hedgeem_game_state));
+                        _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
+                        // _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + _table_id + "," + f_get_player_id(), typeof(HedgeEmGameState));
                         my_log.p_message = String.Format("Successfully retrieved gamestate from server. Table ID [{0}], State [{1}]", _global_game_state_object.p_table_id, _global_game_state_object.p_current_state_enum.ToString());
                         log.Debug(my_log.ToString());
                     }
@@ -1669,7 +1669,7 @@ public partial class frm_home_page : System.Web.UI.Page
             f_place_bet();
             log.Debug("f_call_function_to_render_screen is called in btn_Get_Clicked_Hand_Value_Click");
 
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
             game_id = _global_game_state_object.p_game_id;
             int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2385,7 +2385,7 @@ public partial class frm_home_page : System.Web.UI.Page
 
     protected void Timer1_Tick(object sender, EventArgs e)
     {
-        _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/1000", typeof(DC_hedgeem_game_state));
+        _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/1000", typeof(HedgeEmGameState));
         game_id = _global_game_state_object.p_game_id;
         int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
         enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2687,7 +2687,7 @@ public partial class frm_home_page : System.Web.UI.Page
             webClient.UploadString("http://localhost:59225/Service1.svc/f_set_play_for_real_deposit_pledge", data);
             // Empties the value of textbox
             txt_play_for_real_deposit_pledge.Text = "";
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
             game_id = _global_game_state_object.p_game_id;
             int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2746,7 +2746,7 @@ public partial class frm_home_page : System.Web.UI.Page
             webClient.UploadString("http://devserver.hedgeem.com/Service1.svc/f_set_play_for_real_count", data);
             webClient.UploadString("http://localhost:59225/Service1.svc/f_set_play_for_real_count", data);
 
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
             game_id = _global_game_state_object.p_game_id;
             int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2818,7 +2818,7 @@ public partial class frm_home_page : System.Web.UI.Page
                 ScriptManager.RegisterStartupScript(Page, GetType(), "JsStatus", "document.getElementById('error_message').style.display = 'block';document.getElementById('fade').style.display = 'block';", true);
             }
             f_place_bet();
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
             game_id = _global_game_state_object.p_game_id;
             int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
             _game_state = _global_game_state_object.p_current_state_enum;
@@ -2854,7 +2854,7 @@ public partial class frm_home_page : System.Web.UI.Page
             // Call webservice svc function to cancel the bet placed
             f_get_object_from_json_call_to_server("f_cancel_bets_for_this_hand_and_stage/" + _table_id.ToString() + "," + f_get_player_id().ToString() + "," + xxx_HC_seat_index.ToString() + "," + handindexbet.ToString(), null);
 
-            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
             game_id = _global_game_state_object.p_game_id;
             int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2908,7 +2908,7 @@ public partial class frm_home_page : System.Web.UI.Page
         {
             try
             {
-                _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+                _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
                 my_log.p_message = String.Format("Successfully retrieved gamestate from server. Table ID [{0}], State [{1}]", _global_game_state_object.p_table_id, _global_game_state_object.p_current_state_enum.ToString());
                 log.Debug(my_log.ToString());
                 my_enum_betting_stage = _global_game_state_object.p_current_betting_stage_enum;
@@ -2983,7 +2983,7 @@ public partial class frm_home_page : System.Web.UI.Page
             {
                 int xxxHC_my_player_ID = 10000;
                 // call to webservice to get next state object
-                _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_next_game_state_object/" + _table_id + "," + f_get_player_id(), typeof(DC_hedgeem_game_state));
+                _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + _table_id + "," + f_get_player_id(), typeof(HedgeEmGameState));
                 game_id = _global_game_state_object.p_game_id;
                 int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
                 enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -3055,7 +3055,7 @@ public partial class frm_home_page : System.Web.UI.Page
     //        {
     //            int xxxHC_my_player_ID = 10000;
     //            // call to webservice to get next state object
-    //            _global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_next_game_state_object/" + _table_id + "," + f_get_player_id(), typeof(DC_hedgeem_game_state));
+    //            _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + _table_id + "," + f_get_player_id(), typeof(HedgeEmGameState));
     //            game_id = _global_game_state_object.p_game_id;
     //            int my_number_of_hands = _global_game_state_object.p_number_of_hands_int;
     //            enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -3182,7 +3182,7 @@ public partial class frm_home_page : System.Web.UI.Page
 
             //logs the entry of clicked link
             log.Info("[" + Session["username"].ToString() + "] Selected [" + clicked_name + "] option to get chips.");
-            /*_global_game_state_object = (DC_hedgeem_game_state)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(DC_hedgeem_game_state));
+            /*_global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + _table_id, typeof(HedgeEmGameState));
             game_id = _global_game_state_object.p_game_id;
             int my_number_of_hands =_global_game_state_object.p_number_of_hands_int;
             
