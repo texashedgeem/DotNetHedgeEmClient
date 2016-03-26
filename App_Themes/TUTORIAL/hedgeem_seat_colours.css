@@ -35,29 +35,25 @@ border-bottom-right-radius: 0;
 {
   //background: url("/resources/buttons/seatbal.png") no-repeat;
   background-size:100%;
-    border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;
-    z-index: 30;
-    top: 0%;
-    background-color: #270000; /*Color taken from Fruit Machine LED dark-red digital display background*/
-    border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;
-    border-style: outset;
-    border-color: #7a2940;
-    border-width: 2px;
-    /*
+    border-radius: 120px;-moz-border-radius: 120px;-webkit-border-radius: 120px;
     color: #fff;
     float: right;
-    text-shadow: 1px 1px #222;
     font-size: 14px;
     font-weight: bold;
     line-height: 93px;
     text-align: center;
+    text-shadow: 1px 1px #222;
     white-space: normal;
     width: 95px;
-    */
-    
+    z-index: 30;
+    top: 50%;
 }
 
-
+#hedgeem_seat_container_0 {
+    position: absolute;
+    top: 43%;
+    left:90%;
+}
 
 //.hedgeem_seat_container:hover{background: url("/resources/buttons/seatbal-hover.png") no-repeat;background-size:100%;}
 .hedgeem_seat_container:hover .player_balance {
@@ -91,37 +87,14 @@ border-bottom-right-radius: 0;
     src: url(/resources/fonts/DS-DIGI.TTF);
 }
 
-
-#hedgeem_seat_container_0{
-    z-index:1999;
-    position: absolute;
-    float:left;
-    top: 48%;
-    left:76%;
-    width:9%;
-    height:5%;
-    /*
-    background-color:lightsalmon;
-    */
-}
-
 .player_balance {
-    position: absolute;
     font-family: font_player_balance;
-    color: #a90e05; /*Color taken from Fruit Machine LED dark-red digital display forground*/
-    font-size: 20px;
+    color: #a90e05;
+    font-size: 32px;
     font-weight: bold;
     text-align: center;
     text-shadow: 0 -1px 3px #000;
-    width:100%;
-    height: 100%;
-    top: 0%;
-    right:0%;
-    /*
-    background-color:lightsalmon;
-    */
 }
-
 
 .player_balance_xxxxxxxxxx
 {

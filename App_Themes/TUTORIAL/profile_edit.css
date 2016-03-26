@@ -1,0 +1,14 @@
+﻿body{
+    background-color: black;
+    margin: auto;
+}
+#profile_table
+{
+    border:1px solid;
+}
+
+#profile_image
+{
+    display:none;
+    float:right;
+}

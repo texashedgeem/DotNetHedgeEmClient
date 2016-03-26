@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frm_website_home.aspx.cs"
-    Inherits="frm_facebook_canvas" %>
+    Inherits="frm_website_home" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -302,7 +302,7 @@
                         Your Session to sit on this table has expired.</p>
                     <p>
                         Please Login again to continue.</p>
-                    <input type="button" onclick="javascript:window.location='frm_facebook_canvas.aspx';"
+                    <input type="button" onclick="javascript:window.location='frm_website_home.aspx';"
                         value="Proceed" />
                 </div>
                 <!-- Register new user popup-->
@@ -621,7 +621,7 @@
                                         $.ajax({
                                             type: "POST",
                                             contentType: "application/json; charset=utf-8",
-                                            url: "frm_facebook_canvas.aspx/f_check_user_role?uid=" + email,
+                                            url: "frm_website_home.aspx/f_check_user_role?uid=" + email,
                                             data: "{}",
                                             dataType: "json",
                                             success: function (data) {
@@ -643,7 +643,7 @@
                                         $.ajax({
                                             type: "POST",
                                             contentType: "application/json; charset=utf-8",
-                                            url: "frm_facebook_canvas.aspx/f_facebook_login_called_from_javascript?uid=" + email,
+                                            url: "frm_website_home.aspx/f_facebook_login_called_from_javascript?uid=" + email,
                                             data: "{}",
                                             dataType: "json",
                                             success: function (data) {
@@ -670,7 +670,7 @@
                                     //                                        $.ajax({
                                     //                                            type: "POST",
                                     //                                            contentType: "application/json; charset=utf-8",
-                                    //                                            url: "frm_facebook_canvas.aspx/f_check_user_logged_in_from_facebook_first_time?uid=" + email,
+                                    //                                            url: "frm_website_home.aspx/f_check_user_logged_in_from_facebook_first_time?uid=" + email,
                                     //                                            data: "{}",
                                     //                                            dataType: "json",
                                     //                                            success: function (data) {
@@ -755,7 +755,7 @@
                                     $.ajax({
                                         type: "POST",
                                         contentType: "application/json; charset=utf-8",
-                                        url: "frm_facebook_canvas.aspx/f_check_user_logged_in_from_facebook_first_time?uid=" + email,
+                                        url: "frm_website_home.aspx/f_check_user_logged_in_from_facebook_first_time?uid=" + email,
                                         data: "{}",
                                         dataType: "json",
                                         success: function (data) {
@@ -766,7 +766,7 @@
                                                     $.ajax({
                                                         type: "POST",
                                                         contentType: "application/json; charset=utf-8",
-                                                        url: "frm_facebook_canvas.aspx/f_check_user_role?uid=" + email,
+                                                        url: "frm_website_home.aspx/f_check_user_role?uid=" + email,
                                                         data: "{}",
                                                         dataType: "json",
                                                         success: function (data) {
@@ -788,7 +788,7 @@
                                                     $.ajax({
                                                         type: "POST",
                                                         contentType: "application/json; charset=utf-8",
-                                                        url: "frm_facebook_canvas.aspx/f_facebook_login_called_from_javascript?uid=" + email,
+                                                        url: "frm_website_home.aspx/f_facebook_login_called_from_javascript?uid=" + email,
                                                         data: "{}",
                                                         dataType: "json",
                                                         success: function (data) {

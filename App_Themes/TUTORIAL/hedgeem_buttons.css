@@ -1,0 +1,445 @@
+/*
+    THEME: RETRO
+    CSS: hedgeem_buttons.css
+    Description. The sytles of any buttons that are *NOT* associated with any other specific 'HedgeEm object' 
+                 (such as hands and betting panels) are defined here.
+*/
+
+#command_buttons_container
+{
+    position: absolute;
+    top: 94%;
+    width: 55%;
+    height: 5%;
+    margin: 0% 10% 0% 25%;
+    float: left;
+    left: 0%;
+    z-index: 9; 
+    /*
+    background-color: lime;
+         bottom: 225px;     
+        float: right;     
+        position: fixed;     
+        right: 433px;     
+        z-index: 9;
+    */
+}
+
+#btn_deal_buttons_container
+{
+    position: absolute;
+    top: 78%;
+    left: 75%;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    height: 7%;
+    width: 18%;
+    //background-color: red;
+    z-index: 99; /*Keep this highest overwise hands_container, betting_container or other may prevent button from working.*/
+    /*
+    background-color: red;
+    background-repeat:no-repeat;
+    background-position:0% 0% 0% 0%;
+    background-color:yellow;
+        
+    */
+    
+
+}
+
+/*
+    http://stackoverflow.com/questions/3397113/how-to-remove-border-outline-around-text-input-boxes-chrome 
+    Also need to you have a image  (e.g. a blank image to stop outlining.
+*/
+*:focus {
+    outline: 0;
+}
+
+
+
+/*
+#btnDealRiver
+{
+    color: transparent;
+    position: absolute;
+    margin: 0px 0px 0px 15px;
+    padding: 0% 0% 0% 0%;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+}
+#btnNextGame
+{
+    color: transparent;
+    position: absolute;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+
+}
+*/
+#btn_play_for_real{
+	background: url("/resources/buttons/playreal.png") no-repeat scroll 0 1px ;
+    border-image: none;
+    border-radius: 0;
+    border-style: none solid none none;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    font-size: 17px;
+    font-weight: bold;
+    padding:7px 7px 8px 51px;
+    text-shadow: 0 -1px 3px #000;
+    z-index: 50;
+
+    
+    /*
+        background-color: yellow;
+    */
+}
+
+.pushy li a:hover input#btn_play_for_real{background: url("/resources/buttons/playrealh.png") no-repeat scroll 0px 1px; background-size:contain;}
+
+#btnLobby{
+    color: transparent;
+    position: relative;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    height: 20%;
+    width: 20%;
+    top: 0px;
+    left: 5%;
+    z-index: 9;
+    display:none;
+    /*
+        background-color: yellow;
+    */
+
+
+}
+
+#btn_rules{
+    color: transparent;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    width: 20%;
+    z-index: 9;
+  /*  background:url("/resources/buttons/btn_rules.png") no-repeat;*/
+    cursor:pointer;
+}
+
+#btn_get_chips{
+    position: relative;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    width: 20%;
+    top: 0px;
+    left: 1%;
+    z-index: 9;
+    background:#999;
+    border-radius:2px;
+    cursor:pointer;
+    text-align:center;
+    font-size:small;
+}
+
+
+#btn_cashier{
+    position: relative;
+    margin: 0% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    width: 20%;
+    top: 0px;
+    left: 1%;
+    z-index: 9;
+    background:#999;
+    border-radius:2px;
+    cursor:pointer;
+    text-align:center;
+    font-size:small;
+     
+    /*
+        background-color: yellow;
+    */
+}
+
+
+#btn_help{
+    color: transparent;
+    position: relative;
+    float: left;
+    margin: 0% 0% 0% 5%;
+    padding: 0% 0% 0% 0%;
+    top: 0px;
+    left: 5%;
+    z-index: 9;
+    background:url("/resources/buttons/btn_help.png") no-repeat ;
+    /*
+        background-color: yellow;
+*/
+     width:82px;
+    height:19px;
+    display:none;
+
+}
+
+#btn_Hide_Admin_Flag{
+    
+    color: transparent;
+    position: absolute;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 150px;
+    z-index: 9;
+    
+}
+
+#btn_Show_Admin_Flag{
+    color: transparent;
+    position: absolute;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    top: 0px;
+    left: 150px;
+    z-index: 9;
+    /*
+        background-color: yellow;
+    */
+
+}
+
+#hide_rules
+{
+    /*
+    color: transparent;
+    background:url(/resources/buttons/cancel-icon.png);
+    background-repeat:no-repeat;
+    float:right;
+    width:16px;
+    height:16px;*/
+}
+    
+#hide_get_chips
+{
+    /*
+    background:url(/resources/buttons/cancel-icon.png);
+    background-repeat:no-repeat;
+    float:right;
+    width:16px;
+    height:16px;*/
+}
+
+#get_chips
+{
+   
+}
+
+
+/*  Hover over buttons not required (11th Nov 2105)
+#btnDealHole:hover {
+	//background: url("/resources/buttons/animated_bet_button_yellow.gif") no-repeat;
+	background-size: 100%;
+}
+
+#btnDealFlop:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealTurn:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnDealRiver:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+#btnNextGame:hover {
+	background: url("/resources/buttons/dealh-hover.png") no-repeat;
+	background-size: 100%;
+}
+    */
+
+
+#btnDealHole {
+    background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+    /*position: absolute;
+    top: 1px;*/
+}
+
+#btnDealFlop {
+    background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+}
+#btnDealTurn {
+	background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+    color: transparent;
+	//border-radius: 120px;
+    padding: 0%;
+    margin: 0%;
+	height: 100%;
+    width: 100%;
+}
+#btnDealRiver {
+    background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	top: 10px;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+}
+#btnNextGame {
+	background: url("/resources/buttons/animated_deal_button_red.gif") no-repeat;
+    background-position: -80px;
+	background-size: 200%;
+	//border-radius: 120px;
+    padding: 0%;
+    color: transparent;
+	margin: 0%;
+	height: 100%;
+    width: 100%;
+}
+
+
+.logout {
+	margin-left: 6px;
+}
+
+#Logout {
+	display: inline-block;
+	position: relative;
+	vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 19px 4px / 17% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 11px 23px 9px 34px;
+    width: auto;
+}
+
+
+#Logout {
+    bottom: 10px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 15px 3px / 18% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 8px 15px 9px 30px;
+    width: auto;
+}
+
+#Logout {
+    bottom: 4px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 19px 4px / 17% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 11px 23px 9px 34px;
+    width: auto;
+}
+
+.logout {
+	margin-left: 6px;
+}
+
+#btnLogout {
+	/*border: 1px solid #09340A;
+    border-radius: 5px;
+    color: #C3C281;
+    background:#214429;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px;
+    text-decoration: none;
+    background:url(/resources/usr.png);
+    background-repeat:no-repeat;
+    background-size:contain;
+    width:135px!important;
+    cursor:pointer;
+    text-align:right;*/
+	
+	
+	background: url("/resources/buttons/exit.png") no-repeat scroll 11px 2px #652d1c;
+	border: 0 none;
+	border-radius: 0 0 10px 10px;
+	-moz-border-radius: 0 0 10px 10px;
+	-webkit-border-radius: 0 0 10px 10px;
+	color: #fff;
+	font-size: 17px;
+	font-weight: bold;
+	padding: 5px 25px 5px 42px;
+	width: auto;
+}
+
+
+
+
+#Logout {
+    bottom: 4px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 19px 4px / 17% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 11px 23px 9px 34px;
+    width: auto;
+}

@@ -337,7 +337,7 @@
                         <asp:PlaceHolder ID="Place_Holder_Bet_Slider" runat="server"></asp:PlaceHolder>
                     </div>
                     <!-- Table Jackpot -->
-                    <div id="table_jackpot_container" runat="server" visible="false">
+                    <div id="table_jackpot_container" runat="server">
                         <asp:PlaceHolder ID="Place_Holder_Table_Jackpot" runat="server"></asp:PlaceHolder>
                     </div>
                     <asp:PlaceHolder ID="Place_Holder_Winner_Message" runat="server"></asp:PlaceHolder>

@@ -17,8 +17,11 @@
     <script src="resources/javascript/animation.js" type="text/javascript"></script>
     <link href="resources/css/css-animation.css" rel="stylesheet" type="text/css" />
     <link href="resources/css/online/animate.css" rel="stylesheet" type="text/css" />
+    <!-- xxx Do not use Visual Studio themes -->
+    
     <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>-->
     <link rel="stylesheet" href="App_Themes/ONLINE/normalize.css"/>
+    <link rel="stylesheet" href="App_Themes/ONLINE/demo.css"/>
     <link rel="stylesheet" href="App_Themes/ONLINE/demo.css"/>
     <!-- Pushy CSS -->
     <link rel="stylesheet" href="App_Themes/ONLINE/pushy.css"/>
@@ -320,7 +323,7 @@ $(".menu-btn").click(function() {
                                 <asp:PlaceHolder ID="Place_Holder_Bet_Slider" runat="server"></asp:PlaceHolder>
                             </div>
                             <!-- Table Jackpot -->
-                            <div id="table_jackpot_container" runat="server" visible="false">
+                            <div id="table_jackpot_container" runat="server" visible="true">
                                 <asp:PlaceHolder ID="Place_Holder_Table_Jackpot" runat="server"></asp:PlaceHolder>
                             </div>
                             <asp:PlaceHolder ID="Place_Holder_Winner_Message" runat="server"></asp:PlaceHolder>
@@ -445,7 +448,7 @@ $(".menu-btn").click(function() {
                                 </div>
                             </div>
                            
-                    </div>-->
+                    </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
                 <!-- Rules Div -->
@@ -587,7 +590,7 @@ $(".menu-btn").click(function() {
                         Your Session to sit on this table has expired.</p>
                     <p>
                         Please Login again to continue.</p>
-                    <input class="btn btn-success" type="button" onClick="javascript:window.location='frm_facebook_canvas.aspx';"
+                    <input class="btn btn-success" type="button" onClick="javascript:window.location='frm_website_home.aspx';"
                         value="Proceed" />
                 </div>
                 <!-- Place bet widget for hand 0 -->

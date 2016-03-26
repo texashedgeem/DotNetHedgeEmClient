@@ -15,7 +15,7 @@ using HedgeEmClient;
 using System.Runtime.Serialization.Json;
 using System.Net;
 
-public partial class frm_facebook_canvas : System.Web.UI.Page
+public partial class frm_website_home : System.Web.UI.Page
 {
     private static String logger_name_as_defined_in_app_config = "client." +
     System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString();
@@ -99,7 +99,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 //  service.f_activate_user(retrieved_username);
                 //    my_log_event.p_message = String.Format("Username [{0}] activated. ", retrieved_username);
                 my_log_event.p_message = String.Format("User [{0}] clicked on link activation. ", retrieved_username);
-                ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thanks for verifying your account. You can now play the game.'); if(alert){ window.location='frm_facebook_canvas.aspx';}", true);
+                ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thanks for verifying your account. You can now play the game.'); if(alert){ window.location='frm_website_home.aspx';}", true);
                 log.Debug(my_log_event.ToString());
 
             }
@@ -167,7 +167,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 {
                     Response.Clear();
                     Session.Abandon();
-                    Response.Redirect("frm_facebook_canvas.aspx");
+                    Response.Redirect("frm_website_home.aspx");
                 }
                 if (Session["user_role"] != "ADMIN")
                 {
@@ -261,12 +261,12 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
             my_popup_message.p_detailed_message_str = "";
             my_popup_message.p_is_visible = false;
-            string my_error_popup = "Error in Page Load of frm_facebook_canvas - " + ex.Message.ToString();
+            string my_error_popup = "Error in Page Load of frm_website_home - " + ex.Message.ToString();
             //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
             my_popup_message.p_detailed_message_str = my_error_popup.ToString();
             my_popup_message.p_is_visible = true;
             Place_Holder_Popup_Message.Controls.Add(my_popup_message);
-            my_log_event.p_message = "Exception caught in Page Load of frm_facebook_canvas- " + ex.Message;
+            my_log_event.p_message = "Exception caught in Page Load of frm_website_home- " + ex.Message;
             log.Error(my_log_event.ToString(), new Exception(ex.Message));
         }
     }
@@ -505,7 +505,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                     btnLogout.Visible = false;
                 }
                 Page.RegisterStartupScript("OnLoading", "<script>load_edit_profile();</script>");
-                // Response.Redirect("frm_facebook_canvas.aspx");
+                // Response.Redirect("frm_website_home.aspx");
                 Page.RegisterStartupScript("OnLoad", "<script>document.getElementById('progressbar').style.display='none';</script>");
 
                 string role = "";
@@ -688,7 +688,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             divLogin.Attributes.Add("style", "display:block !Important;");
             usr_image.ImageUrl = "../resources/avitars/user_square.png";
             btn_play_now.Enabled = false;
-            Response.Redirect("frm_facebook_canvas.aspx?signout=true");
+            Response.Redirect("frm_website_home.aspx?signout=true");
         }
         catch (Exception ex)
         {
@@ -1281,7 +1281,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
         {
             // Log that the user has clicked the 'Play now' button.
             HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
-            my_log_event.p_method_name = "frm_facebook_canvas.btn_play_now_Click";
+            my_log_event.p_method_name = "frm_website_home.btn_play_now_Click";
             my_log_event.p_message = String.Format("User [{0}] click 'Play Now", p_session_username);
             log.Info(my_log_event.ToString());
 
@@ -1683,7 +1683,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
 
 
-                //Page.RegisterStartupScript("OnLoad", "<script>alert('Thank you for registering, you are now logged in an can start to play HedgeEm'); if(alert){ window.location='frm_facebook_canvas.aspx';}</script>");
+                //Page.RegisterStartupScript("OnLoad", "<script>alert('Thank you for registering, you are now logged in an can start to play HedgeEm'); if(alert){ window.location='frm_website_home.aspx';}</script>");
             }
             /*
         catch (System.Net.WebException webex)
@@ -1840,7 +1840,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                     //btnLogout.Visible = false;
                 }
                 //Page.RegisterStartupScript("OnLoading", "<script>load_edit_profile();</script>");
-                // Response.Redirect("frm_facebook_canvas.aspx");
+                // Response.Redirect("frm_website_home.aspx");
                 //Page.RegisterStartupScript("OnLoad", "<script>document.getElementById('progressbar').style.display='none';</script>");
             }
             return role;
@@ -1940,7 +1940,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
                     my_popup_messageError.Dispose();
                    // ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering. You may now start to play. Click on the link in the mail we have just sent you to get benefit from extra features.');", true);
-                    //ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering, you may now start to play.  Please don't forget to confirm your registration by clicking on the link in the mail we have just sent you to get your free 50 chips and benefit from extra features.'); if(alert){ window.location='frm_facebook_canvas.aspx';}", true);
+                    //ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering, you may now start to play.  Please don't forget to confirm your registration by clicking on the link in the mail we have just sent you to get your free 50 chips and benefit from extra features.'); if(alert){ window.location='frm_website_home.aspx';}", true);
                     if (Session["p_session_username"] != null)
                     {
 
@@ -2117,7 +2117,7 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
             message.CC.Add("simon.hewins@mantura.com");
             message.IsBodyHtml = true;
             smtp.Send(message);
-            Page.RegisterStartupScript("UserMsg", "<script>alert('Password has been sent to you successfully. Check Your Mail for further instructions.');if(alert){ window.location='frm_facebook_canvas.aspx';}</script>");
+            Page.RegisterStartupScript("UserMsg", "<script>alert('Password has been sent to you successfully. Check Your Mail for further instructions.');if(alert){ window.location='frm_website_home.aspx';}</script>");
         }
         catch (Exception ex)
         {
@@ -2305,9 +2305,9 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
                 Session["p_session_display_name"] = my_game_state.p_display_name;
 
 
-                ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering,your facebook account with HedgeEm. A confirmation mail is sent to your email Id '); if(alert){ window.location='frm_facebook_canvas.aspx';}", true);
+                ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering,your facebook account with HedgeEm. A confirmation mail is sent to your email Id '); if(alert){ window.location='frm_website_home.aspx';}", true);
                 */
-                //Page.RegisterStartupScript("OnLoad", "<script>alert('Thank you for registering, you are now logged in an can start to play HedgeEm'); if(alert){ window.location='frm_facebook_canvas.aspx';}</script>");
+                //Page.RegisterStartupScript("OnLoad", "<script>alert('Thank you for registering, you are now logged in an can start to play HedgeEm'); if(alert){ window.location='frm_website_home.aspx';}</script>");
             }
             catch (Exception ex)
             {
@@ -2418,9 +2418,9 @@ public partial class frm_facebook_canvas : System.Web.UI.Page
 
                 //lbl_register_status_msg.Visible = true;
                 //lbl_register_status_msg.Text = "Thank you for registering, Please activate your account by clicking link sent on your registered email id.";
-                ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering,your facebook account with HedgeEm. A confirmation mail is sent to your email Id '); if(alert){ window.location='frm_facebook_canvas.aspx';}", true);
+                ScriptManager.RegisterStartupScript(Page, GetType(), "OnLoad", "alert('Thank you for registering,your facebook account with HedgeEm. A confirmation mail is sent to your email Id '); if(alert){ window.location='frm_website_home.aspx';}", true);
 
-                //Page.RegisterStartupScript("OnLoad", "<script>alert('Thank you for registering, you are now logged in an can start to play HedgeEm'); if(alert){ window.location='frm_facebook_canvas.aspx';}</script>");
+                //Page.RegisterStartupScript("OnLoad", "<script>alert('Thank you for registering, you are now logged in an can start to play HedgeEm'); if(alert){ window.location='frm_website_home.aspx';}</script>");
             }
             catch (Exception ex)
             {

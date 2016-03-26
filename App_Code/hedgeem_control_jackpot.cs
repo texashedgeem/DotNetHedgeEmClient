@@ -4,7 +4,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 [DefaultProperty("Text")]
-    [ToolboxData("<{0}:hedgeem_control_seat runat=server></{0}:hedgeem_control_seat>")]
+    [ToolboxData("<{0}:hedgeem_control_jackpot runat=server></{0}:hedgeem_control_jackpot>")]
     public class hedgeem_control_jackpot : WebControl
     {
 
@@ -20,10 +20,12 @@ using System.Web.UI.WebControls;
 
             }
         }
-        
-        
 
-        protected override void RenderContents(HtmlTextWriter writer)
+    public hedgeem_control_jackpot()
+    {
+    }
+
+    protected override void RenderContents(HtmlTextWriter writer)
         {
             
             writer.WriteLine("");

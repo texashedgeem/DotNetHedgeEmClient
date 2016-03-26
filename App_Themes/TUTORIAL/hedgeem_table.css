@@ -20,11 +20,16 @@ There are Three 'wrapper' classes used to display the Hedgeem Table.  In order o
     displayed Hedge'Em table.
     See also: #wrapper and .hedgeem_table_container
 */
+
+
+
 body {
-	/*        overflow-y:hidden;
-overflow-x:hidden;
-background-repeat: repeat;
-    background: url(/resources/backgrounds/watermark_2.png);*/
+	/*        
+    overflow-y:hidden;
+    overflow-x:hidden;
+    background-repeat: repeat;
+    background: url(/resources/backgrounds/watermark_2.png);
+	*/
 	background: url("/resources/backgrounds/bgonline.jpg") !important;
 	background-size: cover !important;
 	margin-top: 0;
@@ -36,6 +41,7 @@ background-repeat: repeat;
 	margin: 8px auto;
 }
 #UpdatePanel1 {
+    /*
 	background-repeat: repeat;
 	height: 100%;
 	left: 0;
@@ -46,14 +52,33 @@ background-repeat: repeat;
 	width: 100%;
 	z-index: 0;      
 	background:none;
+    */
+    position: absolute;
+    background-color:firebrick;
+    width: 90%;
+    height: 90%;
+    margin:5% 5% 5% 5%;
+    z-index:1;
 }
 #wrapper {
+    /*
 	position: relative;
 	margin: auto;
 	padding: 0%;
 	height: 100%;
+    */
 }
-.topbar_fixed{
+
+.scaling {
+    position: absolute;
+    background-color:aquamarine;
+    width: 90%;
+    height: 90%;
+    margin:5% 5% 5% 5%;
+    z-index:2;
+}
+.topbar_fixed
+{
 	
 	/*background: url("/resources/backgrounds/topline_bg.jpg") repeat-x scroll center top;
     bottom: 0;
@@ -70,78 +95,103 @@ background-repeat: repeat;
     top: 0;
     width: 100vw;
     z-index: 1;*/
-
-	}
+}
 	
   
 #container {
 	
-	width: 100vw;
-	height: 67vw;
-	/* 100/56.25 = 1.778 */
-	//background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
+    /*
+	//width: 100vw;
+	//height: 67vw;
+	// 100/56.25 = 1.778 
+	background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
+	background: url(/resources/backgrounds/watermark_2.png);
 	max-height: 100vh !important;
 	max-width: 214vh !important;
-	/* 4/3 = 1.778 */
+	// 4/3 = 1.778 
 	
 	margin: auto;
 	position: absolute;
-	top: 0;
-	bottom: 0;
-	/* vertical center */
-	left: 0;
-	right: 0;/* horizontal center */
+	top: 0;// vertical center
+	//bottom: 0;/* vertical center 
+	left: 0; // horizontal center 
+	right: 0;// horizontal center 
 	z-index:1;
+	*/
 	
+    margin: 5% 5% 5% 5% ;
+	padding: 0%;
+	position: absolute;
+	background-color: green;
+	//background: url(/resources/backgrounds/stand_alone_table_1_800x500.png);
+	//background-repeat: no-repeat;
+	//background-size: 100% 100%;
+	width: 90%;
+	height: 90%;
+	z-index: 3;
 	
+    // This was added by Webguruz to try to implement the fixed aspect ratio scaling I required.
 }
 
 
 #hedgeem_table_container {
 
-/*background: url("/resources/backgrounds/poker_table.png") no-repeat; background-size:cover; background-position: top center; 
-position: relative;
-margin: 0px;
-padding: 0px;
-height:95%;
-margin-top: 0px;
+    /*background: url("/resources/backgrounds/poker_table.png") no-repeat; background-size:cover; background-position: top center; 
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    height:95%;
+    margin-top: 0px;
 
-width:60%;
-margin:0 auto;*/
+    width:60%;
+    margin:0 auto;*/
 
-
+    /* This bit works sort of ok Simon 14th Feb
+    background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
 	width: 100vw;
 	height: 56vw;
-	/* 100/56.25 = 1.778 */
-	
+	// 100/56.25 = 1.778
 	max-height: 100vh !important;
 	max-width: 133vh !important;
-	/* 4/3 = 1.778 */
+	// 4/3 = 1.778 
 	margin: auto;
 	position: absolute;
 	top: 0;
-	bottom: 0;
-	/* vertical center */
+	//bottom: 0;
+	// vertical center;
 	left: 0;
-	right: 0;/* horizontal center */
-    width: 800px;
-    height:600px;
+	right: 0;
+    // horizontal center
     background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
-	
+	width: 800px;
+	height: 600px;
+    margin: auto;
+	*/
 
+  	position: absolute;
+    margin: 5% 5% 5% 5% ;
+	width: 90%;
+	height: 90%;
+	z-index:5;
 
 }
 #hedgeem_table_backdrop {
 /*   margin: 0%;
     padding: 0%;
-    position: absolute;
+    
     /*background: url(resources/backgrounds/carpet_background_800x600.png);
     background: url(/resources/backgrounds/HedgeEmTableComposite_800x600.png);
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
     z-index: 1;*/
-	
+    z-index: 7;
+	position: absolute;
+    margin: 5% 5% 5% 5% ;
+	width: 90%;
+	height: 90%;
+	background: url("/resources/backgrounds/poker_table.png") no-repeat; background-size:cover; background-position: top center; 
+	background-color: hotpink;
 	
 }
 .bottom_bar_fixed {
@@ -153,13 +203,33 @@ margin:0 auto;*/
 	width: 100%;
 }
 #hedgeem_table_physical_table {
-	display: none;
+	background-color: wheat;
+	background: url(/resources/backgrounds/stand_alone_table_1_800x500.png);
+	background-repeat: no-repeat;
+	background-size: 100% 90%;
+	position: absolute;
+    margin: 5% 5% 5% 5% ;
+	width: 90%;
+	height: 90%;
+	z-index: 2;
+	//display: none;
 }
 li.ext {
 	display: inline-block;
 	padding-left: 0px;
 }
 #hedgeem_table_info_bar_background {
+	margin: 0%;
+	padding: 0%;
+	background: url(/resources/backgrounds/info_bar_backgrond_800x80.png);
+	background-size: 100% 100%;
+	width: 100%;
+	height: 15%;
+	background-repeat: no-repeat;
+	top: 85%;
+	position: absolute;
+	padding: 0px;
+	z-index: 3; /*              background-color: Gray;     background-size:100% 100%;          right:0px;              border-collapse: collapse;              position: relative;     float: left;     margin-left: 300px;     margin-top: 150px;     background-color: cyan;     */
 	display: none;
 }
 /*
@@ -168,19 +238,41 @@ li.ext {
     */
 
 #table_logo {
-    display:none;
+	background: url(/resources/logos/logo_1.png); /* background-size:100% 100%; Do not use background size as it deforms logo */
+	background-size: 100%;
+	background-repeat: no-repeat;
+	top: 5%;
+	left: 83%;
+	position: absolute;
+	padding: 0%;
+	z-index: 10;
+	width: 13%;
+	height: 10% /*      width: 13%;     height: 10%     background-color:red;     */;
+	display: none;
 }
 
 #house_chips {
     display:none;
+    /*background: url("/resources/backgrounds/house_chips.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    float: left;
+    height: 50px;
+    margin: 0 0 0 36%;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 225px;
+    z-index: 50;
+    //background-color: yellow;     */
 }
 #table_jackpot_container {
+	background: url(/resources/backgrounds/jackpot_container_background_1.png);
+	background-size: 100% 100%;
 	width: 15%;
 	height: 10%;
 	float: left;
 	background-repeat: no-repeat;
-	top: 10%;
-	left: 10%;
+	top: 1%;
+	left: 1%;
 	margin: 0% 0% 0% 0%;
 	position: absolute;
 	padding: 0px;
@@ -521,104 +613,13 @@ fb_iframe_widget
 .play_for_real_deposit_pledge {
 	font-weight: bold;
 }
-#hedgeem_bet_slider1 {
-	background-color: #1D1D1D;
-	display: none;
-	left: 7%;
-	overflow: auto;
-	position: absolute;
-	top: 50%;
-	float: left;
-	margin: 0 12%;
-	padding: 10px;
-	width: 28%;
-	z-index: 1002;
-	text-align: center;
-	height: 9%;
-	border-radius: 15px;
-	border: 1px solid #000;
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-#hedgeem_bet_slider1 p {
-	padding: 0;
-	margin-top: 0;
-}
-#hedgeem_bet_slider2 p {
-	padding: 0;
-	margin-top: 0;
-}
 #follow-button.btn i {
 	background: none !important;
 }
 #follow-button.btn span {
 	padding: 0 8px 0 11px
 }
-#hedgeem_bet_slider3 p {
-	padding: 0;
-	margin-top: 0;
-}
-#hedgeem_bet_slider4 p {
-	padding: 0;
-	margin-top: 0;
-}
-#hedgeem_bet_slider2 {
-	background-color: #1D1D1D;
-	display: none;
-	left: 21%;
-	overflow: auto;
-	position: absolute;
-	top: 55%;
-	float: left;
-	margin: 0 12%;
-	padding: 10px;
-	width: 28%;
-	z-index: 1002;
-	text-align: center;
-	height: 9%;
-	border-radius: 15px;
-	border: 1px solid #000;
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-#hedgeem_bet_slider3 {
-	background-color: #1D1D1D;
-	display: none;
-	left: 36%;
-	overflow: auto;
-	position: absolute;
-	top: 55%;
-	float: left;
-	margin: 0 12%;
-	padding: 10px;
-	width: 28%;
-	z-index: 1002;
-	text-align: center;
-	height: 9%;
-	border-radius: 15px;
-	border: 1px solid #000;
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-#hedgeem_bet_slider4 {
-	background-color: #1D1D1D;
-	display: none;
-	left: 50%;
-	overflow: auto;
-	position: absolute;
-	top: 50%;
-	float: left;
-	margin: 0 12%;
-	padding: 10px;
-	width: 28%;
-	z-index: 1002;
-	text-align: center;
-	height: 9%;
-	border-radius: 15px;
-	border: 1px solid #000;
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
+
 .no_opaque_overlay {
 	display: none;
 	position: absolute;
@@ -632,76 +633,8 @@ fb_iframe_widget
 	opacity: 0;
 	filter: alpha(opacity=80);
 }
-.bet_left {
-	float: left;
-	margin-top: 0px;
-}
-.bet_right {
-	float: right;
-	margin-right: -48px;
-	margin-top: -18px !important;
-}
-#slider-range-min1 {
-	margin-left: 30px;
-}
-#slider-range-min2 {
-	margin-left: 30px;
-}
-#slider-range-min3 {
-	margin-left: 30px;
-}
-#slider-range-min4 {
-	margin-left: 30px;
-}
-.bet_slider {
-	float: left;
-	margin-top: 0;
-	width: 77%;
-	color: White;
-}
-.amount {
-	border: 0;
-	color: #D9D600;
-	width: 25%;
-	font-weight: bold;
-	background: #000;
-}
-.place_bet_button {
-	background: url("/resources/buttons/tick-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-	height: 16px;
-	width: 16px;
-	border: none;
-	cursor: pointer;
-	float: right;
-	background-color: #000;
-	border-radius: 3px;
-	margin-top: 2%;
-}
-.cancel_place_bet_button {
-	background: url("/resources/buttons/cancel-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-	height: 16px;
-	width: 16px;
-	border: none;
-	cursor: pointer;
-	float: left;
-	background-color: #000;
-	border-radius: 3px;
-	margin-top: 2%;
-}
-.bet_payout_description {
-	border: 1px solid #000;
-	border-radius: 5px;
-	float: left;
-	margin-left: 9%;
-	width: 90%;
-	color: #D9D600;
-	background: #000;
-}
-.bet_buttons {
-	margin-top: -22px;
-	position: absolute;
-	width: 92%;
-}
+
+
 #hedgeem_game_id {
 	position: absolute;
 	top: 1%;
@@ -990,55 +923,269 @@ border: 1px solid #3f3f3f; */
 	font-weight: bold;
 	padding-top: 8px;
 }
-
-
-@font-face {
-    font-family: font_jackpot_balance;
-    src: url(/resources/fonts/DS-DIGI.TTF);
+@media screen and ( max-height: 580px ) {
+#hand_panels_container
+{ left:0 !important;}
 }
 
 
-#table_jackpot_container{
-    z-index:1999;
-    position: absolute;
-    float:left;
-    top: 57%;
-    left:76%;
-    width:9%;
-    height:5%;
-    background-color: #270000; /*Color taken from Fruit Machine LED dark-red digital display background*/
-    border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;
-    border-style: outset;
-    border-color: #7a2940;
-    border-width: 2px;
+
+
+@media screen and ( max-height: 520px ) {
+	
+
+#twitter_container {
+    display: inline;
+    position: relative;
+    top: 1px;
+}
+.fb-invite {
+    background: url("/resources/backgrounds/fb.png") no-repeat scroll 0 0 / 74% auto rgba(0, 0, 0, 0);
+    float: none;
+    height: 34px;
+    margin-left: 13px;
+    padding-right: 16px;
+    padding-top: 0;
+    text-decoration: none;
+    width: 19px;
 }
 
-#hedgeem_jackpot{
-    z-index:1999;
-    position: absolute;
-    float:left;
-    top: 0%;
-    left:0%;
-    width:100%;
-    height: 100%;
-    /*
-    background-color:hotpink;
-    */
+
+#Logout {
+    bottom: 4px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
 }
 
-#jackpot_balance{
-    z-index:1999;
-    position: absolute;
-    float:left;
-    top: 0%;
-    right:0%;
-}
-
-.displayed_currency {
-    font-family: font_jackpot_balance;
-    color: #a90e05; /*Color taken from Fruit Machine LED dark-red digital display forground*/
-    font-size: 20px;
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 19px 4px / 17% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
     font-weight: bold;
-    text-align: center;
-    text-shadow: 0 -1px 3px #000;
+    line-height: 1px;
+    padding: 11px 23px 9px 34px;
+    width: auto;
 }
+
+.card_right img {
+  width: auto !important;
+}
+
+
+
+.card_left img, .card_right img {
+  width: auto !important; 
+   height: 17vh;
+}
+#card_ZZ img {
+  width: auto !important; 
+    height: 17vh;
+}
+#hand_panels_container
+{ left:0 !important;}
+}
+ 
+
+ 
+ 
+@media screen and ( max-height: 400px ) {
+#hedgeem_table_container img {
+	height: 15vw;
+	max-height: 15vh;
+}
+
+#status_icons_container {
+    float: left;
+    height: auto;
+    left: 9px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    z-index: 20;
+}
+
+.fb-invite {
+    background: url("/resources/backgrounds/fb.png") no-repeat scroll 0 0 / 74% auto rgba(0, 0, 0, 0);
+    float: none;
+    height: 34px;
+    margin-left: 13px;
+    padding-right: 16px;
+    padding-top: 0;
+    text-decoration: none;
+    width: 19px;
+}
+
+
+#twitter_container {
+    display: inline;
+    position: relative;
+    top: 1px;
+}
+
+
+#Logout {
+    bottom: 10px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 15px 3px / 18% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 8px 15px 9px 30px;
+    width: auto;
+}
+
+
+
+.payoutvalue{ font-size:3vh;}
+
+#status_icons_container img {
+	  height: 6vh;
+}
+.menu-btn, .menu-btn.highlight{ background-size:35%;}
+#btn_rules.online, #btn_play_for_real { background-size:contain; font-size:4vh}
+#btn_get_chips{font-size:4vh; padding:4px 27px 7px 14px;background-size:contain;}
+.pushy li a:hover #btn_get_chips {background-size:contain;}
+.pushy li a:hover #btn_rules.online{ background-size:contain;}
+
+#placed_bets {
+	width: 25vw;
+	font-size: 2vw;
+     display:none;
+}
+
+#btnDealTurn {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+#btnDealFlop {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+#btnDealRiver {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+#btnNextGame {
+	background-size: 100% 100%;
+	font-size: 3vh;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+}
+.hedgeem_seat_container {
+	background-size: 100% 100%;
+	height: 20vw;
+	max-height: 20vh;
+	max-width: 20vh;
+	padding: 0;
+	width: 20vw;
+	line-height: 20vh;
+}
+.hedgeem_seat_container .player_balance {
+	font-size: 3vh;
+}
+.payoutdescription {
+	font-size: 3vh;
+}
+}
+
+.cancel_bet_button {
+    background-image: url("/resources/buttons/btn_cancel_bet_62x24.png");
+    background-repeat: no-repeat;
+    background-size: 38% auto;
+    color: transparent;
+    position: absolute;
+    right: -19px;
+    top: 0;
+    z-index: 99;
+}
+
+#status_icons_container {
+    float: left;
+    height: auto;
+    left: 9px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    z-index: 20;
+}
+
+
+#twitter_container {
+    display: inline;
+    position: relative;
+    top: 1px;
+}
+
+
+#Logout {
+    bottom: 4px;
+    display: inline-block;
+    position: relative;
+    vertical-align: inherit;
+}
+
+#btnLogout {
+    background: url("/resources/buttons/exit.png") no-repeat scroll 19px 4px / 17% auto #652d1c;
+    border: 0 none;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 3vh;
+    font-weight: bold;
+    line-height: 1px;
+    padding: 11px 23px 9px 34px;
+    width: auto;
+}
+.menu-btn, .menu-btn.highlight{ background-size:35%;}
+
+ 
+#placed_bets {
+	width: 25vw;
+	font-size: 1.6vh;
+     display:none;
+}
+.hedgeem_seat_container {
+	background-size: 100% 100%;
+	height: 10vw;
+	padding: 0;
+	max-height: 10vh;
+	max-width: 10vh;
+	width: 10vw;
+	line-height: 10vh;
+}
+.hedgeem_seat_container .player_balance {
+	font-size: 1.6vh;
+}
+

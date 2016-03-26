@@ -975,9 +975,7 @@ public partial class frm_home_page : System.Web.UI.Page
             // it would be best to instantiate only once.
             hedgeem_control_card my_turn_card = new hedgeem_control_card();
             hedgeem_control_card my_river_card = new hedgeem_control_card();
-            hedgeem_control_jackpot my_control_jackpot = new hedgeem_control_jackpot();
-            my_control_jackpot.p_jackpot_balance = my_jackpot_fund;
-
+            
             // Note expect card as short string to be something like ac (ace of clubs), 6d (six of diamonds etc)
             // If ZZ us returned this implies the card is to be shown face down.
             p_flop_card1_as_short_string = _global_game_state_object.p_flop_card1_string;
@@ -1012,8 +1010,7 @@ public partial class frm_home_page : System.Web.UI.Page
             Place_Holder_Flop_Cards.Controls.Add(cc_flop_card3);
             Place_Holder_Turn_Cards.Controls.Add(my_turn_card);
             Place_Holder_River_Cards.Controls.Add(my_river_card);
-            Place_Holder_Table_Jackpot.Controls.Add(my_control_jackpot);
-
+            
 
             lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
 
@@ -1048,6 +1045,42 @@ public partial class frm_home_page : System.Web.UI.Page
         }
     }
     #endregion f_update_hedgeem_control_flop_cards_with_info_from_server
+
+
+
+    #region f_update_hedgeem_control_jackpot_with_info_from_server
+    /// <summary>
+    /// This method is used to get the values of all Flop Cards when 
+    /// someone click on Deal Buttons except Hole Button. Then save 
+    /// that value of Flop Card to Session.
+    /// Also get CSS value from session as described below. */
+    /// </summary>
+    private void f_update_hedgeem_control_jackpot_with_info_from_server()
+    {
+        try
+        {
+            log.Debug("f_update_hedgeem_control_jackpot_with_info_from_server called");
+
+            hedgeem_control_jackpot my_control_jackpot = new hedgeem_control_jackpot();
+            my_control_jackpot.p_jackpot_balance = my_jackpot_fund;
+
+            Place_Holder_Table_Jackpot.Controls.Add(my_control_jackpot);
+        }
+        catch (Exception ex)
+        {
+            string my_error_popup = "alert('" + ex.Message.ToString() + "');";
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeEmLogEvent my_log = new HedgeEmLogEvent();
+            my_log.p_message = "Exception caught in f_update_hedgeem_control_board_cards_with_info_from_server function " + ex.Message;
+            my_log.p_method_name = "f_update_hedgeem_control_board_cards_with_info_from_server";
+            my_log.p_player_id = f_get_player_id();
+            my_log.p_game_id = game_id;
+            my_log.p_table_id = _table_id;
+            log.Error(my_log.ToString());
+        }
+    }
+    #endregion f_update_hedgeem_control_jackpot_with_info_from_server
+
 
     private int f_get_number_of_seats()
     {
@@ -1854,6 +1887,7 @@ public partial class frm_home_page : System.Web.UI.Page
         f_update_hedgeem_control_hand_panels_with_info_from_server();
         f_update_hedgeem_control_board_cards_with_info_from_server();
         f_update_hedgeem_control_seat_with_info_from_server();
+        f_update_hedgeem_control_jackpot_with_info_from_server();
         f_update_hedgeem_control_betting_panels_with_info_from_server();
         f_update_hedgeem_control_bet_slider_with_info_from_server();
         f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets();

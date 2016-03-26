@@ -38,6 +38,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     hedgeem_control_card cc_flop_card3;
     hedgeem_control_card cc_turn_card;
     hedgeem_control_card cc_river_card;
+    hedgeem_control_jackpot my_control_jackpot;
     hedgeem_control_seats ss_seat;
     hedgeem_hand_panel[] _hedgeem_hand_panels;
     BETTING_PANEL[,] _hedgeem_betting_panels;
@@ -134,6 +135,16 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 f_set_theme();
                 
             }
+            /* This use to work but does not now as Header is null
+            String Theme = Session["theme"].ToString();
+            Page.Header.Controls.Add(new LiteralControl("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResolveUrl("/resources/css/" + Theme + "/hedgeem_table.css") + "\" />"));
+            Page.Header.Controls.Add(new LiteralControl("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResolveUrl("/resources/css/" + Theme + "/hedgeem_board_cards.css") + "\" />"));
+            Page.Header.Controls.Add(new LiteralControl("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResolveUrl("/resources/css/" + Theme + "/hedgeem_hand.css") + "\" />"));
+            Page.Header.Controls.Add(new LiteralControl("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResolveUrl("/resources/css/" + Theme + "/hedgeem_seat.css") + "\" />"));
+            Page.Header.Controls.Add(new LiteralControl("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResolveUrl("/resources/css/" + Theme + "/hedgeem_buttons.css") + "\" />"));
+            Page.Header.Controls.Add(new LiteralControl("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResolveUrl("/resources/css/" + Theme + "/hedgeem_betting_panels.css") + "\" />"));
+            Page.Header.Controls.Add(new LiteralControl("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + ResolveUrl("/resources/css/" + Theme + "/hedgeem_hidden_controls.css") + "\" />"));
+            */
         }
         catch (Exception ex)
         {
@@ -208,6 +219,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             my_log_event.p_message = "Unable to determine Session as no session variable for 'theme' - HARDCODING TO ONLINE THEME. ";
             log.Warn(my_log_event.ToString());
         }
+
+        
     }
 
     private enum_theme f_get_current_theme_as_enum()
@@ -430,10 +443,11 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                         //{
                         //    table_jackpot_container.Visible = true;
                         //}
-                        else
-                        {
-                            table_jackpot_container.Visible = false;
-                        }
+                        //else
+                        //{
+                        //    table_jackpot_container.Visible = false;
+                        //}
+                        table_jackpot_container.Visible = true;
                         ScriptManager sManager = ScriptManager.GetCurrent(this.Page);
                         //Get Image from Facebook if the user is logged in via facebook
                         string facebook_imageurl = "";
@@ -647,7 +661,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 throw new Exception(my_generic_ack.p_error_message);
             }
         }
-        Response.Redirect("frm_facebook_canvas.aspx?signout=true");
+        Response.Redirect("frm_website_home.aspx?signout=true");
 
         //log.Warn("This should call server leave table function");
     }
@@ -1269,8 +1283,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             // it would be best to instantiate only once.
             hedgeem_control_card my_turn_card = new hedgeem_control_card();
             hedgeem_control_card my_river_card = new hedgeem_control_card();
-            hedgeem_control_jackpot my_control_jackpot = new hedgeem_control_jackpot();
-            my_control_jackpot.p_jackpot_balance = my_jackpot_fund;
+             
 
             // Note expect card as short string to be something like ac (ace of clubs), 6d (six of diamonds etc)
             // If ZZ us returned this implies the card is to be shown face down.
@@ -1306,8 +1319,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             Place_Holder_Flop_Cards.Controls.Add(cc_flop_card3);
             Place_Holder_Turn_Cards.Controls.Add(my_turn_card);
             Place_Holder_River_Cards.Controls.Add(my_river_card);
-            Place_Holder_Table_Jackpot.Controls.Add(my_control_jackpot);
 
+
+           
 
             lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
 
@@ -2305,7 +2319,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     protected void btnLobby_Click(object sender, ImageClickEventArgs e)
     {
         Session["fb_hide_logout"] = "fb_hide_logout";
-        Response.Redirect("frm_facebook_canvas.aspx");
+        Response.Redirect("frm_website_home.aspx");
     }
 
     #region f_call_functions_to_render_screen
@@ -2350,6 +2364,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         f_update_hedgeem_control_hand_panels_with_info_from_server();
         f_update_hedgeem_control_board_cards_with_info_from_server();
         f_update_hedgeem_control_seat_with_info_from_server();
+        f_update_hedgeem_control_jackpot_with_info_from_server();
         f_update_hedgeem_control_betting_panels_with_info_from_server();
         f_update_hedgeem_control_bet_slider_with_info_from_server();
         f_update_hedgeem_control_hand_panels_with_info_from_server_previous_bets();
@@ -2357,6 +2372,41 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         f_update_game_id();
     }
     #endregion f_call_functions_to_render_screen
+
+
+    #region f_update_hedgeem_control_jackpot_with_info_from_server
+    /// <summary>
+    /// This method is used to get the values of all Flop Cards when 
+    /// someone click on Deal Buttons except Hole Button. Then save 
+    /// that value of Flop Card to Session.
+    /// Also get CSS value from session as described below. */
+    /// </summary>
+    private void f_update_hedgeem_control_jackpot_with_info_from_server()
+    {
+        try
+        {
+            log.Debug("f_update_hedgeem_control_jackpot_with_info_from_server called");
+
+            my_control_jackpot = new hedgeem_control_jackpot();
+            my_control_jackpot.p_jackpot_balance = _global_game_state_object.p_jackpot_value;
+
+            Place_Holder_Table_Jackpot.Controls.Add(my_control_jackpot);
+        }
+        catch (Exception ex)
+        {
+            string my_error_popup = "alert('" + ex.Message.ToString() + "');";
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            HedgeEmLogEvent my_log = new HedgeEmLogEvent();
+            my_log.p_message = "Exception caught in f_update_hedgeem_control_board_cards_with_info_from_server function " + ex.Message;
+            my_log.p_method_name = "f_update_hedgeem_control_board_cards_with_info_from_server";
+            my_log.p_player_id = 231522;
+            my_log.p_game_id = game_id;
+            my_log.p_table_id = 23232;
+            log.Error(my_log.ToString());
+        }
+    }
+    #endregion f_update_hedgeem_control_jackpot_with_info_from_server
+
 
     protected void btn_Get_Clicked_Player_Id_Click(object sender, EventArgs e)
     {
