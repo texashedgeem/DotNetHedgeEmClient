@@ -351,7 +351,7 @@ using HedgeEmClient;
                     my_payout_for_single_bet_str = "";
                 }
                 else
-                {
+                {/*
                     if (my_payout_for_single_bet > 0)
                     {
                         my_payout_for_single_bet += 1;
@@ -360,25 +360,32 @@ using HedgeEmClient;
                     {
                         my_payout_for_single_bet = my_payout_for_single_bet * -1;
                         my_payout_for_single_bet = 1 + (1 / my_payout_for_single_bet);
-                    }
+                    }*/
 
-                    // Only show two decimal places if needed (i.e. if hand is a favourite and you get let that
-                    // £1 payout for each £1 bet. 
-                    // Note my_payout_for_single_bet will have decimal places between 1 and 2 
-                    if (my_payout_for_single_bet > 1 && my_payout_for_single_bet < 2)
+                // Only show two decimal places if needed (i.e. if hand is a favourite and you get let that
+                // £1 payout for each £1 bet. 
+                // Note my_payout_for_single_bet will have decimal places between 1 and 2 
+                // string my_normalised_payout = (my_payout_for_single_bet / 1.000000000000000000000000).ToString();
+                //              my_payout_for_single_bet_str = String.Format("pays x {0}", my_normalised_payout);
+                string my_normalised_payout = my_payout_for_single_bet.ToString("0.##");
+                my_payout_for_single_bet_str = String.Format("pays x {0}", my_normalised_payout);
+
+                /*
+                if (my_payout_for_single_bet == (int)my_payout_for_single_bet)
                     {
-                        my_payout_for_single_bet_str = String.Format(" pays £{0:#0.00}", my_payout_for_single_bet);
+                        my_payout_for_single_bet_str = String.Format("pays x {0:#0}", my_payout_for_single_bet);
+
+                    } else {
+                        if (my_payout_for_single_bet == (int)my_payout_for_single_bet)
+                        {
+                            my_payout_for_single_bet_str = String.Format("pays x {0}", my_normalised_payout);
+                        }
                     }
-                    else
-                    {
-                        my_payout_for_single_bet_str = String.Format("pays £{0:#0}", my_payout_for_single_bet);
+                    */
 
-                    }
 
-                   
-
-                }
-                return my_payout_for_single_bet_str;
+            }
+            return my_payout_for_single_bet_str;
             }
         }
 
@@ -418,38 +425,63 @@ using HedgeEmClient;
             // Display Payout for single bet.
             double my_payout_for_single_bet = 0;
 
-            if (my_offered_odds > 0){
-                my_previous_bet_payout_if_wins = (my_bet_double * my_offered_odds) + my_bet_double;
-            }else{
-                my_payout_for_single_bet = my_offered_odds * -1;
-                my_payout_for_single_bet = 1 + (1 / my_payout_for_single_bet);
-                my_previous_bet_payout_if_wins = (my_bet_double * my_payout_for_single_bet) ;
-            }
+        /*
+        if (my_offered_odds > 0){
+            my_previous_bet_payout_if_wins = (my_bet_double * my_offered_odds) + my_bet_double;
+        }else{
+            my_payout_for_single_bet = my_offered_odds * -1;
+            my_payout_for_single_bet = 1 + (1 / my_payout_for_single_bet);
+            my_previous_bet_payout_if_wins = (my_bet_double * my_payout_for_single_bet) ;
+        }
+        */
+        if (my_offered_odds > 0)
+        {
+            my_previous_bet_payout_if_wins = (my_bet_double * my_offered_odds);
+        }
+        else
+        {
+            my_previous_bet_payout_if_wins = (my_bet_double * my_payout_for_single_bet);
+        }
 
-            // Now that we have calucalted payout, format text to nice human friendly presentation
-            string my_stage_str = f_get_stage_as_string(stage_index);
+        // Now that we have calucalted payout, format text to nice human friendly presentation
+        string my_stage_str = f_get_stage_as_string(stage_index);
 
-            // Calculate the payout for a single bet taking into consideration -ve odds implies favourite
+        // Calculate the payout for a single bet taking into consideration -ve odds implies favourite
+
+
+
+        // Only show two decimal places if needed (i.e. if hand is a favourite and you get let that
+        // £1 payout for each £1 bet. 
+        // Note my_payout_for_single_bet will have decimal places between 1 and 2 
+        /*
+        if (my_payout_for_single_bet > 1 && my_payout_for_single_bet < 2)
+        {
+            my_payout_for_single_bet_str = String.Format("£{0:#0.00}", my_previous_bet_payout_if_wins);
+        }
+        else
+        {
+            my_payout_for_single_bet_str = String.Format("£{0:#0}", my_previous_bet_payout_if_wins);
+
+        }*/
+
+        string my_normalised_payout = my_previous_bet_payout_if_wins.ToString("0.##");
+        my_payout_for_single_bet_str = String.Format("pays x {0}", my_normalised_payout);
+
+/*
+        if (my_previous_bet_payout_if_wins == (int)my_previous_bet_payout_if_wins)
+        {
+            my_payout_for_single_bet_str = String.Format("{0:#0}", my_previous_bet_payout_if_wins);
+        }
+        else
+        {
+            my_payout_for_single_bet_str = String.Format("{0:#0.00}", my_previous_bet_payout_if_wins);
             
-
-
-            // Only show two decimal places if needed (i.e. if hand is a favourite and you get let that
-            // £1 payout for each £1 bet. 
-            // Note my_payout_for_single_bet will have decimal places between 1 and 2 
-            if (my_payout_for_single_bet > 1 && my_payout_for_single_bet < 2)
-            {
-                my_payout_for_single_bet_str = String.Format("£{0:#0.00}", my_previous_bet_payout_if_wins);
-            }
-            else
-            {
-                my_payout_for_single_bet_str = String.Format("£{0:#0}", my_previous_bet_payout_if_wins);
-
-            }
+        }
+        */
 
 
 
-            
-            return my_payout_for_single_bet_str;
+        return my_payout_for_single_bet_str;
             
         }
 
@@ -601,13 +633,15 @@ using HedgeEmClient;
                         // If the hand is dead only show how much the player has bet not how much they could have won.
                         if (p_is_dead){
                             writer.WriteLine("<span class='lost_bet'>");
-                            writer.WriteLine(String.Format("{0}: £{1} bet", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
+                            //writer.WriteLine(String.Format("{0}: £{1} bet", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
+                            writer.WriteLine(String.Format("{0}: {1} bet", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
                             writer.WriteLine("</span>");
                         }
                         else
                         {
                             // The hand is still alive so display the bet and payout value
-                            writer.WriteLine(String.Format("{0} £{1} bet pays {2}", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
+                            //writer.WriteLine(String.Format("{0} £{1} bet pays {2}", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
+                            writer.WriteLine(String.Format("{0}: {1} x {2}", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
                             
                             // Give the player the opportunity to cancel current bets for any bets place on current stage (before next stage is dealt)
                             if (p_current_betting_stage == stage_index)

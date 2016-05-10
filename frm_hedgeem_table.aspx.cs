@@ -1722,6 +1722,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                     string payout_string;
                     string[] new_payout_string;
                     float new_payout_value = 0;
+
+                    /*  This code was removed by Simon 7th May 2016.  I think it used to support the old bet slider control that we no longer use
+                        I coommented it out as it broke the front end when I removed the £ symbol from the pay string 
                     if (_hedgeem_hand_panels[hand_index].p_payout_string == "")
                     {
                         new_payout_value = 0;
@@ -1735,6 +1738,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
                     // Gets value of pay out amount in session for all hands which will be used in place bet widget to show pay amount
                     Session["pays_amount_" + hand_index] = new_payout_value;
+                    */
+                    payout_string = "banana - is this consequence of above change";
+
                     enum_hand_in_play_status my_hand_status = p_inplay_status;
                     if (my_hand_status == enum_hand_in_play_status.IN_PLAY_DEAD)
                     {
@@ -2648,6 +2654,10 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     }
 
     // This function calculate the total winnings in the game.
+    /// <summary>
+    /// xxx THIS SHOULD NOT BE CALCULATED IN CLIENT - This value should come from the server.
+    /// </summary>
+    /// <returns></returns>
     private String f_calculate_winnings()
     {
         // Create a 'log event' object to audit execution
@@ -2709,26 +2719,17 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                             }
                             else
                             {
+                                // Determine how much was bet by a given player on a given hand at a given stage ...
                                 double my_bet_total = f_get_total_previous_bets_for_stage_and_hand_player((enum_betting_stage)stage_index, current_hand, Convert.ToInt32(Session["p_session_player_id"]));
 
-                                if (Math.Sign(my_hedgeem_hand_stage_info.p_odds_margin_rounded_double) == 1)
+                                // If the hand won (I.E. if the odds for this Stage and Hand == 1) calculate how much payout should be (odds * bet) for this hand/stage combination
+                                if (my_hedgeem_hand_stage_info.p_odds_margin_rounded_double > 1)
                                 {
-                                    my_winnings_from_this_bet = Convert.ToDouble(my_bet_total)
-                                                                 * my_hedgeem_hand_stage_info.p_odds_margin_rounded_double;
-                                }
-                                else
-                                {
-                                    if (my_hedgeem_hand_stage_info.p_odds_margin_rounded_double != 0)
-                                    {
-                                        my_winnings_from_this_bet = my_bet_total
-                                                                     / my_hedgeem_hand_stage_info.p_odds_margin_rounded_double;
-                                        my_winnings_from_this_bet = Math.Abs(my_winnings_from_this_bet);
-                                    }
+                                    my_winnings_from_this_bet = Convert.ToDouble(my_bet_total) * my_hedgeem_hand_stage_info.p_odds_margin_rounded_double;
                                 }
                                 if (my_bet_total != 0)
                                 {
-                                    double my_initial_bet_for_stage_hand = my_bet_total;
-                                    double my_total_winnings_for_stage_hand = my_winnings_from_this_bet + my_initial_bet_for_stage_hand;
+                                    double my_total_winnings_for_stage_hand = my_winnings_from_this_bet;
                                     my_total_winning = my_total_winning + my_total_winnings_for_stage_hand;
                                     /// xxx hack to not show message box on Online version
                                     my_winnings_for_each_stage_SB.AppendLine();
