@@ -465,7 +465,7 @@ using HedgeEmClient;
         }*/
 
         string my_normalised_payout = my_previous_bet_payout_if_wins.ToString("0.##");
-        my_payout_for_single_bet_str = String.Format("pays x {0}", my_normalised_payout);
+        my_payout_for_single_bet_str = String.Format("pays {0}", my_normalised_payout);
 
 /*
         if (my_previous_bet_payout_if_wins == (int)my_previous_bet_payout_if_wins)
@@ -641,7 +641,7 @@ using HedgeEmClient;
                         {
                             // The hand is still alive so display the bet and payout value
                             //writer.WriteLine(String.Format("{0} £{1} bet pays {2}", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
-                            writer.WriteLine(String.Format("{0}: {1} x {2}", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
+                            writer.WriteLine(String.Format("{0}: {1} bet {2}", my_stage_str, my_bet_double, my_previous_bet_payout_if_wins_str));
                             
                             // Give the player the opportunity to cancel current bets for any bets place on current stage (before next stage is dealt)
                             if (p_current_betting_stage == stage_index)
