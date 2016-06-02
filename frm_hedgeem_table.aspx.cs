@@ -838,6 +838,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             case "RETRO":
                 my_enum_theme = enum_theme.RETRO;
                 break;
+            case "LEO_VEGAS":
+                my_enum_theme = enum_theme.LEO_VEGAS;
+                break;
             case "WSOP":
                 my_enum_theme = enum_theme.WSOP;
                 break;
@@ -1153,6 +1156,92 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     }
     #endregion f_place_bet
 
+
+    #region f_place_bet_locally
+    //This function is used to Maintain Hand Panel Values when Bet is Placed on a Hand.
+    public void f_place_bet_locally()
+    {
+        HedgeEmLogEvent my_log = new HedgeEmLogEvent();
+        my_log.p_message = String.Format("Method called. Player [{0}], Table [{1}], Game [{2}]", Convert.ToInt32(Session["p_session_player_id"]), p_session_personal_table_id, game_id);
+        my_log.p_method_name = "frm_hedgeem_table.f_place_bet_locally()";
+        my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+        my_log.p_game_id = game_id;
+        my_log.p_table_id = p_session_personal_table_id;
+
+
+        
+        enum_betting_stage my_betting_stage = (enum_betting_stage)Session["sess_betting_stage_enum"];
+        double current_bet_value = -777;
+        double new_bet_value = -777;
+
+        log.Debug(my_log.ToString());
+        /* Get value of Selected_Hand_Panel for bet from textbox and save it in a variable */
+        try
+        {
+            // Get the hand_index from the hidden control
+            int handindexbet = Convert.ToInt32(btn_hidden_control_temp_store_for_hand_index.Value);
+            string my_bet_value = btn_hidden_control_to_place_bet.Text;
+            enum_betting_stage my_betting_stage_enum = (enum_betting_stage)Session["sess_betting_stage_enum"];
+            int xxx_hand_index = 0;
+            int xxx_player_index = 0;
+
+            // xxx Hack to intialise controls
+
+            int xxxHACK_num_hands = 4;
+            int xxxHACK_num_stages = 1;
+
+            hedgeem_hand_panel[] my_hedgeem_hand_panels = new hedgeem_hand_panel[xxxHACK_num_hands];
+
+            int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
+            int xxxHACK_num_seats = 1;
+
+            for (int hand_index = 0; hand_index < xxxHACK_num_hands; hand_index++)
+                {
+                    // call to get HedgeEmHandStageInfo for given hand index at given stage
+                    //HedgeEmHandStageInfo my_hedgeem_hand_stage_info = f_get_hand_stage_info_object_for_stage_and_hand(_global_game_state_object.p_current_state_enum, hand_index);
+
+                    // Create a new HedgeEm Control that will be used to record bets.
+                    my_hedgeem_hand_panels[hand_index] = new hedgeem_hand_panel(xxxHACK_num_stages, xxxHACK_num_seats);
+
+
+                // this is broken and HORRIBLE CODE - all I need is to store in session a array of players bets for current stage
+
+
+                current_bet_value = my_hedgeem_hand_panels[xxx_hand_index].p_players_bets[0, 0];
+                new_bet_value = current_bet_value + 1;
+                my_hedgeem_hand_panels[xxx_hand_index].p_players_bets[0, 0] = new_bet_value;
+                }
+
+
+
+
+                
+                //string my_bet_value = btn_hidden_control_to_place_bet.Text;
+            }
+        catch (Exception ex)
+        {
+            string my_error_popup = "Error in frm.hedgeem_table.cs.f_place_bet_locally" + ex.Message.ToString();
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_log = new HedgeEmLogEvent();
+            my_log.p_message = "Exception caught in f_place_bet_locally function " + ex.Message;
+            my_log.p_method_name = "f_place_bet_locally";
+            my_log.p_player_id = Convert.ToInt32(Session["p_session_player_id"]);
+            my_log.p_game_id = game_id;
+            my_log.p_table_id = p_session_personal_table_id;
+            log.Error(my_log.ToString());
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = my_error_popup;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+        }
+    }
+    #endregion f_place_bet_locally
+
+
     #region f_update_hedgeem_control_buttons_with_info_from_server
     private void f_update_hedgeem_control_buttons_with_info_from_server()
     {
@@ -1421,8 +1510,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             int my_number_of_seats = _global_game_state_object.p_number_of_seats_int;
 
 
-            // Only show the betting panels for CASINO, MOBILE or WSOP Styles
-            if (!(my_theme == enum_theme.CASINO || my_theme == enum_theme.MOBILE || my_theme == enum_theme.WSOP || my_theme == enum_theme.RETRO))
+            // Only show the betting panels for CASINO, MOBILE, LEO_VEGAS, or WSOP Styles
+            if (!(my_theme == enum_theme.CASINO || my_theme == enum_theme.MOBILE || my_theme == enum_theme.WSOP || my_theme == enum_theme.RETRO || my_theme == enum_theme.LEO_VEGAS))
             {
                 // Do not show the betting panels
                 // return;
@@ -2168,6 +2257,121 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
     }
     #endregion f_place_bet
 
+
+
+
+/// <summary>
+/// Implemented but not test- 27th  May 2016
+/// </summary>
+/// <param name="a_betting_stage"></param>
+/// <param name="a_hand_index"></param>
+/// <param name="a_amount"></param>
+/// <returns></returns>
+    #region f_place_bet
+    HedgeEmGameState f_place_multiple_bets_then_deal()
+    {
+        HedgeEmGameState my_hedgeem_game_state;
+        // Create a 'log event' object to audit execution
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_message = "Method Entered.";
+        my_log_event.p_player_id = p_session_player_id;
+        my_log_event.p_table_id = p_session_personal_table_id;
+        log.Debug(my_log_event.ToString());
+        my_log_event.p_game_id = game_id;
+
+        List<HedgeEmBet> my_bet_list = new List<HedgeEmBet>();
+        HedgeEmBet my_hedgeem_bet1 = new HedgeEmBet(1,enum_betting_stage.FLOP_BETS,0,0,333);
+        HedgeEmBet my_hedgeem_bet2 = new HedgeEmBet(1, enum_betting_stage.FLOP_BETS, 2, 0, 333);
+        my_bet_list.Add(my_hedgeem_bet1);
+        my_bet_list.Add(my_hedgeem_bet2);
+
+        my_hedgeem_bet1.p_table_id = p_session_personal_table_id;
+        my_hedgeem_bet1.p_player_id = p_session_player_id;
+
+        my_hedgeem_bet2.p_table_id = p_session_personal_table_id;
+        my_hedgeem_bet2.p_player_id = p_session_player_id;
+
+
+        // Create a new 'Bet Acknowledgement' object that will be used to Ackknowledge the success (ACK) or failure (NACK) of the placed bet.
+        DC_bet_acknowledgement my_ack = null;
+
+        try
+        {
+            // Log the entry to this method
+            //my_log_event.p_message = String.Format("f_place_bet called. Args Stage[{0}], Hand [{1}], Amount[{2}]", a_betting_stage.ToString(), a_hand_index, a_amount);
+            //log.Debug(my_log_event.p_message);
+            //string place_bet_endpoint = "code not written yet"
+            // Call the Hedge'Em Webservices (via helper function) to place the bet.
+            /*string place_bet_endpoint = String.Format("ws_place_bets_then_deal",
+                                                        p_session_personal_table_id.ToString(),
+                                                        a_hand_index.ToString(),
+                                                        a_amount.ToString(),
+                                                        a_betting_stage.ToString(),
+                                                        Convert.ToInt32(Session["p_session_player_id"]).ToString());*/
+            //my_ack = (DC_bet_acknowledgement)f_get_object_from_json_call_to_server(place_bet_endpoint, typeof(DC_bet_acknowledgement));
+
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(List<HedgeEmBet>));
+            MemoryStream mem = new MemoryStream();
+
+            // Serialse the HedgeEm Bets ready to pass to server
+            ser.WriteObject(mem, my_bet_list);
+            string data = Encoding.UTF8.GetString(mem.ToArray(), 0, (int)mem.Length);
+            WebClient webClient = new WebClient();
+            webClient.Headers["Content-type"] = "application/json";
+            webClient.Encoding = Encoding.UTF8;
+
+              
+
+            string my_service_url = WebConfigurationManager.AppSettings["hedgeem_server_default_webservice_url"];
+            webClient.UploadString(my_service_url + "ws_place_bets_then_deal", data);
+            // xxx two calls to server here when there should be one (i.e. the call above shoud return game state data
+            // Empties the value of textbox
+            my_hedgeem_game_state = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(HedgeEmGameState));
+            game_id = _global_game_state_object.p_game_id;
+            number_of_hands = _global_game_state_object.p_number_of_hands_int;
+            enum_betting_stage my_betting_stage = f_get_current_betting_stage();
+            _game_state = _global_game_state_object.p_current_state_enum;
+            _hedgeem_hand_panels = new hedgeem_hand_panel[number_of_hands];
+            _int_number_of_betting_stages = _global_game_state_object.p_number_of_betting_stages_int;
+            _hedgeem_betting_panels = new BETTING_PANEL[_int_number_of_betting_stages, number_of_hands];
+            lbl_game_id.Text = String.Format("Table/Game: {0}/{1} ", _global_game_state_object.p_table_id, game_id);
+            // Method which calls the functions to render the screen.
+            f_call_functions_to_render_screen();
+
+
+            // Return the Acknowledgement message to the caller to indicate success or failure.
+            return my_hedgeem_game_state;
+        }
+        catch (Exception e)
+        {
+            string strScript = "Unable to place bet. Reason..." + e.Message.ToString();
+            // ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", strScript, true);
+            HedgeemerrorPopup my_popup_message = new HedgeemerrorPopup();
+            my_popup_message.p_detailed_message_str = "";
+            my_popup_message.p_is_visible = false;
+
+            //ClientScript.RegisterClientScriptBlock(this.GetType(), "Alert", my_error_popup, true);
+            my_popup_message.p_detailed_message_str = strScript;
+            my_popup_message.p_is_visible = true;
+            Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+            my_log_event.p_message = "Exception caught in f_place_bet function " + e.Message;
+
+            log.Error(my_log_event.ToString());
+            my_hedgeem_game_state = new HedgeEmGameState();
+            my_hedgeem_game_state.p_error_message = my_log_event.p_message;
+            return my_hedgeem_game_state;
+        }
+    }
+    #endregion f_place_bet
+
+
+
+
+
+
+
+
     #region Get_Bet_Value
     // This function is used to get value of clicked hand
     protected void btn_Get_Clicked_Hand_Value_Click(object sender, EventArgs e)
@@ -2184,8 +2388,17 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         try
         {
             log.Debug("f_place_bet is called in btn_Get_Clicked_Hand_Value_Click ");
-            // calls place bet function
-            f_place_bet();
+
+            // Place a bet locally or via call to server - currently hardcoded to call locally
+            bool place_bets_locally = false;
+            if (place_bets_locally) {
+                f_place_bet_locally();
+            }
+            else { 
+                f_place_bet();
+            }
+
+
             log.Debug("f_call_function_to_render_screen is called in btn_Get_Clicked_Hand_Value_Click");
 
             _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(HedgeEmGameState));
@@ -2394,7 +2607,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             log.Debug("f_update_hedgeem_control_jackpot_with_info_from_server called");
 
             my_control_jackpot = new hedgeem_control_jackpot();
-            my_control_jackpot.p_jackpot_balance = _global_game_state_object.p_jackpot_value;
+            my_control_jackpot.p_jackpot_balance = Math.Round(_global_game_state_object.p_jackpot_value,2);
 
             Place_Holder_Table_Jackpot.Controls.Add(my_control_jackpot);
         }
@@ -3244,11 +3457,14 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             }
             else
             {
-               
+
 
 
                 // call to webservice to get next state object
-                _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + p_session_personal_table_id + "," + Convert.ToInt32(Session["p_session_player_id"]), typeof(HedgeEmGameState));
+                //_global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + p_session_personal_table_id + "," + Convert.ToInt32(Session["p_session_player_id"]), typeof(HedgeEmGameState));
+                _global_game_state_object = f_place_multiple_bets_then_deal();
+
+
                 string stage = _global_game_state_object.p_current_state_enum.ToString();
                 
                 game_id = _global_game_state_object.p_game_id;
