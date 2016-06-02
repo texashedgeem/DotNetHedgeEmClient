@@ -514,6 +514,10 @@
                             OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Online'" CssClass="play_now_enabled btn btn-success" />
                         <asp:Button ID="btn_play_casino" Enabled="true" runat="server" OnClick="btn_anon_casino_Click"
                             OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'Casino'" CssClass="play_now_enabled btn btn-success" />
+                        <asp:Button ID="btn_play_leo_vegas" Enabled="true" runat="server" OnClick="btn_anon_leo_vegas_Click"
+                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="Play 'LeoVegas'" CssClass="play_now_enabled btn btn-success" />
+                        <asp:Button ID="Button1" Enabled="true" runat="server" OnClick="btn_anon_gameplay_status_Click"
+                            OnClientClick="javascript: play_multi_sound('sound_deal');" Text="View 'Gameplay Status'" CssClass="play_now_enabled btn btn-success" />
                     </div>
                     <!-- Login Button -->
                     <div class="btn-group pull-right login" id="divLogin" runat="server" onclick="show_login();">

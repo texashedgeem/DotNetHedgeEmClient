@@ -67,6 +67,7 @@ public partial class frm_website_home : System.Web.UI.Page
         try
         {
 
+            /* Uncomment if you want to redirect to apple store.
             string strUserAgent = Request.UserAgent.ToString().ToLower();
             bool MobileDevice = Request.Browser.IsMobileDevice;
             if (Request.Cookies["MobileDevice"] != null)
@@ -83,7 +84,7 @@ public partial class frm_website_home : System.Web.UI.Page
                         Response.Redirect("https://itunes.apple.com/gb/app/texas-hedgeem/id1018941577?mt=8");
                     }
                 }
-            }
+            }*/
 
 
             //Read more: http://www.thecodingguys.net/blog/asp-net-mobile-detection#ixzz3qoYVKpHs
@@ -1091,6 +1092,71 @@ public partial class frm_website_home : System.Web.UI.Page
     }
 
     /// <summary>
+    /// WARNING OF DUPLICACTE CODE - See btn_anon_casino_Click, btn_anon_online_Click, btn_anon_leo_vegas_Click, and btn_anon_retro_Click
+    /// only difference is theme selected
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_anon_gameplay_status_Click(object sender, EventArgs e)
+    {
+
+        // Log that the user has clicked the 'Play now' button.
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_table_id = p_session_personal_table_id;
+        my_log_event.p_server_id = p_session_server_id;
+        my_log_event.p_message = String.Format("User [{0}] clicked 'Play gameplay_status Anonymously", p_session_username);
+        log.Info(my_log_event.ToString());
+        Session["theme"] = enum_theme.GAMEPLAY_STATUS.ToString();
+
+        try
+        {
+            f_play_anon(enum_theme.GAMEPLAY_STATUS);
+        }
+        catch (Exception ex)
+        {
+            my_log_event.p_message = String.Format("Error user try to play Anonymously using GAMEPLAY_STATUS Theme.  Reason [{0}]", ex.Message);
+            log.Error(my_log_event.ToString());
+            // Cant throw a exception here
+            //throw new Exception(my_log_event.ToString());
+
+        }
+    }
+
+
+    /// <summary>
+    /// WARNING OF DUPLICACTE CODE - See btn_anon_casino_Click, btn_anon_online_Click, btn_anon_leo_vegas_Click, and btn_anon_retro_Click
+    /// only difference is theme selected
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_anon_leo_vegas_Click(object sender, EventArgs e)
+    {
+
+        // Log that the user has clicked the 'Play now' button.
+        HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
+        my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
+        my_log_event.p_table_id = p_session_personal_table_id;
+        my_log_event.p_server_id = p_session_server_id;
+        my_log_event.p_message = String.Format("User [{0}] clicked 'Play LeoVegas Anonymously", p_session_username);
+        log.Info(my_log_event.ToString());
+        Session["theme"] = enum_theme.LEO_VEGAS.ToString();
+
+        try
+        {
+            f_play_anon(enum_theme.LEO_VEGAS);
+        }
+        catch (Exception ex)
+        {
+            my_log_event.p_message = String.Format("Error user try to play Anonymously using LEO_VEGAS Theme.  Reason [{0}]", ex.Message);
+            log.Error(my_log_event.ToString());
+            // Cant throw a exception here
+            //throw new Exception(my_log_event.ToString());
+
+        }
+    }
+
+    /// <summary>
     /// WARNING OF DUPLICACTE CODE - See btn_anon_casino_Click, btn_anon_online_Click, and btn_anon_retro_Click
     /// only difference is theme selected
     /// </summary>
@@ -1230,8 +1296,13 @@ public partial class frm_website_home : System.Web.UI.Page
         Session["theme"] = a_enum_theme.ToString();
         Session["role"] = "BASIC_USER";
 
+        if (a_enum_theme == enum_theme.GAMEPLAY_STATUS)
+        {
+            Response.Redirect("frm_hedgeem_odds.aspx?cards=kdahqd2cks3cjdjc6h4h3h2s2h", false);
+        }
+        else { 
             f_goto_table(my_game_state.p_table_id);
-
+        }
         // If code reaches here we asssume Table ID and PlayerID is known so sit the person at this table
 
 
@@ -2261,7 +2332,7 @@ public partial class frm_website_home : System.Web.UI.Page
         // should get enum from client enums but game mode is not visible for some reason
         // Simon 23 Dec 2015
         string xxx_my_enum_game_mode = "AUTO";
-        if (a_enum_theme == enum_theme.RETRO)
+        if (a_enum_theme == enum_theme.RETRO || a_enum_theme == enum_theme.LEO_VEGAS)
         {
             xxx_my_enum_game_mode = "FASTPLAY_FLOP";
         }
