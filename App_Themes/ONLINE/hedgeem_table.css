@@ -211,20 +211,7 @@ li.ext {
  padding: 0px;
  z-index: 50; /*                  background-color: yellow;     */
 }
-#table_jackpot_container {
-	background: url(/resources/backgrounds/jackpot_container_background_1.png);
-	background-size: 100% 100%;
-	width: 15%;
-	height: 10%;
-	float: left;
-	background-repeat: no-repeat;
-	top: 1%;
-	left: 1%;
-	margin: 0% 0% 0% 0%;
-	position: absolute;
-	padding: 0px;
-	z-index: 50; /*          background-color:darkblue;     background-color:darkblue;          */
-}
+
 #btn_rules.online, #btn_get_chips, #btn_cashier {
 	text-align: center;/* top: 68px;
     width: 30.7% !important;*/
@@ -1628,19 +1615,34 @@ height:17vh;
 ::i-block-chrome,.card_middle_turn, ::i-block-chrome,.card_middle_river, ::i-block-chrome,.card_right_flop, ::i-block-chrome,.card_left_flop { margin-top:14%;}
 }
 
+#table_jackpot_container {
+	background: url(/resources/backgrounds/jackpot_container_background_1.png);
+	background-size: 100% 100%;
+	width: 15%;
+	height: 15%;
+	float: left;
+	background-repeat: no-repeat;
+	top: 2%;
+	left: 1%;
+	margin: 0% 0% 0% 0%;
+	position: absolute;
+	padding: 0px;
+	z-index: 50; 
+    /*  background-color:darkblue;     background-color:darkblue;          */
+}
 
 #hedgeem_jackpot{
     z-index:1999;
     position: absolute;
     float:left;
-    top: 20%;
-    left:0%;
+    top: 40%;
+    right:20%;
 }
 
 #jackpot_balance{
     z-index:1999;
     position: absolute;
     float:left;
-    top: 20%;
-    left:0%;
+    top: 30%;
+    left:20%;
 }
