@@ -125,10 +125,33 @@ using System.Runtime.InteropServices;
             writer.WriteLine("");
             writer.WriteLine("</div>");
             writer.WriteLine("");
-           base.RenderContents(writer);
-           writer.Indent -= 1;
-        }
-        protected override HtmlTextWriterTag TagKey
+            base.RenderContents(writer);
+            writer.Indent -= 1;
+
+        // unfinished development - remove block commenting to see what it does
+        /*
+            // See http://css3.bradshawenterprises.com/flip/
+            writer.Indent += 1;
+            writer.WriteLine("");
+            writer.WriteLine("<!-- Hidden facedown card to support card flipping animation through css -->");
+            writer.WriteLine(String.Format("<div class='back face center'>"));
+        writer.WriteLine(String.Format("<div id='card_{0}' class='{1}'>", p_card_as_short_string, p_cssclass));
+        writer.Indent += 1;
+        writer.AddAttribute(HtmlTextWriterAttribute.Src, my_card_image_filename);
+        writer.RenderBeginTag(HtmlTextWriterTag.Img);
+        writer.RenderEndTag();
+        writer.Indent -= 1;
+        writer.WriteLine("");
+        writer.WriteLine("</div>");
+            writer.WriteLine("");
+            writer.WriteLine("</div>");
+            writer.WriteLine("");
+            base.RenderContents(writer);
+            writer.Indent -= 1;
+        */
+
+    }
+    protected override HtmlTextWriterTag TagKey
         {
             get
             {
