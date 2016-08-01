@@ -723,6 +723,7 @@ public partial class frm_website_home : System.Web.UI.Page
     /// <returns></returns>
     public static object f_get_object_from_json_call_to_server(string endpoint, Type typeIn)
     {
+        int xxx_HC_server_request_timeout_seconds = 5;
         HedgeEmLogEvent my_log_event = new HedgeEmLogEvent();
         my_log_event.p_message = String.Format("Method called with endpoint [{0}]", endpoint); ;
         my_log_event.p_method_name = System.Reflection.MethodBase.GetCurrentMethod().ToString();
@@ -750,6 +751,13 @@ public partial class frm_website_home : System.Web.UI.Page
             //request = WebRequest.Create(my_service_url + endpoint) as HttpWebRequest;
             request = WebRequest.Create(endpoint) as HttpWebRequest;
 
+            my_log_event.p_message = String.Format("The timeout time of the request before setting the property is  {0} seconds.", xxx_HC_server_request_timeout_seconds);
+            log.Debug(my_log_event.ToString());
+            // Set the  'Timeout' property of the HttpWebRequest 
+            // This was written by Simon Aug 2016 to avoid having to wait the default 100 seconds before a timeout occurs
+            // The code can probably be written much better. 
+
+            request.Timeout = xxx_HC_server_request_timeout_seconds * 1000;
 
             // Get response
             if (request != null)
@@ -798,40 +806,57 @@ public partial class frm_website_home : System.Web.UI.Page
         catch (System.Net.WebException webex)
         {
             HttpWebResponse my_error_response = webex.Response as HttpWebResponse;
-            switch (my_error_response.StatusCode)
+            // xxx The first part of this 'if' block was written by Simon Aug 2016 to highlight web errors that result from trying to connect to a server that is not running.  
+            // The code can probably be written much better. 
+            if (my_error_response == null)
             {
-                case HttpStatusCode.BadRequest:
-                    my_log_event.p_message = String.Format(
-                       "Error (Web Exception: BadRequest). Endpoint URI probably badly formed ...\nEndpoint [{0}], Status Code [{1}]",
-                              endpoint,
-                               my_error_response.StatusCode
-                              );
-                    break;
+                my_log_event.p_message = String.Format(
+                           "Error (Web Exception with no response) This *may* indicate HedgeEm server is not reachable or is very slow (timing out after [{0}] seconds. Endpoint URI [{1}], Webex message [{2}]",
+                                  xxx_HC_server_request_timeout_seconds,
+                                  endpoint,
+                                   webex.Message
+                                  );
 
-                case HttpStatusCode.NotFound:
-                    my_log_event.p_message = String.Format(
-                       "Error (Web Exception: NotFound). Endpoint URI not found; Endpoint [{0}], Status Code [{1}]",
-                              endpoint,
-                               my_error_response.StatusCode
-                              );
-                    break;
-
-
-                case HttpStatusCode.InternalServerError:
-                    my_log_event.p_message = String.Format(
-                       "Error (Web Exception: InternalServerError). It looks like the HedgeEm Webservice is down, try pasting this Endpoint into a browser to see if this is the case; Endpoint [{0}], Status Code [{1}]",
-                              endpoint,
-                               my_error_response.StatusCode
-                              );
-                    break;
-
-                default: my_log_event.p_message = String.Format(
-                       "Error unexpected status code (Web Exception of type Status Code [{0}] for Endpoint [{1}], ",
-                              my_error_response.StatusCode,
-                              endpoint
-                              );
-                    break;
             }
+            else
+            {
+
+                switch (my_error_response.StatusCode)
+                {
+                    case HttpStatusCode.BadRequest:
+                        my_log_event.p_message = String.Format(
+                           "Error (Web Exception: BadRequest). Endpoint URI probably badly formed ...\nEndpoint [{0}], Status Code [{1}]",
+                                  endpoint,
+                                   my_error_response.StatusCode
+                                  );
+                        break;
+
+                    case HttpStatusCode.NotFound:
+                        my_log_event.p_message = String.Format(
+                           "Error (Web Exception: NotFound). Endpoint URI not found; Endpoint [{0}], Status Code [{1}]",
+                                  endpoint,
+                                   my_error_response.StatusCode
+                                  );
+                        break;
+
+
+                    case HttpStatusCode.InternalServerError:
+                        my_log_event.p_message = String.Format(
+                           "Error (Web Exception: InternalServerError). It looks like the HedgeEm Webservice is down, try pasting this Endpoint into a browser to see if this is the case; Endpoint [{0}], Status Code [{1}]",
+                                  endpoint,
+                                   my_error_response.StatusCode
+                                  );
+                        break;
+
+                    default: my_log_event.p_message = String.Format(
+                      "Error unexpected status code (Web Exception of type Status Code [{0}] for Endpoint [{1}], ",
+                             my_error_response.StatusCode,
+                             endpoint
+                             );
+                        break;
+                }
+            }
+
 
 
             throw new Exception(my_log_event.ToString());
