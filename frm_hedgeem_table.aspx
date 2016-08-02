@@ -372,7 +372,21 @@ $(".menu-btn").click(function() {
                                 <asp:HiddenField ID="hdn_table_id" runat="server" />
                                 <asp:Button ID="btn_get_chips_add" runat="server" Text="btn_get_chips_add" OnClick="btn_get_chips_add_Click"
                                     value="btn_get_chips_add.value: Not set yet" />
+                                <!-- This four hidden controls exist to enable placing multiple bets when the deal button is clicked-->
+                                <input type="text" id="txt_hidden_control_game_state_value" text=""
+                                    value="" runat="server" /> 
+                                
                             </div>
+                                <input type="text" id="txt_hidden_control_hand0_bet_value" text="" visible ="false"
+                                    value="1" runat="server" /> 
+                                <input type="text" id="txt_hidden_control_hand1_bet_value" text="" visible ="false"
+                                    value="1" runat="server" /> 
+                                <input type="text" id="txt_hidden_control_hand2_bet_value" text="" visible ="false"
+                                    value="1" runat="server" /> 
+                                <input type="text" id="txt_hidden_control_hand3_bet_value" text="" visible ="false"
+                                    value="1" runat="server" /> 
+
+
                             <!-- plaece again-->
                             <!-- buttons panel-->
                             <div class="buttons_panel">
