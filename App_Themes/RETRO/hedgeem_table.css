@@ -21,111 +21,37 @@ There are Three 'wrapper' classes used to display the Hedgeem Table.  In order o
     See also: #wrapper and .hedgeem_table_container
 */
 body {
-	/*        overflow-y:hidden;
-overflow-x:hidden;
-background-repeat: repeat;
-    background: url(/resources/backgrounds/watermark_2.png);*/
-	background: url("/resources/backgrounds/bgonline.jpg") !important;
-	background-size: cover !important;
-	margin-top: 0;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	overflow: hidden !important;
 }
-.body {
-	width: 60%;
-	margin: 8px auto;
-}
-#UpdatePanel1 {
-	background-repeat: repeat;
-	height: 100%;
-	left: 0;
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: 0;      
-	background:none;
-}
-#wrapper {
-	position: relative;
-	margin: auto;
-	padding: 0%;
-	height: 100%;
-}
-.topbar_fixed{
-	
-	/*background: url("/resources/backgrounds/topline_bg.jpg") repeat-x scroll center top;
-    bottom: 0;
-  	box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: 2px 0 2px rgba(0, 0, 0, 0.5);
-    height: 5vh;
-    left: 0;
-    max-height: 100vh !important;
-    max-width: 214vh !important;
-	text-align:right;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100vw;
-    z-index: 1;*/
 
-	}
-	
-  
+.body {
+	margin: 0px;
+}
+
+#UpdatePanel1 {
+}
+
+#wrapper {
+}
+
+.topbar_fixed{
+}
+	  
 #container {
-	
-	width: 100vw;
-	height: 67vw;
-	/* 100/56.25 = 1.778 */
-	//background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
-	max-height: 100vh !important;
-	max-width: 214vh !important;
-	/* 4/3 = 1.778 */
-	
-	margin: auto;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	/* vertical center */
-	left: 0;
-	right: 0;/* horizontal center */
-	z-index:1;
-	
-	
 }
 
 
 #hedgeem_table_container {
 
-/*background: url("/resources/backgrounds/poker_table.png") no-repeat; background-size:cover; background-position: top center; 
-position: relative;
-margin: 0px;
-padding: 0px;
-height:95%;
-margin-top: 0px;
-
-width:60%;
-margin:0 auto;*/
-
-
-	width: 100vw;
-	height: 56vw;
-	/* 100/56.25 = 1.778 */
-	
-	max-height: 100vh !important;
-	max-width: 133vh !important;
-	/* 4/3 = 1.778 */
 	margin: auto;
 	position: absolute;
-	top: 0;
-	bottom: 0;
+    float: left;
+	top: 0px;
+	bottom: 0px;
 	/* vertical center */
-	left: 0;
-	right: 0;/* horizontal center */
-    width: 800px;
-    height:600px;
+	left: 0px;
+	right: 0px;/* horizontal center */
+    width: 1000px;
+    height:750px;
     background: url(/resources/backgrounds/HedgeEmTableComposite_Retro_800x600.png) no-repeat; background-size:100% 100%; background-position: top center; 
 	
 
@@ -175,6 +101,7 @@ li.ext {
     display:none;
 }
 #table_jackpot_container {
+    /*
 	width: 15%;
 	height: 10%;
 	float: left;
@@ -184,7 +111,8 @@ li.ext {
 	margin: 0% 0% 0% 0%;
 	position: absolute;
 	padding: 0px;
-	z-index: 50; /*          background-color:darkblue;     background-color:darkblue;          */
+	z-index: 50;*/
+     /*          background-color:darkblue;     background-color:darkblue;          */
 }
 #btn_rules.online, #btn_get_chips {
 	text-align: center;/* top: 68px;
@@ -333,29 +261,6 @@ fb_iframe_widget
 	margin: 33px 0 0 !important;
 	padding: 16px 1px 16px 2px !important;
 	width: 58%;
-}
-.panel3grid {
-	height: 300px;
-	width: 900px;
-	border-collapse: collapse;
-	margin: 4px 0 0 3px;
-	font-size: 11px;
-	font-weight: normal;
-}
-.panel3grid_dgv_table_list {
-	background: none repeat scroll 0 0 #eee;
-	border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	color: #000;
-	float: left;
-	font-size: 90%;
-	margin: 1% 0 0;
-	padding: 5px;
-	position: relative;
-	top: 0;
-	width: 80%;
-	z-index: 30;
 }
 .txtmode {
 	height: 300px;
@@ -521,33 +426,7 @@ fb_iframe_widget
 .play_for_real_deposit_pledge {
 	font-weight: bold;
 }
-#hedgeem_bet_slider1 {
-	background-color: #1D1D1D;
-	display: none;
-	left: 7%;
-	overflow: auto;
-	position: absolute;
-	top: 50%;
-	float: left;
-	margin: 0 12%;
-	padding: 10px;
-	width: 28%;
-	z-index: 1002;
-	text-align: center;
-	height: 9%;
-	border-radius: 15px;
-	border: 1px solid #000;
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-#hedgeem_bet_slider1 p {
-	padding: 0;
-	margin-top: 0;
-}
-#hedgeem_bet_slider2 p {
-	padding: 0;
-	margin-top: 0;
-}
+
 #follow-button.btn i {
 	background: none !important;
 }
