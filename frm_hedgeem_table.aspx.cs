@@ -1186,6 +1186,8 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 my_bet_value = Convert.ToInt32(txt_hidden_control_hand0_bet_value.Value);
                 my_bet_value++;
                 txt_hidden_control_hand0_bet_value.Value = my_bet_value.ToString();
+                //HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, handindexbet, 1);
+                //_global_game_state_object.f_record_bet(my_local_hedgeem_bet);
             }
 
             if (handindexbet == 1)
@@ -1193,8 +1195,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 my_bet_value = Convert.ToInt32(txt_hidden_control_hand1_bet_value.Value);
                 my_bet_value++;
                 txt_hidden_control_hand1_bet_value.Value = my_bet_value.ToString();
-                txt_hidden_control_hand1_bet_value.Value = my_bet_value.ToString();
-                
+                //HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, handindexbet, 1);
+                //_global_game_state_object.f_record_bet(my_local_hedgeem_bet);
+
 
             }
 
@@ -1203,6 +1206,9 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 my_bet_value = Convert.ToInt32(txt_hidden_control_hand2_bet_value.Value);
                 my_bet_value++;
                 txt_hidden_control_hand2_bet_value.Value = my_bet_value.ToString();
+                //txt_hidden_control_hand2_bet_value.Value = my_bet_value.ToString();
+                //HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, handindexbet, 1);
+                //_global_game_state_object.f_record_bet(my_local_hedgeem_bet);
             }
 
             if (handindexbet == 3)
@@ -1210,8 +1216,37 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
                 my_bet_value = Convert.ToInt32(txt_hidden_control_hand3_bet_value.Value);
                 my_bet_value++;
                 txt_hidden_control_hand3_bet_value.Value = my_bet_value.ToString();
+                //HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, handindexbet, 1);
+                //_global_game_state_object.f_record_bet(my_local_hedgeem_bet);
             }
-                        
+
+            // Record all bets from all hand includeing previous bets in to state object so HandPanels can be displayed correctly
+            my_bet_value = Convert.ToInt32(txt_hidden_control_hand0_bet_value.Value);
+            if (my_bet_value > 0)
+            {
+                HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, 0, my_bet_value);
+                _global_game_state_object.f_record_bet(my_local_hedgeem_bet);
+            }
+            
+            my_bet_value = Convert.ToInt32(txt_hidden_control_hand1_bet_value.Value);
+            if (my_bet_value > 0)
+            {
+                HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, 1, my_bet_value);
+                _global_game_state_object.f_record_bet(my_local_hedgeem_bet);
+            }
+
+            my_bet_value = Convert.ToInt32(txt_hidden_control_hand2_bet_value.Value);
+            if (my_bet_value > 0)
+            {
+                HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, 2, my_bet_value);
+                _global_game_state_object.f_record_bet(my_local_hedgeem_bet);
+            }
+            my_bet_value = Convert.ToInt32(txt_hidden_control_hand3_bet_value.Value);
+            if (my_bet_value > 0)
+            {
+                HedgeEmBet my_local_hedgeem_bet = new HedgeEmBet(p_session_player_id, f_get_current_betting_stage(), p_session_current_seat_id, 3, my_bet_value);
+                _global_game_state_object.f_record_bet(my_local_hedgeem_bet);
+            }
         }
         catch (Exception ex)
         {
@@ -1232,6 +1267,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             my_popup_message.p_detailed_message_str = my_error_popup;
             my_popup_message.p_is_visible = true;
             Place_Holder_Popup_Message.Controls.Add(my_popup_message);
+            // xxx Warning this exception is not shown
         }
     }
     #endregion f_place_bet_locally
@@ -2256,7 +2292,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
 
 
 /// <summary>
-/// Implemented but not test- 27th  May 2016
+/// Implemented but not test- 8th Aug 2016
 /// </summary>
 /// <param name="a_betting_stage"></param>
 /// <param name="a_hand_index"></param>
@@ -2280,42 +2316,43 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         HedgeEmBet my_hedgeem_bet2 = null;
         HedgeEmBet my_hedgeem_bet3 = null;
 
+        enum_betting_stage my_current_enum_betting_stage = f_get_current_betting_stage();
         List<HedgeEmBet> my_bet_list = new List<HedgeEmBet>();
         if (Convert.ToInt16(txt_hidden_control_hand0_bet_value.Value) > 0)
         {
-            my_hedgeem_bet0 = new HedgeEmBet(1, enum_betting_stage.FLOP_BETS, 0, 0, Convert.ToInt16(txt_hidden_control_hand0_bet_value.Value));
+            my_hedgeem_bet0 = new HedgeEmBet(1, my_current_enum_betting_stage, 0, 0, Convert.ToInt16(txt_hidden_control_hand0_bet_value.Value));
+            my_hedgeem_bet0.p_table_id = p_session_personal_table_id;
+            my_hedgeem_bet0.p_player_id = p_session_player_id;
             my_bet_list.Add(my_hedgeem_bet0);
         }
 
-        if (Convert.ToInt16(txt_hidden_control_hand0_bet_value.Value) > 0)
+        if (Convert.ToInt16(txt_hidden_control_hand1_bet_value.Value) > 0)
         {
-            my_hedgeem_bet1 = new HedgeEmBet(1, enum_betting_stage.FLOP_BETS, 0, 1, Convert.ToInt16(txt_hidden_control_hand1_bet_value.Value));
+            my_hedgeem_bet1 = new HedgeEmBet(1, my_current_enum_betting_stage, 0, 1, Convert.ToInt16(txt_hidden_control_hand1_bet_value.Value));
+            my_hedgeem_bet1.p_table_id = p_session_personal_table_id;
+            my_hedgeem_bet1.p_player_id = p_session_player_id;
             my_bet_list.Add(my_hedgeem_bet1);
         }
 
-        if (Convert.ToInt16(txt_hidden_control_hand0_bet_value.Value) > 0)
+        if (Convert.ToInt16(txt_hidden_control_hand2_bet_value.Value) > 0)
         {
-            my_hedgeem_bet2 = new HedgeEmBet(1, enum_betting_stage.FLOP_BETS, 0, 2, Convert.ToInt16(txt_hidden_control_hand2_bet_value.Value));
+            my_hedgeem_bet2 = new HedgeEmBet(1, my_current_enum_betting_stage, 0, 2, Convert.ToInt16(txt_hidden_control_hand2_bet_value.Value));
+            my_hedgeem_bet2.p_table_id = p_session_personal_table_id;
+            my_hedgeem_bet2.p_player_id = p_session_player_id;
             my_bet_list.Add(my_hedgeem_bet2);
         }
 
-        if (Convert.ToInt16(txt_hidden_control_hand0_bet_value.Value) > 0)
+        if (Convert.ToInt16(txt_hidden_control_hand3_bet_value.Value) > 0)
         {
-            my_hedgeem_bet3 = new HedgeEmBet(1, enum_betting_stage.FLOP_BETS, 0, 3, Convert.ToInt16(txt_hidden_control_hand3_bet_value.Value));
+            my_hedgeem_bet3 = new HedgeEmBet(1, my_current_enum_betting_stage, 0, 3, Convert.ToInt16(txt_hidden_control_hand3_bet_value.Value));
+            my_hedgeem_bet3.p_table_id = p_session_personal_table_id;
+            my_hedgeem_bet3.p_player_id = p_session_player_id;
             my_bet_list.Add(my_hedgeem_bet3);
         }
 
-        my_hedgeem_bet0.p_table_id = p_session_personal_table_id;
-        my_hedgeem_bet0.p_player_id = p_session_player_id;
+        
 
-        my_hedgeem_bet1.p_table_id = p_session_personal_table_id;
-        my_hedgeem_bet1.p_player_id = p_session_player_id;
 
-        my_hedgeem_bet2.p_table_id = p_session_personal_table_id;
-        my_hedgeem_bet2.p_player_id = p_session_player_id;
-
-        my_hedgeem_bet3.p_table_id = p_session_personal_table_id;
-        my_hedgeem_bet3.p_player_id = p_session_player_id;
 
 
         // Create a new 'Bet Acknowledgement' object that will be used to Ackknowledge the success (ACK) or failure (NACK) of the placed bet.
@@ -2349,10 +2386,19 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
               
 
             string my_service_url = WebConfigurationManager.AppSettings["hedgeem_server_default_webservice_url"];
-            webClient.UploadString(my_service_url + "ws_place_bets_then_deal", data);
+            // xxx if data is empty - i.e. if no bets have been place, this errors here
+            if (data == "[]")
+            {
+                my_hedgeem_game_state = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + p_session_personal_table_id + "," + Convert.ToInt32(Session["p_session_player_id"]), typeof(HedgeEmGameState));
+            }
+            else
+            {
+                webClient.UploadString(my_service_url + "ws_place_bets_then_deal", data);
+                my_hedgeem_game_state = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(HedgeEmGameState));
+            
+            }
             // xxx two calls to server here when there should be one (i.e. the call above shoud return game state data
             // Empties the value of textbox
-            my_hedgeem_game_state = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_game_state_object/" + p_session_personal_table_id, typeof(HedgeEmGameState));
             game_id = _global_game_state_object.p_game_id;
             number_of_hands = _global_game_state_object.p_number_of_hands_int;
             enum_betting_stage my_betting_stage = f_get_current_betting_stage();
@@ -2415,17 +2461,23 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             log.Debug("f_place_bet is called in btn_Get_Clicked_Hand_Value_Click ");
 
             // Place a bet locally or via call to server - currently hardcoded to call locally
-            bool place_bets_locally = false;
+            bool place_bets_locally = Convert.ToBoolean(WebConfigurationManager.AppSettings["place_bets_locally"]);
+            ;
             if (place_bets_locally)
             {
-                f_place_bet_locally();
+                ;
                 var javaScriptSerializer = new
                     System.Web.Script.Serialization.JavaScriptSerializer();
 
                 string my_local_persisted_game_state = txt_hidden_control_game_state_value.Value;
                 //HedgeEmGameState my_deserilsed_game_state;
-
+                //txt_hidden_control_hand0_bet_value.Value = "7";
+                
                 _global_game_state_object = javaScriptSerializer.Deserialize<HedgeEmGameState>(my_local_persisted_game_state);
+                f_place_bet_locally();
+
+
+
 
             }
             else
@@ -3495,24 +3547,39 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
             else
             {
 
+                bool place_bets_locally = Convert.ToBoolean(WebConfigurationManager.AppSettings["place_bets_locally"]);
+                ;
+                if (place_bets_locally)
+                {
+
+                    _global_game_state_object = f_place_multiple_bets_then_deal();
+
+                    // Reset local bets after each round
+                    txt_hidden_control_hand0_bet_value.Value = "0";
+                    txt_hidden_control_hand1_bet_value.Value = "0";
+                    txt_hidden_control_hand2_bet_value.Value = "0";
+                    txt_hidden_control_hand3_bet_value.Value = "0";
+
+                    var javaScriptSerializer = new
+        System.Web.Script.Serialization.JavaScriptSerializer();
+                    string jsonString = javaScriptSerializer.Serialize(_global_game_state_object);
+                    //Console.WriteLine(jsonString);
 
 
-                // call to webservice to get next state object
-                _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + p_session_personal_table_id + "," + Convert.ToInt32(Session["p_session_player_id"]), typeof(HedgeEmGameState));
+                    txt_hidden_control_game_state_value.Value = jsonString;
 
-                /* Commented out unfinished code
-                _global_game_state_object = f_place_multiple_bets_then_deal();
-                
-                var javaScriptSerializer = new
-    System.Web.Script.Serialization.JavaScriptSerializer();
-                string jsonString = javaScriptSerializer.Serialize(_global_game_state_object);
-                //Console.WriteLine(jsonString);
 
-                
-                txt_hidden_control_game_state_value.Value = jsonString;
-                */
+                }
+                else
+                {
+                    // call to webservice to get next state object
+                    _global_game_state_object = (HedgeEmGameState)f_get_object_from_json_call_to_server("get_next_game_state_object/" + p_session_personal_table_id + "," + Convert.ToInt32(Session["p_session_player_id"]), typeof(HedgeEmGameState));
 
-                string stage = _global_game_state_object.p_current_state_enum.ToString();
+                }
+
+
+
+                    string stage = _global_game_state_object.p_current_state_enum.ToString();
                 
                 game_id = _global_game_state_object.p_game_id;
                 number_of_hands = _global_game_state_object.p_number_of_hands_int;

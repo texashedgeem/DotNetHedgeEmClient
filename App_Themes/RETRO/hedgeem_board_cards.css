@@ -5,87 +5,88 @@
 */
 
 .board_cards_container {
-    display: inline-block;
-    height: 20%;
-    margin: 0% 0% 0% 14%;
+    height: 100px;
+    margin: 0px;
     padding: 0;
     position: absolute;
-    top: 26%;
-    width: 74%;
+    float: left;
+    top: 210px;
+    width: 1000px;
     z-index: 20;
-    zoom: 0.80;
-    -moz-transform: scale(0.80);
-    -moz-transform-origin: 0 0;
-    /*background-color: hotpink;*/
+    /*
+        background-color: hotpink;
+    */
 }
 
 #Flop_Cards {
-    width: 10%;
-    height: 100%;
-    top: 0%;
-    left: 20%;
     position: absolute;
-    padding: 0%;
+    float: left;
+    width: 400px;
+    height: 100px;
+    top: 0px;
+    left: 190px;
+    padding: 0px;
     z-index: 0; 
-    zoom:0.65;
-    -moz-transform:scale(0.65);
-    -moz-transform-origin: 0 0;
-    
+    /*
+        background-color: yellow;
+    */
 }
 
 #Turn_Cards {
-    width: 10%;
-    height: 100%;
-    top: 0px;
-    left: 50%;
     position: absolute;
+    float: left;
+    width: 100px;
+    height: 100px;
+    top: 0px;
+    left: 450px;
     padding: 0px;
     z-index: 0; 
-    zoom:0.65;
-    -moz-transform:scale(0.65);
-    -moz-transform-origin: 0 0;
     -webkit-animation-delay: 500ms; /* Chrome, Safari, Opera */
     animation-delay: 500ms;
-
-    
+    /*
+        background-color: firebrick;
+    */
 }
 
 #River_Cards {
-    width: 10%;
-    height: 100%;
-    top: 50px;
-    left: 70%;
     position: absolute;
+    float: left;
+    width: 100px;
+    height: 100px;
+    top: 0px;
+    left: 550px;
     padding: 0px;
     z-index: 0; 
-    zoom:0.65;
-    -moz-transform:scale(0.65);
-    -moz-transform-origin: 0 0;
     -webkit-animation-delay: 1000ms; /* Chrome, Safari, Opera */
     animation-delay: 1000ms;
-
-    
+    /*    
+        background-color:aqua
+    */
 }
 
 
 
 .card_left_flop
 {
+    position: absolute;
     float: left;
     position: absolute;
-    margin: 35% 0% 0% 12%;
-	
-    padding: 0% 0% 0% 0%;
+    top:0px;
+    left: 50px;
+    margin: 0px;
+	padding: 0px;
     top: 0;
     z-index: 1;
 }
 
 .card_middle_flop
 {
+    position: absolute;
     float: left;
-    position: relative;
-    margin: 35% 0% 0% 90%;
-    padding: 0% 0% 0% 0%;
+    top:0px;
+    left: 100px;
+    margin: 0px;
+    padding: 0px;
     top: 0;
     z-index: 1;
 }
@@ -93,39 +94,11 @@
 
 .card_right_flop
 {
-    float: left;
     position: absolute;
-    margin: 35% 0% 0% 170%;
-    padding: 0% 0% 0% 0%;
+    float: left;
+    top:0px;
+    left: 150px;
+    margin: 0px;
+    padding: 0px;
     z-index: 2;
-}
-
-.card_middle_turn
-{
-    height: 100%;
-    width: 20%;
-    position: absolute;
-    margin: 35% 0% 0% 0%;
-    padding: 0% 0% 0% 0%;
-    text-align: center;
-    float: left;
-    position: absolute;
-    left: 5%;
-    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
-
-}
-
-.card_middle_river
-{
-    height: 100%;
-    width: 20%;
-    margin: 35% 0% 0% 0%;
-    padding: 0px 0px 0px 0px;
-    text-align: center;
-    float: left;
-    position: absolute;
-    left: 0px;
-    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
-}
-
 }

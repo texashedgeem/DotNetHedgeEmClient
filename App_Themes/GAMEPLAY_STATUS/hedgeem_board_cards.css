@@ -1,0 +1,128 @@
+
+#Flop_Cards {
+    width: 10%;
+    height: 100%;
+    top: 25%;
+    left: 10%;
+    position: absolute;
+    padding: 0%;
+    z-index: 0; 
+    zoom:0.58;
+    -moz-transform:scale(0.58);
+    -moz-transform-origin: 0 0;
+ 
+    
+}
+
+#Turn_Cards {
+    width: 10%;
+    height: 100%;
+    top: 25%;
+    left: 48%;
+    position: absolute;
+    padding: 0px;
+    z-index: 0; 
+    zoom:0.58;
+    -moz-transform:scale(0.58);
+    -moz-transform-origin: 0 0;
+ 
+   
+}
+
+#River_Cards {
+    width: 10%;
+    height: 100%;
+    top: 25%;
+    left: 78%;
+    position: absolute;
+    padding: 0px;
+    z-index: 0; 
+    zoom:0.58;
+    -moz-transform:scale(0.58);
+    -moz-transform-origin: 0 0;
+ 
+   
+}
+
+.board_cards_container
+{
+    display: inline-block;
+    height: 20%;
+    margin: 0 20%;
+    padding: 0;
+    position: absolute;
+    top: 11%;
+    width: 60%;
+    z-index: 20;
+   
+}
+
+.card_left_flop
+{
+    float: left;
+    position: absolute;
+    margin: 35% 0% 0% 12%;
+	
+    padding: 0% 0% 0% 0%;
+    top: 0;
+    z-index: 1;
+}
+
+.card_middle_flop
+{
+    float: left;
+    position: relative;
+    margin: 35% 0% 0% 90%;
+    padding: 0% 0% 0% 0%;
+    top: 0;
+    z-index: 1;
+}
+
+
+.card_right_flop
+{
+    float: left;
+    position: absolute;
+    margin: 35% 0% 0% 170%;
+    padding: 0% 0% 0% 0%;
+    z-index: 2;
+}
+
+.card_middle_turn
+{
+    height: 100%;
+    width: 20%;
+    position: absolute;
+    margin: 35% 0% 0% 0%;
+    padding: 0% 0% 0% 0%;
+    text-align: center;
+    float: left;
+    --background-color: lime;
+    position: absolute;
+    left: 5%;
+    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
+
+}
+
+.card_middle_river
+{
+    height: 100%;
+    width: 20%;
+    margin: 35% 0% 0% 0%;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    float: left;
+    --background-color: Pink;
+    position: absolute;
+    left: 0px;
+    z-index: 9; /*bottom: 225px;     float: right;     position: fixed;     right: 433px;     z-index: 9;*/
+}
+
+
+@media only screen 
+and (min-width : 320px) 
+and (max-width : 568px)  {
+	
+	
+
+}
