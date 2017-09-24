@@ -211,7 +211,7 @@ public partial class frm_hedgeem_table : System.Web.UI.Page
         }
         else
         {
-            this.Page.Theme = enum_theme.WSOP.ToString();
+            this.Page.Theme = enum_theme.ONLINE.ToString();
             my_log_event.p_message = "Unable to determine Session as no session variable for 'theme' - HARDCODING TO ONLINE THEME. ";
             log.Warn(my_log_event.ToString());
         }

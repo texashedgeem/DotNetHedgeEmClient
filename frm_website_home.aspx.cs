@@ -450,6 +450,10 @@ public partial class frm_website_home : System.Web.UI.Page
                 Session["p_session_username"] = my_username;
                 Session["password"] = my_password;
                 p_session_personal_table_id = my_player.p_personal_table_id;
+                // Ideally you should set THEME here with following line of code, but we cant do this so default to ONLINE
+                //Session["theme"] = my_player.p_default_theme;
+                Session["theme"] = enum_theme.ONLINE.ToString();
+
                 if (Session["p_session_username"] != null)
                 {
                     if (File.Exists(Server.MapPath("resources/player_avatar_" + Session["p_session_username"].ToString() + ".jpg")))
